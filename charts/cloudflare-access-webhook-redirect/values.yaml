@@ -1,0 +1,25 @@
+image:
+  repository: timmi6790/cloudflare-access-webhook-redirect
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env:
+  logLevel: info
+
+server:
+  port: 8080
+  host: 0.0.0.0
+
+handler:
+  targetBase: ""
+  paths: [ ]
+
+cloudflareAccess:
+  # Existing secret name with the cloudflare access tokens with client_id and client_secret
+  secretName: ""
+
+resources:
+  limits:
+    memory: 10Mi
+  requests:
+    memory: 5Mi

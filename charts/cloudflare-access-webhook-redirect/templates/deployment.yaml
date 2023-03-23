@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "common.labels" . | indent 4 }}
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+{{ include "common.labels" . | indent 8 }}
+  template:
+    metadata:
+      labels:
+{{ include "common.labels" . | indent 12 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.metrics.enabled }}
+          {{- with .Values.metrics.port }}
+          ports:
+            - name: metrics
+              containerPort: {{ . }}
+          {{- end}}
+          {{- end}}
+          resources:
+            {{- with .Values.resources.requests }}
+            requests:
+              {{- with .cpu}}
+              cpu: {{ . | quote }}
+              {{- end }}
+              {{- with .memory}}
+              memory: {{ . | quote }}
+              {{- end }}
+            {{- end }}
+            {{- with .Values.resources.limits }}
+            limits:
+              {{- with .cpu}}
+              cpu: {{ . | quote }}
+                {{- end }}
+                {{- with .memory}}
+              memory: {{ . | quote }}
+                {{- end }}
+            {{- end }}
+          env:
+            - name: CLOUDFLARE.CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  key: client_id
+                  name: {{ .Values.cloudflareAccess.secretName }}
+            - name: CLOUDFLARE.CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client_secret
+                  name: {{ .Values.cloudflareAccess.secretName }}
+            - name: SERVER.HOST
+              value: {{ required "server host is required" .Values.server.host | quote }}
+            - name: SERVER.PORT
+              value: {{ required "server port is required" .Values.server.port | quote }}
+            - name: WEBHOOK.TARGET_BASE
+              value: {{ required "target base is required" .Values.handler.targetBase | quote }}
+            - name: WEBHOOK.PATHS
+              value: {{ required "paths is required" join ", " .Values.handler.paths | quote }}
+            {{- with .Values.env.logLevel}}
+            - name: LOG_LEVEL
+              value: {{ . | quote }}
+            {{- end}}
