@@ -3,6 +3,18 @@ entries:
   cloudflare-access-webhook-redirect:
   - apiVersion: v1
     appVersion: 0.1.0
+    created: "2023-03-26T21:40:12.151327284Z"
+    description: Path specific redirects into cloudflare access secure applications
+    digest: 4df69e0ce70dce4d7f626d8f83e0621ac801ccda02a408e47c216d56f146a378
+    home: https://github.com/Timmi6790/charts
+    name: cloudflare-access-webhook-redirect
+    sources:
+    - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-1.0.2/cloudflare-access-webhook-redirect-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: 0.1.0
     created: "2023-03-26T21:26:25.936249821Z"
     description: Path specific redirects into cloudflare access secure applications
     digest: a44a23439f4d9224b90582c974ece7d172dc5510a633bc4aedc42d4005071f52
@@ -25,4 +37,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/charts/releases/download/netcup-offer-bot-1.0.0/netcup-offer-bot-1.0.0.tgz
     version: 1.0.0
-generated: "2023-03-26T21:26:25.936254421Z"
+generated: "2023-03-26T21:40:12.151427285Z"
