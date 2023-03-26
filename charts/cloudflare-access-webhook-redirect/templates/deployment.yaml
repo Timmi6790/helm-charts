@@ -1,30 +1,27 @@
+{{- $cloudflareSecretName := .Values.application.cloudflareAccess.secretName -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-{{ include "common.labels" . | indent 4 }}
+    {{- include "common.labels" . | indent 4 }}
   name: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-{{ include "common.labels" . | indent 8 }}
+      {{- include "common.labels" . | indent 8 }}
   template:
     metadata:
       labels:
-{{ include "common.labels" . | indent 12 }}
+        {{- include "common.labels" . | indent 12 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.metrics.enabled }}
-          {{- with .Values.metrics.port }}
           ports:
-            - name: metrics
-              containerPort: {{ . }}
-          {{- end}}
-          {{- end}}
+            - containerPort: {{ .Values.application.server.port }}
           resources:
             {{- with .Values.resources.requests }}
             requests:
@@ -49,21 +46,21 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: client_id
-                  name: {{ .Values.cloudflareAccess.secretName }}
+                  name: {{ $cloudflareSecretName }}
             - name: CLOUDFLARE.CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   key: client_secret
-                  name: {{ .Values.cloudflareAccess.secretName }}
+                  name: {{ $cloudflareSecretName }}
             - name: SERVER.HOST
-              value: {{ required "server host is required" .Values.server.host | quote }}
+              value: {{ required "server host is required" .Values.application.server.host | quote }}
             - name: SERVER.PORT
-              value: {{ required "server port is required" .Values.server.port | quote }}
+              value: {{ required "server port is required" .Values.application.server.port | quote }}
             - name: WEBHOOK.TARGET_BASE
-              value: {{ required "target base is required" .Values.handler.targetBase | quote }}
+              value: {{ required "target base is required" .Values.application.handler.targetBase | quote }}
             - name: WEBHOOK.PATHS
-              value: {{ required "paths is required" join ", " .Values.handler.paths | quote }}
-            {{- with .Values.env.logLevel}}
+              value: {{ required "paths is required" join ", " .Values.application.handler.paths | quote }}
+            {{- with .Values.application.logLevel}}
             - name: LOG_LEVEL
               value: {{ . | quote }}
             {{- end}}
