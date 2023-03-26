@@ -59,7 +59,7 @@ spec:
             - name: WEBHOOK.TARGET_BASE
               value: {{ required "target base is required" .Values.application.handler.targetBase | quote }}
             - name: WEBHOOK.PATHS
-              value: {{ required "paths is required" join ", " .Values.application.handler.paths | quote }}
+              value: {{ join ", " .Values.application.handler.paths }}
             {{- with .Values.application.logLevel}}
             - name: LOG_LEVEL
               value: {{ . | quote }}
