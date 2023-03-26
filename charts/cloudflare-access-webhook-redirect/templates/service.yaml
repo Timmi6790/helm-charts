@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    {{- include "common.labels" . | indent 4 }}
+{{ include "common.labels" . | indent 4 }}
   name: {{ .Release.Name }}
 spec:
   type: {{ .Values.service.type }}
@@ -11,4 +11,4 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.application.server.port }}
   selector:
-    {{- include "common.labels" . | indent 4 }}
+{{ include "common.labels" . | indent 4 }}

@@ -4,17 +4,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    {{- include "common.labels" . | indent 4 }}
+{{ include "common.labels" . | indent 4 }}
   name: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "common.labels" . | indent 8 }}
+{{ include "common.labels" . | indent 8 }}
   template:
     metadata:
       labels:
-        {{- include "common.labels" . | indent 12 }}
+{{ include "common.labels" . | indent 12 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
