@@ -21,7 +21,20 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.application.server.port }}
+            - name: port
+              containerPort: {{ .Values.application.server.port }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: port
+          startupProbe:
+            httpGet:
+              path: /health
+              port: port
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: port
           resources:
             {{- with .Values.resources.requests }}
             requests:

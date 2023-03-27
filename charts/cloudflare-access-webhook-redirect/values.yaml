@@ -1,6 +1,6 @@
 image:
   repository: timmi6790/cloudflare-access-webhook-redirect
-  tag: latest
+  tag: 0.1.1
   pullPolicy: IfNotPresent
 
 application:
