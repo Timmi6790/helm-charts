@@ -54,6 +54,9 @@ spec:
               memory: {{ . | quote }}
                 {{- end }}
             {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}
           env:
             - name: CLOUDFLARE.CLIENT_ID
               valueFrom:
@@ -65,19 +68,3 @@ spec:
                 secretKeyRef:
                   key: client_secret
                   name: {{ $cloudflareSecretName }}
-            - name: SERVER.HOST
-              value: {{ required "server host is required" .Values.application.server.host | quote }}
-            - name: SERVER.PORT
-              value: {{ required "server port is required" .Values.application.server.port | quote }}
-            - name: WEBHOOK.TARGET_BASE
-              value: {{ required "target base is required" .Values.application.handler.targetBase | quote }}
-            - name: WEBHOOK.PATHS
-              value: {{ join ", " .Values.application.handler.paths }}
-            {{- with .Values.application.logLevel}}
-            - name: LOG_LEVEL
-              value: {{ . | quote }}
-            {{- end}}
-            {{- with .Values.application.sentryDsn}}
-            - name: SENTRY_DSN
-              value: {{ . | quote }}
-            {{- end}}
