@@ -1,0 +1,5 @@
+env:
+  # Optional sentry url
+  sentryDns: "https://test.google.com/webhook"
+  # Discord webhook url
+  webHook: "https://test.google.com/webhook"
