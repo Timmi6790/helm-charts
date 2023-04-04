@@ -1,0 +1,37 @@
+image:
+  repository: timmi6790/cloudflare-access-webhook-redirect
+  tag: 0.1.4
+  pullPolicy: IfNotPresent
+
+application:
+  logLevel: info
+  sentryDsn: ""
+  server:
+    port: 8080
+    host: 0.0.0.0
+
+  handler:
+    targetBase: "https://test.google.com"
+    paths:
+      - "api/webhook"
+
+  cloudflareAccess:
+    # Existing secret name with the cloudflare access tokens with client_id and client_secret
+    secretName: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  ingressClassName: "nginx"
+  annotations: { }
+  hosts: [ ]
+  tls: [ ]
+
+resources:
+  limits:
+    memory: 15Mi
+  requests:
+    memory: 10Mi
