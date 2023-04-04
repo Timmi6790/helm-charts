@@ -27,11 +27,15 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   ingressClassName: "nginx"
   annotations: { }
-  hosts: [ ]
-  tls: [ ]
+  hosts:
+    - test.test.de
+  tls:
+    - secretName: test-tls
+      hosts:
+        - test.test.de
 
 resources:
   limits:
