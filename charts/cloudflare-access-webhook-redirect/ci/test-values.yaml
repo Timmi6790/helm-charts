@@ -1,18 +1,7 @@
 test:
   secret: true
 
-image:
-  repository: timmi6790/cloudflare-access-webhook-redirect
-  tag: 0.1.4
-  pullPolicy: IfNotPresent
-
 application:
-  logLevel: info
-  sentryDsn: ""
-  server:
-    port: 8080
-    host: 0.0.0.0
-
   handler:
     targetBase: "https://test.google.com"
     paths:
@@ -22,23 +11,11 @@ application:
     # Existing secret name with the cloudflare access tokens with client_id and client_secret
     secretName: "test-cloudflare-secret"
 
-service:
-  type: ClusterIP
-  port: 80
-
 ingress:
   enabled: true
-  ingressClassName: "nginx"
-  annotations: { }
   hosts:
     - test.test.de
   tls:
     - secretName: test-tls
       hosts:
         - test.test.de
-
-resources:
-  limits:
-    memory: 15Mi
-  requests:
-    memory: 10Mi
