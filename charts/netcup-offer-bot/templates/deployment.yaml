@@ -48,11 +48,6 @@ spec:
             - configMapRef:
                 name: {{ .Release.Name }}
           env:
-            - name: SENTRY_DSN
-              valueFrom:
-                secretKeyRef:
-                  key: sentryDns
-                  name: {{ .Release.Name }}-secrets
             - name: WEB_HOOK
               valueFrom:
                 secretKeyRef:
