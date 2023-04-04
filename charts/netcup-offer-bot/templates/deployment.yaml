@@ -44,31 +44,15 @@ spec:
               memory: {{ . | quote }}
                 {{- end }}
             {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}
           env:
-            - name: SENTRY_DSN
-              valueFrom:
-                secretKeyRef:
-                  key: sentryDns
-                  name: {{ .Release.Name }}-secrets
             - name: WEB_HOOK
               valueFrom:
                 secretKeyRef:
                   key: webHook
                   name: {{ .Release.Name }}-secrets
-            - name: CHECK_INTERVAL
-              value: {{ required "checkInterval is required" .Values.env.checkInterval | quote }}
-            {{- with .Values.metrics.port}}
-            - name: METRIC_PORT
-              value: {{ . | quote }}
-            {{- end}}
-            {{- with .Values.metrics.ip}}
-            - name: METRIC_IP
-              value: {{ . | quote }}
-            {{- end}}
-            {{- with .Values.env.logLevel}}
-            - name: LOG_LEVEL
-              value: {{ . | quote }}
-            {{- end}}
           volumeMounts:
             - mountPath: /app/data
               name: {{ .Release.Name }}-claim

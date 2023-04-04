@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  labels:
+{{ include "common.labels" . | indent 4 }}
+  name: {{ .Release.Name }}
+data:
+  CHECK_INTERVAL: {{ required "checkInterval is required" .Values.env.checkInterval | quote }}
+  {{- with .Values.metrics.port}}
+  METRIC_PORT: {{ . | quote }}
+  {{- end}}
+  {{- with .Values.metrics.ip}}
+  METRIC_IP: {{ . | quote }}
+  {{- end}}
+  LOG_LEVEL: {{ .Values.env.logLevel | quote }}
+  {{- with .Values.env.sentryDns}}
+  SENTRY_DSN: {{ . | quote }}
+  {{- end}}

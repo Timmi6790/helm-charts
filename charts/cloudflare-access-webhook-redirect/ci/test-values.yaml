@@ -1,0 +1,21 @@
+test:
+  secret: true
+
+application:
+  handler:
+    targetBase: "https://test.google.com"
+    paths:
+      - "api/webhook, api/webhook2"
+
+  cloudflareAccess:
+    # Existing secret name with the cloudflare access tokens with client_id and client_secret
+    secretName: "test-cloudflare-secret"
+
+ingress:
+  enabled: true
+  hosts:
+    - test.test.de
+  tls:
+    - secretName: test-tls
+      hosts:
+        - test.test.de

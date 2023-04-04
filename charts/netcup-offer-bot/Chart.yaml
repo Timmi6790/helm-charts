@@ -1,7 +1,11 @@
 name: netcup-offer-bot
 description: RSS feed listener to discord webhook for https://www.netcup-sonderangebote.de/
-version: 1.0.0
+version: 1.0.1
+appVersion: 1.2.2
 apiVersion: v1
 home: https://github.com/Timmi6790/charts
 sources:
   - https://github.com/Timmi6790/netcup-offer-bot
+maintainers:
+  - name: Timmi6790
+    email: contact@timmi6790.de
