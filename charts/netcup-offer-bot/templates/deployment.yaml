@@ -23,6 +23,8 @@ spec:
             runAsNonRoot: true
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
+            runAsGroup: 1000
+            runAsUser: 1000
           {{- if .Values.metrics.enabled }}
           {{- with .Values.metrics.port }}
           ports:
