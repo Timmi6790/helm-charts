@@ -27,6 +27,6 @@ metrics:
 
 resources:
   limits:
-    memory: 10Mi
+    memory: 20Mi
   requests:
-    memory: 5Mi
+    memory: 15Mi
