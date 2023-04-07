@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   cloudflare-access-webhook-redirect:
   - apiVersion: v1
+    appVersion: 0.1.5
+    created: "2023-04-07T15:44:32.238377677Z"
+    description: Path specific redirects into cloudflare access secure applications
+    digest: 654dbaafe54a1359afa8763d341310c88120644031468cf2358c36be506afd7d
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: cloudflare-access-webhook-redirect
+    sources:
+    - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-1.0.12/cloudflare-access-webhook-redirect-1.0.12.tgz
+    version: 1.0.12
+  - apiVersion: v1
     appVersion: 0.1.4
     created: "2023-04-06T17:14:44.66312853Z"
     description: Path specific redirects into cloudflare access secure applications
@@ -141,6 +156,21 @@ entries:
     version: 1.0.1
   netcup-offer-bot:
   - apiVersion: v1
+    appVersion: 1.2.4
+    created: "2023-04-07T15:44:32.460670204Z"
+    description: RSS feed listener to discord webhook for https://www.netcup-sonderangebote.de/
+    digest: 792c5e8340724fdc042725ff874096c8125b6e2fab0217f070b0cfa3dd46b2b0
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: netcup-offer-bot
+    sources:
+    - https://github.com/Timmi6790/netcup-offer-bot
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/netcup-offer-bot-1.0.2/netcup-offer-bot-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
     appVersion: 1.2.2
     created: "2023-04-04T15:25:49.339031237Z"
     description: RSS feed listener to discord webhook for https://www.netcup-sonderangebote.de/
@@ -166,4 +196,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/charts/releases/download/netcup-offer-bot-1.0.0/netcup-offer-bot-1.0.0.tgz
     version: 1.0.0
-generated: "2023-04-06T17:14:44.66317323Z"
+generated: "2023-04-07T15:44:32.461236522Z"
