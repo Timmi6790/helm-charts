@@ -1,7 +1,7 @@
 image:
   repository: timmi6790/netcup-offer-bot
-  tag: latest
-  pullPolicy: 1.2.4
+  tag: 1.2.4
+  pullPolicy: IfNotPresent
 
 env:
   # Optional sentry url
