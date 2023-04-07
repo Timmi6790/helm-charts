@@ -16,10 +16,17 @@ spec:
       labels:
 {{ include "common.labels" . | indent 12 }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            runAsGroup: 1000
+            runAsUser: 1000
           ports:
             - name: port
               containerPort: {{ .Values.application.server.port }}
