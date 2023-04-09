@@ -1,6 +1,6 @@
 image:
   repository: timmi6790/cloudflare-access-webhook-redirect
-  tag: 0.1.5
+  tag: 0.2.0
   pullPolicy: IfNotPresent
 
 application:
@@ -12,7 +12,7 @@ application:
 
   handler:
     targetBase: ""
-    paths: [ ]
+    paths: {}
 
   cloudflareAccess:
     # Existing secret name with the cloudflare access tokens with client_id and client_secret
