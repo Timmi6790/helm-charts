@@ -9,29 +9,40 @@
 ```yaml
 image:
   repository: timmi6790/cloudflare-access-webhook-redirect
-  tag: latest
+  tag: 0.1.5
   pullPolicy: IfNotPresent
 
-env:
+application:
   logLevel: info
+  sentryDsn: ""
+  server:
+    port: 8080
+    host: 0.0.0.0
 
-server:
-  port: 8080
-  host: 0.0.0.0
+  handler:
+    targetBase: ""
+    paths: {}
 
-handler:
-  targetBase: ""
-  paths: [ ]
+  cloudflareAccess:
+    # Existing secret name with the cloudflare access tokens with client_id and client_secret
+    secretName: ""
 
-cloudflareAccess:
-  # Existing secret name with the cloudflare access tokens with client_id and client_secret
-  secretName: ""
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  ingressClassName: "nginx"
+  annotations: { }
+  hosts: [ ]
+  tls: [ ]
 
 resources:
   limits:
-    memory: 10Mi
+    memory: 15Mi
   requests:
-    memory: 5Mi
+    memory: 10Mi
 ```
 
 3. Install the helm chart

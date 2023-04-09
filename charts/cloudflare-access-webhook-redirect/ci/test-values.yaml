@@ -5,7 +5,8 @@ application:
   handler:
     targetBase: "https://test.google.com"
     paths:
-      - "api/webhook, api/webhook2"
+      "api/webhook": "ALL"
+      "api/webhook2": "GET,POST"
 
   cloudflareAccess:
     # Existing secret name with the cloudflare access tokens with client_id and client_secret
