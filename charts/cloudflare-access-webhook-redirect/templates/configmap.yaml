@@ -8,8 +8,21 @@ data:
   SERVER.HOST: {{ required "server host is required" .Values.application.server.host | quote }}
   SERVER.PORT: {{ required "server port is required" .Values.application.server.port | quote }}
   WEBHOOK.TARGET_BASE: {{ required "target base is required" .Values.application.handler.targetBase | quote }}
-  WEBHOOK.PATHS: {{ join ", " .Values.application.handler.paths }}
+  WEBHOOK.PATHS: {{ include "config.paths" . }}
   LOG_LEVEL: {{ .Values.application.logLevel | quote }}
   {{- with .Values.application.sentryDsn}}
   SENTRY_DSN: {{ . | quote }}
   {{- end}}
+
+
+{{/*
+Convert path values to the correct format
+Example: api/webhook:ALL; test:GET,POST
+*/}}
+{{- define "config.paths" -}}
+{{- $list := list -}}
+{{- range $k, $v := .Values.application.handler.paths -}}
+{{- $list = append $list (printf "%s:%s" $k (join "," $v)) -}}
+{{- end -}}
+{{ join "; " $list }}
+{{- end -}}
