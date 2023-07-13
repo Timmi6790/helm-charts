@@ -1,6 +1,6 @@
 image:
   repository: timmi6790/netcup-offer-bot
-  tag: 1.2.5
+  tag: 1.2.11
   pullPolicy: IfNotPresent
 
 env:
