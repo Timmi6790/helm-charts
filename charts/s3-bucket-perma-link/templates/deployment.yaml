@@ -1,0 +1,77 @@
+{{- $s3SecretName := .Values.application.s3.secretName -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{ include "common.labels" . | indent 4 }}
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+{{ include "common.labels" . | indent 8 }}
+  template:
+    metadata:
+      labels:
+{{ include "common.labels" . | indent 12 }}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            runAsGroup: 1000
+            runAsUser: 1000
+          ports:
+            - name: port
+              containerPort: {{ .Values.application.server.port }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: port
+          startupProbe:
+            httpGet:
+              path: /health
+              port: port
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: port
+          resources:
+            {{- with .Values.resources.requests }}
+            requests:
+              {{- with .cpu}}
+              cpu: {{ . | quote }}
+              {{- end }}
+              {{- with .memory}}
+              memory: {{ . | quote }}
+              {{- end }}
+            {{- end }}
+            {{- with .Values.resources.limits }}
+            limits:
+              {{- with .cpu}}
+              cpu: {{ . | quote }}
+                {{- end }}
+                {{- with .memory}}
+              memory: {{ . | quote }}
+                {{- end }}
+            {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}
+          env:
+            - name: S3.ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: access_key
+                  name: {{ $s3SecretName }}
+            - name: S3.SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secret_key
+                  name: {{ $s3SecretName }}
