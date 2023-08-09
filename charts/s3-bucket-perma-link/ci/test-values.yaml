@@ -1,0 +1,25 @@
+test:
+  secret: true
+
+application:
+  handler:
+    entries:
+      4tv#Sjfpj&:
+        - bucket,file.txt
+      hGEvxxML5*:
+        - bucket2,dir/file.txt
+
+  s3:
+    # Existing secret name with the cloudflare access tokens with client_id and client_secret
+    secretName: "test-s3-secret"
+    host: "s3.amazon.com"
+    region: "eu-central-1"
+
+ingress:
+  enabled: true
+  hosts:
+    - test.test.de
+  tls:
+    - secretName: test-tls
+      hosts:
+        - test.test.de
