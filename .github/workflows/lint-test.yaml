@@ -39,6 +39,8 @@ jobs:
       - name: Create kind cluster
         if: steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@v1.10.0
+        with:
+          wait: '120s'
 
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
