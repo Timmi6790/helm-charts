@@ -2,6 +2,21 @@ apiVersion: v1
 entries:
   cloudflare-access-webhook-redirect:
   - apiVersion: v1
+    appVersion: v0.2.9
+    created: "2024-09-06T12:02:24.340491994Z"
+    description: Path specific redirects into cloudflare access secure applications
+    digest: 96052fbdce77ea065a70c18a0e12846a7a8ae6ad1d02588b7170dd67660102a7
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: cloudflare-access-webhook-redirect
+    sources:
+    - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-1.1.6/cloudflare-access-webhook-redirect-1.1.6.tgz
+    version: 1.1.6
+  - apiVersion: v1
     appVersion: 0.2.8
     created: "2023-07-13T17:10:42.674231011Z"
     description: Path specific redirects into cloudflare access secure applications
@@ -395,4 +410,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-06T11:19:12.508000295Z"
+generated: "2024-09-06T12:02:24.340612359Z"
