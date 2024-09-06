@@ -1,6 +1,6 @@
 image:
   repository: timmi6790/s3-bucket-perma-link
-  tag: 0.2.0
+  tag: 0.2.1
   pullPolicy: IfNotPresent
 
 application:
