@@ -363,6 +363,22 @@ entries:
     version: 1.0.0
   s3-bucket-perma-link:
   - apiVersion: v1
+    appVersion: v0.2.2
+    created: "2024-09-06T12:04:01.616820212Z"
+    description: A simple web server to allow pre-defined urls to always access specific
+      S3 bucket resources.
+    digest: 715f859677fbd3acafd6dbd559daa3fb837210bf099c8129c17fd29c7ce36d12
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: s3-bucket-perma-link
+    sources:
+    - https://github.com/Timmi6790/s3-bucket-perma-link
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.3/s3-bucket-perma-link-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v1
     appVersion: 0.2.1
     created: "2024-09-06T11:19:12.507935985Z"
     description: A simple web server to allow pre-defined urls to always access specific
@@ -410,4 +426,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-06T12:02:24.340612359Z"
+generated: "2024-09-06T12:04:01.616902105Z"
