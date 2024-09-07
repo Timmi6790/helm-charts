@@ -1,7 +1,7 @@
 name: cloudflare-access-webhook-redirect
 description: Path specific redirects into cloudflare access secure applications
-version: 1.1.6
-appVersion: v0.2.9
+version: 1.1.7
+appVersion: v0.2.10
 apiVersion: v1
 home: https://github.com/Timmi6790/charts
 sources:
