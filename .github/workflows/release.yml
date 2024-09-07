@@ -28,7 +28,7 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Export GPG key to legacy format
-        run: gpg --export-secret-keys > ~/.gnupg/pubring.gpg
+        run: gpg --export-secret-keys --output ~/.gnupg/pubring.gpg
 
       - name: Install Helms
         uses: azure/setup-helm@v4
