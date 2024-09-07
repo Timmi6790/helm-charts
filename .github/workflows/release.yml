@@ -21,14 +21,19 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6.1.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      - name: Export GPG key to legacy format
-        run: gpg --export-secret-keys > ~/.gnupg/pubring.gpg
+      - name: Prepare keys for signing
+        env:
+          SIGNING_KEY_BASE64: ${{ secrets.GPG_PRIVATE_KEY }}
+          SIGNING_KEY_PASSPHRASE_BASE64: ${{ secrets.GPG_PASSPHRASE }}
+          KEY_PATH: ".gpg-dir"
+          SIGNING_KEY_PATH: ".gpg-dir/secring.gpg"
+          SIGNING_KEY_PASSPHRASE_PATH: ".gpg-dir/passphrase"
+        run: |
+          mkdir "$KEY_PATH"
+          base64 -d <<< "$SIGNING_KEY_BASE64" > "$SIGNING_KEY_PATH"
+          base64 -d <<< "$SIGNING_KEY_PASSPHRASE_BASE64" > "$SIGNING_KEY_PASSPHRASE_PATH"
+          echo "CR_PASSPHRASE_FILE=$SIGNING_KEY_PASSPHRASE_PATH" >> "$GITHUB_ENV"
+          echo "CR_KEYRING=$SIGNING_KEY_PATH" >> "$GITHUB_ENV"
 
       - name: Install Helms
         uses: azure/setup-helm@v4
