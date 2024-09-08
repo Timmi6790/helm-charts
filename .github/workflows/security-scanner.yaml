@@ -25,7 +25,7 @@ jobs:
         with:
           scan-type: 'config'
           hide-progress: true
-          # scan-ref: 'charts'
+          scan-ref: 'charts'
           output: trivy.txt
 
       - name: Publish Trivy Output to Summary
