@@ -9,19 +9,27 @@ jobs:
     name: Security-scanner
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Helms
+        uses: azure/setup-helm@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5.2.0
 
       - name: Run Trivy vulnerability scanner in IaC mode
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.24.0
         with:
           scan-type: 'config'
           hide-progress: false
           format: 'sarif'
+          scan-ref: 'charts'
           output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
