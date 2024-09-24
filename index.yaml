@@ -276,6 +276,21 @@ entries:
     version: 1.0.1
   netcup-offer-bot:
   - apiVersion: v1
+    appVersion: v1.3.0
+    created: "2024-09-24T13:57:58.574225451Z"
+    description: RSS feed listener to discord webhook for https://www.netcup-sonderangebote.de/
+    digest: f511e2d4e81921a6296ac9e3c3eb790688e12ac6fa4c92afdff50591ac9494f7
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: netcup-offer-bot
+    sources:
+    - https://github.com/Timmi6790/netcup-offer-bot
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/netcup-offer-bot-1.0.7/netcup-offer-bot-1.0.7.tgz
+    version: 1.0.7
+  - apiVersion: v1
     appVersion: v1.2.12
     created: "2024-09-06T11:08:58.795656716Z"
     description: RSS feed listener to discord webhook for https://www.netcup-sonderangebote.de/
@@ -441,4 +456,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2024-09-07T15:09:22.57213087Z"
+generated: "2024-09-24T13:57:58.574329385Z"
