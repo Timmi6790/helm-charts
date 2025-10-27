@@ -55,12 +55,12 @@ spec:
             - configMapRef:
                 name: {{ .Release.Name }}
           env:
-            - name: CLOUDFLARE_ACCESS_CLIENT_ID
+            - name: CLOUDFLARE.CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "cloudflare-access-webhook-redirect.secretName" . }}
                   key: client_id
-            - name: CLOUDFLARE_ACCESS_CLIENT_SECRET
+            - name: CLOUDFLARE.CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "cloudflare-access-webhook-redirect.secretName" . }}
