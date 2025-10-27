@@ -1,9 +1,5 @@
 # Cloudflare Access Webhook Redirect
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square)
-![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
-![AppVersion: v0.3.2](https://img.shields.io/badge/AppVersion-v0.3.2-informational?style=flat-square)
-
 A Helm chart for deploying the Cloudflare Access Webhook Redirect service. This service acts as a middleware that authenticates requests using Cloudflare Access tokens before forwarding them to target services.
 
 ## Prerequisites
