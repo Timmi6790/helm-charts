@@ -53,7 +53,7 @@ spec:
               protocol: TCP
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}
+                name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
           env:
             - name: CLOUDFLARE.CLIENT_ID
               valueFrom:
