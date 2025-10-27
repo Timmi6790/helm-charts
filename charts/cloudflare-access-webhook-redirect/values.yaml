@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: timmi6790/cloudflare-access-webhook-redirect
-  tag: v0.3.2
+  tag: v0.3.3
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
