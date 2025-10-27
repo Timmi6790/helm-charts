@@ -1,66 +1,56 @@
-{{- $cloudflareSecretName := .Values.application.cloudflareAccess.secretName -}}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
   labels:
-{{ include "common.labels" . | indent 4 }}
-  name: {{ .Release.Name }}
+    {{- include "cloudflare-access-webhook-redirect.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-{{ include "common.labels" . | indent 8 }}
+      {{- include "cloudflare-access-webhook-redirect.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-{{ include "common.labels" . | indent 12 }}
+        {{- include "cloudflare-access-webhook-redirect.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-      automountServiceAccountToken: false
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cloudflare-access-webhook-redirect.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.securityContext }}
           securityContext:
-            runAsNonRoot: true
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            runAsGroup: 1000
-            runAsUser: 1000
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: port
+            - name: http
               containerPort: {{ .Values.application.server.port }}
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: port
-          startupProbe:
-            httpGet:
-              path: /health
-              port: port
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: port
-          resources:
-            {{- with .Values.resources.requests }}
-            requests:
-              {{- with .cpu}}
-              cpu: {{ . | quote }}
-              {{- end }}
-              {{- with .memory}}
-              memory: {{ . | quote }}
-              {{- end }}
-            {{- end }}
-            {{- with .Values.resources.limits }}
-            limits:
-              {{- with .cpu}}
-              cpu: {{ . | quote }}
-                {{- end }}
-                {{- with .memory}}
-              memory: {{ . | quote }}
-                {{- end }}
-            {{- end }}
+              protocol: TCP
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}
@@ -68,10 +58,57 @@ spec:
             - name: CLOUDFLARE.CLIENT_ID
               valueFrom:
                 secretKeyRef:
+                  name: {{ include "cloudflare-access-webhook-redirect.secretName" . }}
                   key: client_id
-                  name: {{ $cloudflareSecretName }}
             - name: CLOUDFLARE.CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
+                  name: {{ include "cloudflare-access-webhook-redirect.secretName" . }}
                   key: client_secret
-                  name: {{ $cloudflareSecretName }}
+          {{- if .Values.startupProbe.enabled }}
+          startupProbe:
+            {{- omit .Values.startupProbe "enabled" | toYaml | nindent 10 }}
+          {{- end }}
+        {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+          {{- omit .Values.livenessProbe "enabled" | toYaml | nindent 10 }}
+        {{- end }}
+        {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+          {{- omit .Values.readinessProbe "enabled" | toYaml | nindent 10 }}
+        {{- end }}
+        {{- with .Values.resources }}
+          resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+          volumeMounts:
+        {{- if .Values.securityContext.readOnlyRootFilesystem }}
+            - name: tmp
+              mountPath: /tmp
+        {{- end }}
+        {{- with .Values.volumeMounts }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
+      {{- if .Values.securityContext.readOnlyRootFilesystem }}
+        - name: tmp
+          emptyDir: {}
+      {{- end }}
+      {{- with .Values.volumes }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

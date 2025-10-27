@@ -1,6 +1,3 @@
-test:
-  secret: true
-
 application:
   handler:
     targetBase: "https://test.google.com"
@@ -9,8 +6,8 @@ application:
         - ALL
 
   cloudflareAccess:
-    # Existing secret name with the cloudflare access tokens with client_id and client_secret
-    secretName: "test-cloudflare-secret"
+    clientId: "testId"
+    clientSecret: "testSecret"
 
 ingress:
   enabled: false
