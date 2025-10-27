@@ -3,6 +3,28 @@ entries:
   cloudflare-access-webhook-redirect:
   - apiVersion: v2
     appVersion: v0.3.2
+    created: "2025-10-27T10:24:53.023364084Z"
+    description: A Helm chart for Cloudflare Access Webhook Redirect
+    digest: c6b1d328786d9ae15da638f86c309917d3e8812baae1f0b8d773f3a68bd401aa
+    home: https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    keywords:
+    - cloudflare
+    - webhook
+    - redirect
+    - authentication
+    maintainers:
+    - name: Timmi6790
+      url: https://github.com/Timmi6790
+    name: cloudflare-access-webhook-redirect
+    sources:
+    - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    - https://github.com/Timmi6790/helm-charts
+    type: application
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-2.0.1/cloudflare-access-webhook-redirect-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    appVersion: v0.3.2
     created: "2025-10-27T09:58:13.694829421Z"
     description: A Helm chart for Cloudflare Access Webhook Redirect
     digest: 3cca0d2b9c1bb65007a7d21d7f9f194e891db40844ad09e86fa4f62c6ff3a2e1
@@ -478,4 +500,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2025-10-27T09:58:13.695021641Z"
+generated: "2025-10-27T10:24:53.023589264Z"
