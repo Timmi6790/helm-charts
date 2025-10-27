@@ -1,6 +1,3 @@
-test:
-  secret: true
-
 application:
   handler:
     targetBase: "https://test.google.com"
