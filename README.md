@@ -1,7 +1,5 @@
 # Helm Charts
 
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/timmi6790)](https://artifacthub.io/packages/search?repo=timmi6790)
-
 A collection of Helm charts for Kubernetes applications, focusing on utility services and automation tools.
 
 ## TL;DR
