@@ -30,7 +30,12 @@
           "additionalProperties": true,
           "properties": {
             "paths": {
-              "additionalProperties": false,
+              "additionalProperties": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
               "description": "Path configurations with allowed HTTP methods\nExample:\n  api/webhook:\n    - ALL\n  test:\n    - GET\n    - POST",
               "required": [],
               "title": "paths",
