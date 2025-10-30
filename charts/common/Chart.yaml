@@ -1,0 +1,8 @@
+apiVersion: v2
+name: common
+description: Common helper templates for all charts
+type: library
+version: 0.1.0
+maintainers:
+  - name: Timmi6790
+    url: https://github.com/Timmi6790

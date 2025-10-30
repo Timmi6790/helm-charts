@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
+  name: {{ include "common.fullname" . }}
   labels:
-    {{- include "cloudflare-access-webhook-redirect.labels" . | nindent 4 }}
+    {{- include "common.labels" . | nindent 4 }}
 data:
   SERVER.HOST: {{ required "server host is required" .Values.application.server.host | quote }}
   SERVER.PORT: {{ required "server port is required" .Values.application.server.port | quote }}

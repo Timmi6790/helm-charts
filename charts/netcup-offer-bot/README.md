@@ -1,34 +1,105 @@
 # netcup-offer-bot
 
-### Installation
+![Version: 1.0.8](https://img.shields.io/badge/Version-1.0.8-informational?style=flat-square) ![AppVersion: v1.3.0](https://img.shields.io/badge/AppVersion-v1.3.0-informational?style=flat-square)
 
-1. ````helm repo add timmi6790 https://timmi6790.github.io/helm-charts````
+This chart deploys the Netcup Offer Bot, which monitors https://www.netcup-sonderangebote.de/ RSS feed and sends notifications to Discord webhooks when new offers are available.
 
-2. Overwrite values
+## Prerequisites
+
+- Kubernetes 1.19+
+- Helm 3.0+
+- A Discord webhook URL
+
+## Get Repository Info
+
+```shell
+helm repo add timmi6790 https://timmi6790.github.io/helm-charts
+helm repo update
+```
+
+## Install Chart
+
+```shell
+helm install [RELEASE_NAME] timmi6790/netcup-offer-bot \
+  --namespace [NAMESPACE] \
+  --create-namespace \
+  --set env.webHook="YOUR_DISCORD_WEBHOOK_URL"
+```
+
+## Upgrade Chart
+
+```shell
+helm upgrade [RELEASE_NAME] timmi6790/netcup-offer-bot \
+  --namespace [NAMESPACE]
+```
+
+## Uninstall Chart
+
+```shell
+helm uninstall [RELEASE_NAME] --namespace [NAMESPACE]
+```
+
+## Configuration
+
+The following table lists the configurable parameters of the chart and their default values.
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| env.checkInterval | int | `180` | Interval in seconds between offer checks. |
+| env.logLevel | string | `"info"` | Log level for the application. |
+| env.sentryDns | string | `""` | Sentry DSN for error tracking. Leave empty to disable. |
+| env.webHook | string | `""` | Webhook URL to send updates or notifications. |
+| image.pullPolicy | string | `"IfNotPresent"` | The image pull policy. |
+| image.repository | string | `"timmi6790/netcup-offer-bot"` | The container image repository. |
+| image.tag | string | `"v1.3.0"` | The container image tag. |
+| imagePullSecrets | list | `[]` | Optional image pull secrets for private registries |
+| metrics.enabled | bool | `false` | Enable Prometheus metrics endpoint. |
+| metrics.port | int | `9184` | Port to expose metrics on. |
+| metrics.serviceMonitor | object | `{"interval":"1m","scrapeTimeout":"30s"}` | ServiceMonitor configuration for Prometheus Operator integration. |
+| metrics.serviceMonitor.interval | string | `"1m"` | Metrics scrape interval (e.g., 1m, 30s). |
+| metrics.serviceMonitor.scrapeTimeout | string | `"30s"` | Timeout for metrics scraping (e.g., 30s). |
+| persistence.data | object | `{"accessMode":"ReadWriteOnce","size":"10Mi"}` | Configuration for persistent data storage. |
+| persistence.data.accessMode | string | `"ReadWriteOnce"` | The access mode for the persistent volume. |
+| persistence.data.size | string | `"10Mi"` | The storage size requested for the volume. |
+| podSecurityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
+| podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
+| podSecurityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only |
+| podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
+| podSecurityContext.runAsUser | int | `1000` | User ID to run as |
+| priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
+| resources.limits | object | `{"memory":"20Mi"}` | Resource limits for the container. |
+| resources.limits.memory | string | `"20Mi"` | Maximum allowed memory usage. |
+| resources.requests | object | `{"memory":"15Mi"}` | Resource requests for the container. |
+| resources.requests.memory | string | `"15Mi"` | Minimum guaranteed memory allocation. |
+| serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
+| serviceAccount.automountToken | bool | `false` | Whether to automount the service account token |
+| serviceAccount.create | bool | `true` | Whether to create a dedicated service account |
+| serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) |
+| topologySpreadConstraints | list | `[]` | Pod topology spread constraints for availability |
+
+## Examples
+
+### Minimal Configuration
 
 ```yaml
-image:
-  repository: timmi6790/netcup-offer-bot
-  tag: latest
-  pullPolicy: IfNotPresent
-
 env:
-  # Optional sentry url
-  sentryDns: ""
-  # Discord webhook url
-  webHook: ""
-  # Check interval in seconds
+  webHook: "https://discord.com/api/webhooks/..."
   checkInterval: 180
-  # Optional log level
+```
+
+### Production Setup with Metrics
+
+```yaml
+env:
+  webHook: "https://discord.com/api/webhooks/..."
+  sentryDns: "https://your-sentry-dsn@sentry.io/project"
+  checkInterval: 300
   logLevel: info
 
-persistence:
-  data:
-    accessMode: ReadWriteOnce
-    size: 10Mi
-
 metrics:
-  enabled: false
+  enabled: true
   port: 9184
   serviceMonitor:
     interval: 1m
@@ -36,27 +107,51 @@ metrics:
 
 resources:
   limits:
-    memory: 10Mi
+    memory: 20Mi
   requests:
-    memory: 5Mi
+    memory: 15Mi
+
+persistence:
+  data:
+    size: 50Mi
 ```
 
-3. Install the helm chart
+### With Custom Resource Limits
 
-```shell
-helm install netcup-offer-bot \
-  --create-namespace \
-  --namespace netcup \
-  timmi6790/netcup-offer-bot
+```yaml
+env:
+  webHook: "https://discord.com/api/webhooks/..."
+  checkInterval: 120
+  logLevel: debug
+
+resources:
+  limits:
+    memory: 30Mi
+  requests:
+    memory: 20Mi
+
+persistence:
+  data:
+    accessMode: ReadWriteOnce
+    size: 100Mi
 ```
 
-#### Environment variables
+## Persistence
 
-| Environment    	  | Required 	  | Description                         	                                             |
-|-------------------|-------------|-----------------------------------------------------------------------------------|
-| SENTRY_DSN     	  | 	           | Sentry dns                          	                                             |
-| WEB_HOOK       	  | X         	 | Discord webhook                     	                                             |
-| CHECK_INTERVAL 	  | X         	 | RSS feed check interval in seconds 	                                              |
-| METRIC_IP       	 | 	           | Prometheus exporter ip [Default: 0.0.0.0]                           	             |
-| METRIC_PORT     	 | 	           | Prometheus exporter port [Default: 9184]                            	             |
-| LOG_LEVEL  	      | 	           | Log level [FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL]                         	 |
+The bot uses a persistent volume to store its state and track which offers have already been processed. This ensures that notifications aren't duplicated when the pod restarts.
+
+The default storage size is 10Mi, which should be sufficient for most use cases.
+
+## Source Code
+
+* <https://github.com/Timmi6790/netcup-offer-bot>
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Timmi6790 | <contact@timmi6790.de> |  |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)
+

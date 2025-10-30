@@ -1,9 +1,9 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
+  name: {{ include "common.fullname" . }}
   labels:
-{{ include "common.labels" . | indent 4 }}
-  name: {{ .Release.Name }}
+    {{- include "common.labels" . | nindent 4 }}
 data:
   CHECK_INTERVAL: {{ required "checkInterval is required" .Values.env.checkInterval | quote }}
   {{- with .Values.metrics.port}}

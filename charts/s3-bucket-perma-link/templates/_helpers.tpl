@@ -1,9 +1,10 @@
 {{/*
-Common labels
+Create the name of the secret to use
 */}}
-
-{{- define "common.labels" -}} 
-app.kubernetes.io/name: {{ .Chart.Name }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
+{{- define "s3-bucket-perma-link.s3-secretName" -}}
+{{- if .Values.application.s3.secretName }}
+{{- .Values.application.s3.secretName }}
+{{- else }}
+{{- include "common.fullname" . }}
+{{- end }}
+{{- end }}

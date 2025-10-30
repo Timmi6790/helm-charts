@@ -1,0 +1,308 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "common": {
+      "description": "Common helper templates for all charts",
+      "required": [],
+      "title": "common",
+      "type": "object"
+    },
+    "env": {
+      "additionalProperties": true,
+      "properties": {
+        "checkInterval": {
+          "default": 180,
+          "description": "Interval in seconds between offer checks.",
+          "minimum": 1,
+          "required": [],
+          "title": "checkInterval",
+          "type": "integer"
+        },
+        "logLevel": {
+          "default": "info",
+          "description": "Log level for the application.",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "required": [],
+          "title": "logLevel"
+        },
+        "sentryDns": {
+          "default": "",
+          "description": "Sentry DSN for error tracking. Leave empty to disable.",
+          "required": [],
+          "title": "sentryDns",
+          "type": "string"
+        },
+        "webHook": {
+          "default": "",
+          "description": "Webhook URL to send updates or notifications.",
+          "required": [],
+          "title": "webHook",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "env"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": true,
+      "properties": {
+        "pullPolicy": {
+          "default": "IfNotPresent",
+          "description": "Valid options are: Always, IfNotPresent, Never\nThe image pull policy.",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ],
+          "required": [],
+          "title": "pullPolicy"
+        },
+        "repository": {
+          "default": "timmi6790/netcup-offer-bot",
+          "description": "The container image repository.",
+          "required": [],
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "v1.3.0",
+          "description": "The container image tag.",
+          "required": [],
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "image"
+    },
+    "imagePullSecrets": {
+      "description": "Optional image pull secrets for private registries",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "imagePullSecrets",
+      "type": "array"
+    },
+    "metrics": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": false,
+          "description": "Enable Prometheus metrics endpoint.",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "port": {
+          "default": 9184,
+          "description": "Port to expose metrics on.",
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        },
+        "serviceMonitor": {
+          "additionalProperties": true,
+          "description": "ServiceMonitor configuration for Prometheus Operator integration.",
+          "properties": {
+            "interval": {
+              "default": "1m",
+              "description": "Metrics scrape interval (e.g., 1m, 30s).",
+              "required": [],
+              "title": "interval",
+              "type": "string"
+            },
+            "scrapeTimeout": {
+              "default": "30s",
+              "description": "Timeout for metrics scraping (e.g., 30s).",
+              "required": [],
+              "title": "scrapeTimeout",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "serviceMonitor"
+        }
+      },
+      "required": [],
+      "title": "metrics"
+    },
+    "persistence": {
+      "additionalProperties": true,
+      "properties": {
+        "data": {
+          "additionalProperties": true,
+          "description": "Configuration for persistent data storage.",
+          "properties": {
+            "accessMode": {
+              "default": "ReadWriteOnce",
+              "description": "The access mode for the persistent volume.",
+              "enum": [
+                "ReadWriteOnce",
+                "ReadOnlyMany",
+                "ReadWriteMany"
+              ],
+              "required": [],
+              "title": "accessMode"
+            },
+            "size": {
+              "default": "10Mi",
+              "description": "The storage size requested for the volume.",
+              "required": [],
+              "title": "size",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "data"
+        }
+      },
+      "required": [],
+      "title": "persistence"
+    },
+    "podSecurityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "default": false,
+          "description": "Allow privilege escalation",
+          "required": [],
+          "title": "allowPrivilegeEscalation",
+          "type": "boolean"
+        },
+        "fsGroup": {
+          "default": 1000,
+          "description": "Group ID for file system access",
+          "required": [],
+          "title": "fsGroup",
+          "type": "integer"
+        },
+        "readOnlyRootFilesystem": {
+          "default": true,
+          "description": "Mount root filesystem as read-only",
+          "required": [],
+          "title": "readOnlyRootFilesystem",
+          "type": "boolean"
+        },
+        "runAsNonRoot": {
+          "default": true,
+          "description": "Run pod as non-root user",
+          "required": [],
+          "title": "runAsNonRoot",
+          "type": "boolean"
+        },
+        "runAsUser": {
+          "default": 1000,
+          "description": "User ID to run as",
+          "required": [],
+          "title": "runAsUser",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "podSecurityContext"
+    },
+    "priorityClassName": {
+      "default": "",
+      "description": "Optional Kubernetes PriorityClass name",
+      "required": [],
+      "title": "priorityClassName",
+      "type": "string"
+    },
+    "resources": {
+      "additionalProperties": true,
+      "properties": {
+        "limits": {
+          "additionalProperties": true,
+          "description": "Resource limits for the container.",
+          "properties": {
+            "memory": {
+              "default": "20Mi",
+              "description": "Maximum allowed memory usage.",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "limits"
+        },
+        "requests": {
+          "additionalProperties": true,
+          "description": "Resource requests for the container.",
+          "properties": {
+            "memory": {
+              "default": "15Mi",
+              "description": "Minimum guaranteed memory allocation.",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "requests"
+        }
+      },
+      "required": [],
+      "title": "resources"
+    },
+    "serviceAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Additional annotations for the service account",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "automountToken": {
+          "default": false,
+          "description": "Whether to automount the service account token",
+          "required": [],
+          "title": "automountToken",
+          "type": "boolean"
+        },
+        "create": {
+          "default": true,
+          "description": "Whether to create a dedicated service account",
+          "required": [],
+          "title": "create",
+          "type": "boolean"
+        },
+        "name": {
+          "default": "",
+          "description": "Custom service account name (auto-generated if empty)",
+          "required": [],
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "serviceAccount"
+    },
+    "topologySpreadConstraints": {
+      "description": "Pod topology spread constraints for availability",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "topologySpreadConstraints",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "type": "object"
+}

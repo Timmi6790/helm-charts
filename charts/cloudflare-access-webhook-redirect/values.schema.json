@@ -1,0 +1,803 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "affinity": {
+      "additionalProperties": false,
+      "description": "Pod affinity rules",
+      "required": [],
+      "title": "affinity",
+      "type": "object"
+    },
+    "application": {
+      "additionalProperties": true,
+      "properties": {
+        "cloudflareAccess": {
+          "additionalProperties": true,
+          "properties": {
+            "secretName": {
+              "default": "",
+              "description": "Existing secret name containing Cloudflare Access credentials\nMust contain client_id and client_secret keys",
+              "required": [],
+              "title": "secretName",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "cloudflareAccess"
+        },
+        "handler": {
+          "additionalProperties": true,
+          "properties": {
+            "paths": {
+              "additionalProperties": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "description": "Path configurations with allowed HTTP methods\nExample:\n  api/webhook:\n    - ALL\n  test:\n    - GET\n    - POST",
+              "required": [],
+              "title": "paths",
+              "type": "object"
+            },
+            "targetBase": {
+              "default": "",
+              "description": "Base URL for redirect targets",
+              "required": [],
+              "title": "targetBase",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "handler"
+        },
+        "logLevel": {
+          "default": "info",
+          "description": "Application log level",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "required": [],
+          "title": "logLevel"
+        },
+        "sentryDsn": {
+          "default": "",
+          "description": "Sentry DSN for error tracking (empty disables)",
+          "required": [],
+          "title": "sentryDsn",
+          "type": "string"
+        },
+        "server": {
+          "additionalProperties": true,
+          "properties": {
+            "host": {
+              "default": "0.0.0.0",
+              "description": "Server bind address",
+              "required": [],
+              "title": "host",
+              "type": "string"
+            },
+            "port": {
+              "default": 8080,
+              "description": "HTTP server port",
+              "required": [],
+              "title": "port",
+              "type": "integer"
+            }
+          },
+          "required": [],
+          "title": "server"
+        }
+      },
+      "required": [],
+      "title": "application"
+    },
+    "autoscaling": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": false,
+          "description": "Enable Horizontal Pod Autoscaler (HPA)",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "maxReplicas": {
+          "default": 5,
+          "description": "Maximum replicas",
+          "minimum": 1,
+          "required": [],
+          "title": "maxReplicas",
+          "type": "integer"
+        },
+        "minReplicas": {
+          "default": 1,
+          "description": "Minimum replicas",
+          "minimum": 1,
+          "required": [],
+          "title": "minReplicas",
+          "type": "integer"
+        },
+        "targetCPUUtilizationPercentage": {
+          "default": 80,
+          "description": "Target CPU utilization (%)",
+          "maximum": 100,
+          "minimum": 1,
+          "required": [],
+          "title": "targetCPUUtilizationPercentage",
+          "type": "integer"
+        },
+        "targetMemoryUtilizationPercentage": {
+          "default": 80,
+          "description": "Target memory utilization (%)",
+          "maximum": 100,
+          "minimum": 1,
+          "required": [],
+          "title": "targetMemoryUtilizationPercentage",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "autoscaling"
+    },
+    "common": {
+      "description": "Common helper templates for all charts",
+      "required": [],
+      "title": "common",
+      "type": "object"
+    },
+    "fullnameOverride": {
+      "default": "",
+      "description": "Override the full release name",
+      "required": [],
+      "title": "fullnameOverride",
+      "type": "string"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": true,
+      "properties": {
+        "pullPolicy": {
+          "default": "IfNotPresent",
+          "description": "Image pull policy",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ],
+          "required": [],
+          "title": "pullPolicy"
+        },
+        "repository": {
+          "default": "timmi6790/cloudflare-access-webhook-redirect",
+          "description": "Container image repository (e.g. docker.io/user/image)",
+          "required": [],
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "v0.3.3",
+          "description": "Container image tag (version)",
+          "required": [],
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "image"
+    },
+    "imagePullSecrets": {
+      "description": "Optional image pull secrets for private registries",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "imagePullSecrets",
+      "type": "array"
+    },
+    "ingress": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Additional ingress annotations\nExample:\n  cert-manager.io/cluster-issuer: letsencrypt-prod\n  nginx.ingress.kubernetes.io/rate-limit: \"100\"",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "enabled": {
+          "default": false,
+          "description": "Enable ingress resource",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "hosts": {
+          "description": "Host definitions for ingress\nExample:\n  - host: example.local\n    paths:\n      - path: /\n        pathType: Prefix",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "hosts",
+          "type": "array"
+        },
+        "ingressClassName": {
+          "default": "nginx",
+          "description": "Ingress class name (e.g. nginx)",
+          "required": [],
+          "title": "ingressClassName",
+          "type": "string"
+        },
+        "tls": {
+          "description": "TLS configuration for ingress\nExample:\n  - secretName: example-tls\n    hosts:\n      - example.local",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "tls",
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "ingress"
+    },
+    "livenessProbe": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": true,
+          "description": "Enable liveness probe",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "failureThreshold": {
+          "default": 3,
+          "description": "Failure threshold",
+          "required": [],
+          "title": "failureThreshold",
+          "type": "integer"
+        },
+        "httpGet": {
+          "additionalProperties": true,
+          "properties": {
+            "path": {
+              "default": "/health",
+              "description": "Health check path",
+              "required": [],
+              "title": "path",
+              "type": "string"
+            },
+            "port": {
+              "default": "http",
+              "description": "Health check port",
+              "required": [],
+              "title": "port",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "httpGet"
+        },
+        "initialDelaySeconds": {
+          "default": 10,
+          "description": "Initial delay before probe starts",
+          "required": [],
+          "title": "initialDelaySeconds",
+          "type": "integer"
+        },
+        "periodSeconds": {
+          "default": 10,
+          "description": "Probe frequency",
+          "required": [],
+          "title": "periodSeconds",
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "default": 5,
+          "description": "Probe timeout",
+          "required": [],
+          "title": "timeoutSeconds",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "livenessProbe"
+    },
+    "nameOverride": {
+      "default": "",
+      "description": "Override the chart name",
+      "required": [],
+      "title": "nameOverride",
+      "type": "string"
+    },
+    "networkPolicy": {
+      "additionalProperties": true,
+      "properties": {
+        "egress": {
+          "description": "Egress rules",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "egress",
+          "type": "array"
+        },
+        "enabled": {
+          "default": false,
+          "description": "Enable Kubernetes NetworkPolicy",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "ingress": {
+          "description": "Ingress rules",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "ingress",
+          "type": "array"
+        },
+        "policyTypes": {
+          "description": "Policy types (Ingress/Egress)",
+          "items": {
+            "anyOf": [
+              {
+                "required": [],
+                "type": "string"
+              },
+              {
+                "required": [],
+                "type": "string"
+              }
+            ],
+            "required": []
+          },
+          "required": [],
+          "title": "policyTypes",
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "networkPolicy"
+    },
+    "nodeSelector": {
+      "additionalProperties": false,
+      "description": "Node selector labels for scheduling",
+      "required": [],
+      "title": "nodeSelector",
+      "type": "object"
+    },
+    "podAnnotations": {
+      "additionalProperties": false,
+      "description": "Additional annotations for the Pod metadata",
+      "required": [],
+      "title": "podAnnotations",
+      "type": "object"
+    },
+    "podDisruptionBudget": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": false,
+          "description": "Enable PodDisruptionBudget",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "maxUnavailable": {
+          "default": 1,
+          "description": "Maximum unavailable pods",
+          "required": [],
+          "title": "maxUnavailable",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "minAvailable": {
+          "default": 1,
+          "description": "Minimum available pods",
+          "required": [],
+          "title": "minAvailable",
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [],
+      "title": "podDisruptionBudget"
+    },
+    "podLabels": {
+      "additionalProperties": false,
+      "description": "Additional labels for the Pod metadata",
+      "required": [],
+      "title": "podLabels",
+      "type": "object"
+    },
+    "podSecurityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "fsGroup": {
+          "default": 10001,
+          "description": "Group ID for file system access",
+          "required": [],
+          "title": "fsGroup",
+          "type": "integer"
+        },
+        "runAsNonRoot": {
+          "default": true,
+          "description": "Run pod as non-root user",
+          "required": [],
+          "title": "runAsNonRoot",
+          "type": "boolean"
+        },
+        "runAsUser": {
+          "default": 10001,
+          "description": "User ID to run as",
+          "required": [],
+          "title": "runAsUser",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "podSecurityContext"
+    },
+    "priorityClassName": {
+      "default": "",
+      "description": "Optional Kubernetes PriorityClass name",
+      "required": [],
+      "title": "priorityClassName",
+      "type": "string"
+    },
+    "readinessProbe": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": true,
+          "description": "Enable readiness probe",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "failureThreshold": {
+          "default": 3,
+          "description": "Failure threshold",
+          "required": [],
+          "title": "failureThreshold",
+          "type": "integer"
+        },
+        "httpGet": {
+          "additionalProperties": true,
+          "properties": {
+            "path": {
+              "default": "/health",
+              "description": "Health check path",
+              "required": [],
+              "title": "path",
+              "type": "string"
+            },
+            "port": {
+              "default": "http",
+              "description": "Health check port",
+              "required": [],
+              "title": "port",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "httpGet"
+        },
+        "initialDelaySeconds": {
+          "default": 5,
+          "description": "Initial delay before probe starts",
+          "required": [],
+          "title": "initialDelaySeconds",
+          "type": "integer"
+        },
+        "periodSeconds": {
+          "default": 5,
+          "description": "Probe frequency",
+          "required": [],
+          "title": "periodSeconds",
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "default": 3,
+          "description": "Probe timeout",
+          "required": [],
+          "title": "timeoutSeconds",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "readinessProbe"
+    },
+    "replicaCount": {
+      "default": 1,
+      "description": "Number of replicas to deploy",
+      "minimum": 1,
+      "required": [],
+      "title": "replicaCount",
+      "type": "integer"
+    },
+    "resources": {
+      "additionalProperties": true,
+      "properties": {
+        "limits": {
+          "additionalProperties": true,
+          "properties": {
+            "cpu": {
+              "default": "100m",
+              "description": "Maximum CPU usage (e.g. 100m = 0.1 core)",
+              "required": [],
+              "title": "cpu",
+              "type": "string"
+            },
+            "memory": {
+              "default": "15Mi",
+              "description": "Maximum memory usage (e.g. 64Mi)",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "limits"
+        },
+        "requests": {
+          "additionalProperties": true,
+          "properties": {
+            "cpu": {
+              "default": "10m",
+              "description": "Guaranteed CPU request",
+              "required": [],
+              "title": "cpu",
+              "type": "string"
+            },
+            "memory": {
+              "default": "10Mi",
+              "description": "Guaranteed memory request",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "requests"
+        }
+      },
+      "required": [],
+      "title": "resources"
+    },
+    "securityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "default": false,
+          "description": "Allow privilege escalation",
+          "required": [],
+          "title": "allowPrivilegeEscalation",
+          "type": "boolean"
+        },
+        "capabilities": {
+          "additionalProperties": true,
+          "properties": {
+            "drop": {
+              "description": "Linux capabilities to drop",
+              "items": {
+                "anyOf": [
+                  {
+                    "required": [],
+                    "type": "string"
+                  }
+                ],
+                "required": []
+              },
+              "required": [],
+              "title": "drop",
+              "type": "array"
+            }
+          },
+          "required": [],
+          "title": "capabilities"
+        },
+        "readOnlyRootFilesystem": {
+          "default": false,
+          "description": "Mount root filesystem as read-only",
+          "required": [],
+          "title": "readOnlyRootFilesystem",
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "title": "securityContext"
+    },
+    "service": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Additional service annotations",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "port": {
+          "default": 80,
+          "description": "Service port",
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        },
+        "type": {
+          "default": "ClusterIP",
+          "description": "Kubernetes service type",
+          "enum": [
+            "ClusterIP",
+            "NodePort",
+            "LoadBalancer"
+          ],
+          "required": [],
+          "title": "type"
+        }
+      },
+      "required": [],
+      "title": "service"
+    },
+    "serviceAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Additional annotations for the service account",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "automountToken": {
+          "default": false,
+          "description": "Whether to automount the service account token",
+          "required": [],
+          "title": "automountToken",
+          "type": "boolean"
+        },
+        "create": {
+          "default": true,
+          "description": "Whether to create a dedicated service account",
+          "required": [],
+          "title": "create",
+          "type": "boolean"
+        },
+        "name": {
+          "default": "",
+          "description": "Custom service account name (auto-generated if empty)",
+          "required": [],
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "serviceAccount"
+    },
+    "startupProbe": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": true,
+          "description": "Enable startup probe",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "failureThreshold": {
+          "default": 30,
+          "description": "Failure threshold",
+          "required": [],
+          "title": "failureThreshold",
+          "type": "integer"
+        },
+        "httpGet": {
+          "additionalProperties": true,
+          "properties": {
+            "path": {
+              "default": "/health",
+              "description": "Health check path",
+              "required": [],
+              "title": "path",
+              "type": "string"
+            },
+            "port": {
+              "default": "http",
+              "description": "Health check port",
+              "required": [],
+              "title": "port",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "httpGet"
+        },
+        "initialDelaySeconds": {
+          "default": 0,
+          "description": "Initial delay before probe starts",
+          "required": [],
+          "title": "initialDelaySeconds",
+          "type": "integer"
+        },
+        "periodSeconds": {
+          "default": 5,
+          "description": "Probe frequency",
+          "required": [],
+          "title": "periodSeconds",
+          "type": "integer"
+        },
+        "successThreshold": {
+          "default": 1,
+          "description": "Success threshold",
+          "required": [],
+          "title": "successThreshold",
+          "type": "integer"
+        },
+        "timeoutSeconds": {
+          "default": 3,
+          "description": "Probe timeout",
+          "required": [],
+          "title": "timeoutSeconds",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "startupProbe"
+    },
+    "tolerations": {
+      "description": "Tolerations for taints",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "tolerations",
+      "type": "array"
+    },
+    "topologySpreadConstraints": {
+      "description": "Pod topology spread constraints for availability",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "topologySpreadConstraints",
+      "type": "array"
+    },
+    "volumeMounts": {
+      "description": "Additional volume mounts (e.g., /cache)",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "volumeMounts",
+      "type": "array"
+    },
+    "volumes": {
+      "description": "Additional volumes (e.g., cache, tmp)",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "volumes",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "type": "object"
+}

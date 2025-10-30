@@ -1,0 +1,42 @@
+suite: test deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: should create deployment
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-s3-bucket-perma-link
+
+  - it: should mount S3 secret
+    set:
+      application:
+        s3:
+          secretName: s3-creds
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: S3.ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-creds
+                key: access_key
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: S3.SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-creds
+                key: secret_key
+
+  - it: should configure config map
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].envFrom
+          content:
+            configMapRef:
+              name: RELEASE-NAME-s3-bucket-perma-link

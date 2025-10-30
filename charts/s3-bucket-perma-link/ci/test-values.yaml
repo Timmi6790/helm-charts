@@ -1,6 +1,3 @@
-test:
-  secret: true
-
 application:
   handler:
     entries:
@@ -10,8 +7,8 @@ application:
         - bucket2,dir/file.txt
 
   s3:
-    # Existing secret name with the cloudflare access tokens with client_id and client_secret
-    secretName: "test-s3-secret"
+    accessKey: "fe47359d4fe04df0a8689fba2358c8d2.access"
+    secretKey: "7ae0f15050f34f29b394495331ca28a2"
     host: "s3.amazon.com"
     region: "eu-central-1"
 

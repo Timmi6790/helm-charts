@@ -1,32 +1,214 @@
+# vim: set ft=yaml:
+# yaml-language-server: $schema=values.schema.json
+
+# @schema
+# additionalProperties: true
+# @schema
 image:
+  # @schema
+  # type: string
+  # @schema
+  # -- The container image repository.
   repository: timmi6790/netcup-offer-bot
+
+  # @schema
+  # type: string
+  # @schema
+  # -- The container image tag.
   tag: v1.3.0
+
+  # Valid options are: Always, IfNotPresent, Never
+  # @schema
+  # enum: [Always, IfNotPresent, Never]
+  # @schema
+  # -- The image pull policy.
   pullPolicy: IfNotPresent
 
+# @schema
+# type: array
+# @schema
+# -- Optional image pull secrets for private registries
+imagePullSecrets: []
+
+# @schema
+# additionalProperties: true
+# @schema
 env:
-  # Optional sentry url
+  # @schema
+  # type: string
+  # @schema
+  # -- Sentry DSN for error tracking. Leave empty to disable.
   sentryDns: ""
-  # Discord webhook url
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Webhook URL to send updates or notifications.
   webHook: ""
-  # Check interval in seconds
+
+  # @schema
+  # type: integer
+  # minimum: 1
+  # @schema
+  # -- Interval in seconds between offer checks.
   checkInterval: 180
-  # Optional log level
+
+  # @schema
+  # enum: [debug, info, warn, error]
+  # @schema
+  # -- Log level for the application.
   logLevel: info
 
+# @schema
+# additionalProperties: true
+# @schema
+podSecurityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Run pod as non-root user
+  runAsNonRoot: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only
+  readOnlyRootFilesystem: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- User ID to run as
+  runAsUser: 1000
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- Group ID for file system access
+  fsGroup: 1000
+
+# @schema
+# additionalProperties: true
+# @schema
+serviceAccount:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to create a dedicated service account
+  create: true
+
+  # @schema
+  # type: object
+  # @schema
+  # -- Additional annotations for the service account
+  annotations: {}
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Custom service account name (auto-generated if empty)
+  name: ""
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to automount the service account token
+  automountToken: false
+
+# @schema
+# type: array
+# @schema
+# -- Pod topology spread constraints for availability
+topologySpreadConstraints: []
+
+# @schema
+# type: string
+# @schema
+# -- Optional Kubernetes PriorityClass name
+priorityClassName: ""
+
+# @schema
+# additionalProperties: true
+# @schema
 persistence:
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Configuration for persistent data storage.
   data:
+    # @schema
+    # enum: [ReadWriteOnce, ReadOnlyMany, ReadWriteMany]
+    # @schema
+    # -- The access mode for the persistent volume.
     accessMode: ReadWriteOnce
+
+    # @schema
+    # type: string
+    # @schema
+    # -- The storage size requested for the volume.
     size: 10Mi
 
+# @schema
+# additionalProperties: true
+# @schema
 metrics:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Enable Prometheus metrics endpoint.
   enabled: false
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- Port to expose metrics on.
   port: 9184
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- ServiceMonitor configuration for Prometheus Operator integration.
   serviceMonitor:
+    # @schema
+    # type: string
+    # @schema
+    # -- Metrics scrape interval (e.g., 1m, 30s).
     interval: 1m
+
+    # @schema
+    # type: string
+    # @schema
+    # -- Timeout for metrics scraping (e.g., 30s).
     scrapeTimeout: 30s
 
+# @schema
+# additionalProperties: true
+# @schema
 resources:
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Resource limits for the container.
   limits:
+    # @schema
+    # type: string
+    # @schema
+    # -- Maximum allowed memory usage.
     memory: 20Mi
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Resource requests for the container.
   requests:
+    # @schema
+    # type: string
+    # @schema
+    # -- Minimum guaranteed memory allocation.
     memory: 15Mi

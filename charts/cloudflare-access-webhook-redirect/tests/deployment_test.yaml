@@ -1,0 +1,59 @@
+suite: test deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: should create deployment
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-cloudflare-access-webhook-redirect
+
+  - it: should set replica count
+    set:
+      replicaCount: 3
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 3
+
+  - it: should configure config map
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].envFrom
+          content:
+            configMapRef:
+              name: RELEASE-NAME-cloudflare-access-webhook-redirect
+
+  - it: should use cloudflare secret
+    set:
+      application:
+        cloudflareAccess:
+          secretName: "cf-secret"
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CLOUDFLARE.CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: cf-secret
+                key: client_id
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CLOUDFLARE.CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: cf-secret
+                key: client_secret
+
+  - it: should set security context
+    asserts:
+      - equal:
+          path: spec.template.spec.securityContext.runAsNonRoot
+          value: true
+      - equal:
+          path: spec.template.spec.securityContext.runAsUser
+          value: 10001
