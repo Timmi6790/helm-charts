@@ -3,6 +3,35 @@ entries:
   cloudflare-access-webhook-redirect:
   - apiVersion: v2
     appVersion: v0.3.3
+    created: "2025-10-30T15:10:17.082023742Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: A Helm chart for deploying the Cloudflare Access Webhook Redirect
+      service. This service acts as an authentication proxy that validates requests
+      using Cloudflare Access Service Auth tokens before forwarding them to target
+      backend services.
+    digest: 26be556fe2a552ad5f2a4d9b911e02703f5d849b3e97f2865ff4dda830fa4f12
+    home: https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    keywords:
+    - cloudflare
+    - webhook
+    - redirect
+    - authentication
+    maintainers:
+    - name: Timmi6790
+      url: https://github.com/Timmi6790
+    name: cloudflare-access-webhook-redirect
+    sources:
+    - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    - https://github.com/Timmi6790/helm-charts
+    type: application
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-2.0.3/cloudflare-access-webhook-redirect-2.0.3.tgz
+    version: 2.0.3
+  - apiVersion: v2
+    appVersion: v0.3.3
     created: "2025-10-27T13:18:16.560129757Z"
     description: A Helm chart for Cloudflare Access Webhook Redirect
     digest: 49e98e58d2d4cdf69726c5390e2903a921d39fc6557f759f3ddae2ea1f4a8c51
@@ -340,7 +369,40 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-1.0.1/cloudflare-access-webhook-redirect-1.0.1.tgz
     version: 1.0.1
+  common:
+  - apiVersion: v2
+    created: "2025-10-30T15:10:17.288478207Z"
+    description: Common helper templates for all charts
+    digest: aaf7cb5eafad73ca040f4e20af27c73565a5e28671055131b88c54dc13907ed7
+    maintainers:
+    - name: Timmi6790
+      url: https://github.com/Timmi6790
+    name: common
+    type: library
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/common-0.1.0/common-0.1.0.tgz
+    version: 0.1.0
   netcup-offer-bot:
+  - apiVersion: v2
+    appVersion: v1.3.0
+    created: "2025-10-30T15:10:17.544010581Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: This chart deploys the Netcup Offer Bot, which monitors https://www.netcup-sonderangebote.de/
+      RSS feed and sends notifications to Discord webhooks when new offers are available.
+    digest: a796f7be174c0392ada2fa89a29e955a1bcb60916d51f351279c105efd0f94ee
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: netcup-offer-bot
+    sources:
+    - https://github.com/Timmi6790/netcup-offer-bot
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/netcup-offer-bot-1.0.8/netcup-offer-bot-1.0.8.tgz
+    version: 1.0.8
   - apiVersion: v1
     appVersion: v1.3.0
     created: "2024-09-24T13:57:58.574225451Z"
@@ -458,6 +520,27 @@ entries:
     - https://github.com/Timmi6790/charts/releases/download/netcup-offer-bot-1.0.0/netcup-offer-bot-1.0.0.tgz
     version: 1.0.0
   s3-bucket-perma-link:
+  - apiVersion: v2
+    appVersion: v0.2.2
+    created: "2025-10-30T15:10:17.759606162Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: This chart deploys a simple web server that provides permanent links
+      to specific S3 bucket resources. It allows you to define static URL paths that
+      always point to specific files in your S3 buckets.
+    digest: 2f0799d12f9984a72ac6acb4cb944616ef23951efaa6cb6c932e4228e2c1dd9a
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: s3-bucket-perma-link
+    sources:
+    - https://github.com/Timmi6790/s3-bucket-perma-link
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.4/s3-bucket-perma-link-1.0.4.tgz
+    version: 1.0.4
   - apiVersion: v1
     appVersion: v0.2.2
     created: "2024-09-06T12:04:01.616820212Z"
@@ -522,4 +605,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2025-10-27T13:18:16.560360258Z"
+generated: "2025-10-30T15:10:17.759788253Z"
