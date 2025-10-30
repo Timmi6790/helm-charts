@@ -32,10 +32,31 @@ jobs:
 
       - name: Generate schemas
         run: |
+          echo "=== Starting schema generation ==="
           for chart_dir in $(find charts -name "values.yaml" -exec dirname {} \;); do
-            echo "Generating schema for $chart_dir"
-            helm schema -input "$chart_dir/values.yaml" -output "$chart_dir/values.schema.json"
+            echo "Processing: $chart_dir"
+          
+            echo "  📝 Running helm schema..."
+            schema_output=$(helm schema -input "$chart_dir/values.yaml" -output "$chart_dir/values.schema.json" 2>&1)
+            exit_code=$?
+          
+            echo "  Exit code: $exit_code"
+            echo "  Output: $schema_output"
+          
+            if [ -f "$chart_dir/values.schema.json" ]; then
+              echo "  ✅ Schema created: $(wc -l < "$chart_dir/values.schema.json") lines"
+            else
+              echo "  ❌ Schema file not created"
+            fi
           done
+          
+          echo ""
+          echo "=== Files changed after generation ==="
+          git status --short
+          
+          echo ""
+          echo "=== Diff of changes ==="
+          git diff --stat
 
       - name: Commit schema changes
         uses: stefanzweifel/git-auto-commit-action@v7
