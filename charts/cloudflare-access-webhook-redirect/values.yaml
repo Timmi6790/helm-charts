@@ -1,193 +1,193 @@
 # vim: set ft=yaml:
 # yaml-language-server: $schema=values.schema.json
 
-# -- Number of replicas to deploy
-# Must be at least 1
 # @schema
 # type: integer
 # minimum: 1
 # @schema
+# -- Number of replicas to deploy
 replicaCount: 1
 
 # @schema
 # additionalProperties: true
 # @schema
 image:
-  # -- Container image repository (e.g. docker.io/user/image)
   # @schema
   # type: string
   # @schema
+  # -- Container image repository (e.g. docker.io/user/image)
   repository: timmi6790/cloudflare-access-webhook-redirect
 
-  # -- Container image tag (version)
   # @schema
   # type: string
   # @schema
+  # -- Container image tag (version)
   tag: v0.3.3
 
-  # -- Image pull policy
-  # Valid options: Always, IfNotPresent, Never
   # @schema
   # enum: [Always, IfNotPresent, Never]
   # @schema
+  # -- Image pull policy
   pullPolicy: IfNotPresent
 
-# -- Optional image pull secrets for private registries
 # @schema
 # type: array
 # @schema
+# -- Optional image pull secrets for private registries
 imagePullSecrets: []
 
-# -- Override the chart name
 # @schema
 # type: string
 # @schema
+# -- Override the chart name
 nameOverride: ""
 
-# -- Override the full release name
 # @schema
 # type: string
 # @schema
+# -- Override the full release name
 fullnameOverride: ""
 
 # @schema
 # additionalProperties: true
 # @schema
 serviceAccount:
-  # -- Whether to create a dedicated service account
   # @schema
   # type: boolean
   # @schema
+  # -- Whether to create a dedicated service account
   create: true
 
-  # -- Additional annotations for the service account
   # @schema
   # type: object
   # @schema
+  # -- Additional annotations for the service account
   annotations: {}
 
-  # -- Custom service account name (auto-generated if empty)
   # @schema
   # type: string
   # @schema
+  # -- Custom service account name (auto-generated if empty)
   name: ""
 
-  # -- Whether to automount the service account token
   # @schema
   # type: boolean
   # @schema
+  # -- Whether to automount the service account token
   automountToken: false
 
-# -- Optional Kubernetes PriorityClass name
 # @schema
 # type: string
 # @schema
+# -- Optional Kubernetes PriorityClass name
 priorityClassName: ""
 
-# -- Additional annotations for the Pod metadata
 # @schema
 # type: object
 # @schema
+# -- Additional annotations for the Pod metadata
 podAnnotations: {}
 
-# -- Additional labels for the Pod metadata
 # @schema
 # type: object
 # @schema
+# -- Additional labels for the Pod metadata
 podLabels: {}
 
 # @schema
 # additionalProperties: true
 # @schema
 podSecurityContext:
-  # -- Run pod as non-root user
   # @schema
   # type: boolean
   # @schema
+  # -- Run pod as non-root user
   runAsNonRoot: true
 
-  # -- User ID to run as
   # @schema
   # type: integer
   # @schema
+  # -- User ID to run as
   runAsUser: 10001
 
-  # -- Group ID for file system access
   # @schema
   # type: integer
   # @schema
+  # -- Group ID for file system access
   fsGroup: 10001
 
 # @schema
 # additionalProperties: true
 # @schema
 securityContext:
-  # -- Allow privilege escalation
   # @schema
   # type: boolean
   # @schema
+  # -- Allow privilege escalation
   allowPrivilegeEscalation: false
 
   # @schema
   # additionalProperties: true
   # @schema
   capabilities:
-    # -- Linux capabilities to drop
     # @schema
     # type: array
     # @schema
+    # -- Linux capabilities to drop
     drop:
       - ALL
 
-  # -- Mount root filesystem as read-only
   # @schema
   # type: boolean
   # @schema
+  # -- Mount root filesystem as read-only
   readOnlyRootFilesystem: false
 
 # @schema
 # additionalProperties: true
 # @schema
 application:
-  # -- Application log level
-  # Options: debug, info, warn, error
   # @schema
   # enum: [debug, info, warn, error]
   # @schema
+  # -- Application log level
   logLevel: info
 
-  # -- Sentry DSN for error tracking (empty disables)
   # @schema
   # type: string
   # @schema
+  # -- Sentry DSN for error tracking (empty disables)
   sentryDsn: ""
 
   # @schema
   # additionalProperties: true
   # @schema
   server:
-    # -- HTTP server port
     # @schema
     # type: integer
     # @schema
+    # -- HTTP server port
     port: 8080
 
-    # -- Server bind address
     # @schema
     # type: string
     # @schema
+    # -- Server bind address
     host: 0.0.0.0
 
   # @schema
   # additionalProperties: true
   # @schema
   handler:
-    # -- Base URL for redirect targets
     # @schema
     # type: string
     # @schema
+    # -- Base URL for redirect targets
     targetBase: ""
 
+    # @schema
+    # type: object
+    # @schema
     # -- Path configurations with allowed HTTP methods
     # Example:
     #   api/webhook:
@@ -195,101 +195,97 @@ application:
     #   test:
     #     - GET
     #     - POST
-    # @schema
-    # type: object
-    # @schema
     paths: {}
 
   # @schema
   # additionalProperties: true
   # @schema
   cloudflareAccess:
-    # -- Existing secret name containing Cloudflare Access credentials
-    # Must contain client_id and client_secret keys
     # @schema
     # type: string
     # @schema
+    # -- Existing secret name containing Cloudflare Access credentials
+    # Must contain client_id and client_secret keys
     secretName: ""
 
-    # -- Optional client ID (alternative to secretName)
     # @schema
     # type: [string, "null"]
     # @schema
+    # -- Optional client ID (alternative to secretName)
     # clientId: ""
 
-    # -- Optional client secret (alternative to secretName)
     # @schema
     # type: [string, "null"]
     # @schema
+    # -- Optional client secret (alternative to secretName)
     # clientSecret: ""
 
 # @schema
 # additionalProperties: true
 # @schema
 service:
-  # -- Kubernetes service type
-  # Options: ClusterIP, NodePort, LoadBalancer
   # @schema
   # enum: [ClusterIP, NodePort, LoadBalancer]
   # @schema
+  # -- Kubernetes service type
   type: ClusterIP
 
-  # -- Service port
   # @schema
   # type: integer
   # @schema
+  # -- Service port
   port: 80
 
-  # -- Additional service annotations
   # @schema
   # type: object
   # @schema
+  # -- Additional service annotations
   annotations: {}
 
 # @schema
 # additionalProperties: true
 # @schema
 ingress:
-  # -- Enable ingress resource
   # @schema
   # type: boolean
   # @schema
+  # -- Enable ingress resource
   enabled: false
 
-  # -- Ingress class name (e.g. nginx)
   # @schema
   # type: string
   # @schema
+  # -- Ingress class name (e.g. nginx)
   ingressClassName: "nginx"
 
+  # @schema
+  # type: object
+  # @schema
   # -- Additional ingress annotations
   # Example:
   #   cert-manager.io/cluster-issuer: letsencrypt-prod
   #   nginx.ingress.kubernetes.io/rate-limit: "100"
-  # @schema
-  # type: object
-  # @schema
   annotations: {}
 
+  # @schema
+  # type: array
+  # @schema
   # -- Host definitions for ingress
   # Example:
   #   - host: example.local
   #     paths:
   #       - path: /
   #         pathType: Prefix
+  hosts: []
+
   # @schema
   # type: array
   # @schema
-  hosts: []
-
   # -- TLS configuration for ingress
   # Example:
   #   - secretName: example-tls
   #     hosts:
   #       - example.local
-  # @schema
-  # type: array
-  # @schema
   tls: []
 
 # @schema
@@ -300,314 +296,314 @@ resources:
   # additionalProperties: true
   # @schema
   limits:
-    # -- Maximum CPU usage (e.g. 100m = 0.1 core)
     # @schema
     # type: string
     # @schema
+    # -- Maximum CPU usage (e.g. 100m = 0.1 core)
     cpu: 100m
 
-    # -- Maximum memory usage (e.g. 64Mi)
     # @schema
     # type: string
     # @schema
+    # -- Maximum memory usage (e.g. 64Mi)
     memory: 15Mi
 
   # @schema
   # additionalProperties: true
   # @schema
   requests:
-    # -- Guaranteed CPU request
     # @schema
     # type: string
     # @schema
+    # -- Guaranteed CPU request
     cpu: 10m
 
-    # -- Guaranteed memory request
     # @schema
     # type: string
     # @schema
+    # -- Guaranteed memory request
     memory: 10Mi
 
 # @schema
 # additionalProperties: true
 # @schema
 startupProbe:
-  # -- Enable startup probe
   # @schema
   # type: boolean
   # @schema
+  # -- Enable startup probe
   enabled: true
 
   # @schema
   # additionalProperties: true
   # @schema
   httpGet:
-    # -- Health check path
     # @schema
     # type: string
     # @schema
+    # -- Health check path
     path: /health
 
-    # -- Health check port
     # @schema
     # type: string
     # @schema
+    # -- Health check port
     port: http
 
-  # -- Initial delay before probe starts
   # @schema
   # type: integer
   # @schema
+  # -- Initial delay before probe starts
   initialDelaySeconds: 0
 
-  # -- Probe frequency
   # @schema
   # type: integer
   # @schema
+  # -- Probe frequency
   periodSeconds: 5
 
-  # -- Probe timeout
   # @schema
   # type: integer
   # @schema
+  # -- Probe timeout
   timeoutSeconds: 3
 
-  # -- Failure threshold
   # @schema
   # type: integer
   # @schema
+  # -- Failure threshold
   failureThreshold: 30
 
-  # -- Success threshold
   # @schema
   # type: integer
   # @schema
+  # -- Success threshold
   successThreshold: 1
 
 # @schema
 # additionalProperties: true
 # @schema
 livenessProbe:
-  # -- Enable liveness probe
   # @schema
   # type: boolean
   # @schema
+  # -- Enable liveness probe
   enabled: true
 
   # @schema
   # additionalProperties: true
   # @schema
   httpGet:
-    # -- Health check path
     # @schema
     # type: string
     # @schema
+    # -- Health check path
     path: /health
 
-    # -- Health check port
     # @schema
     # type: string
     # @schema
+    # -- Health check port
     port: http
 
-  # -- Initial delay before probe starts
   # @schema
   # type: integer
   # @schema
+  # -- Initial delay before probe starts
   initialDelaySeconds: 10
 
-  # -- Probe frequency
   # @schema
   # type: integer
   # @schema
+  # -- Probe frequency
   periodSeconds: 10
 
-  # -- Probe timeout
   # @schema
   # type: integer
   # @schema
+  # -- Probe timeout
   timeoutSeconds: 5
 
-  # -- Failure threshold
   # @schema
   # type: integer
   # @schema
+  # -- Failure threshold
   failureThreshold: 3
 
 # @schema
 # additionalProperties: true
 # @schema
 readinessProbe:
-  # -- Enable readiness probe
   # @schema
   # type: boolean
   # @schema
+  # -- Enable readiness probe
   enabled: true
 
   # @schema
   # additionalProperties: true
   # @schema
   httpGet:
-    # -- Health check path
     # @schema
     # type: string
     # @schema
+    # -- Health check path
     path: /health
 
-    # -- Health check port
     # @schema
     # type: string
     # @schema
+    # -- Health check port
     port: http
 
-  # -- Initial delay before probe starts
   # @schema
   # type: integer
   # @schema
+  # -- Initial delay before probe starts
   initialDelaySeconds: 5
 
-  # -- Probe frequency
   # @schema
   # type: integer
   # @schema
+  # -- Probe frequency
   periodSeconds: 5
 
-  # -- Probe timeout
   # @schema
   # type: integer
   # @schema
+  # -- Probe timeout
   timeoutSeconds: 3
 
-  # -- Failure threshold
   # @schema
   # type: integer
   # @schema
+  # -- Failure threshold
   failureThreshold: 3
 
 # @schema
 # additionalProperties: true
 # @schema
 autoscaling:
-  # -- Enable Horizontal Pod Autoscaler (HPA)
   # @schema
   # type: boolean
   # @schema
+  # -- Enable Horizontal Pod Autoscaler (HPA)
   enabled: false
 
-  # -- Minimum replicas
   # @schema
   # type: integer
   # minimum: 1
   # @schema
+  # -- Minimum replicas
   minReplicas: 1
 
-  # -- Maximum replicas
   # @schema
   # type: integer
   # minimum: 1
   # @schema
+  # -- Maximum replicas
   maxReplicas: 5
 
-  # -- Target CPU utilization (%)
   # @schema
   # type: integer
   # minimum: 1
   # maximum: 100
   # @schema
+  # -- Target CPU utilization (%)
   targetCPUUtilizationPercentage: 80
 
-  # -- Target memory utilization (%)
   # @schema
   # type: integer
   # minimum: 1
   # maximum: 100
   # @schema
+  # -- Target memory utilization (%)
   targetMemoryUtilizationPercentage: 80
 
-# -- Pod topology spread constraints for availability
 # @schema
 # type: array
 # @schema
+# -- Pod topology spread constraints for availability
 topologySpreadConstraints: []
 
-# -- Additional volumes (e.g., cache, tmp)
 # @schema
 # type: array
 # @schema
+# -- Additional volumes (e.g., cache, tmp)
 volumes: []
 
-# -- Additional volume mounts (e.g., /cache)
 # @schema
 # type: array
 # @schema
+# -- Additional volume mounts (e.g., /cache)
 volumeMounts: []
 
-# -- Node selector labels for scheduling
 # @schema
 # type: object
 # @schema
+# -- Node selector labels for scheduling
 nodeSelector: {}
 
-# -- Tolerations for taints
 # @schema
 # type: array
 # @schema
+# -- Tolerations for taints
 tolerations: []
 
-# -- Pod affinity rules
 # @schema
 # type: object
 # @schema
+# -- Pod affinity rules
 affinity: {}
 
 # @schema
 # additionalProperties: true
 # @schema
 podDisruptionBudget:
-  # -- Enable PodDisruptionBudget
   # @schema
   # type: boolean
   # @schema
+  # -- Enable PodDisruptionBudget
   enabled: false
 
-  # -- Minimum available pods
   # @schema
   # type: [integer, "null"]
   # @schema
+  # -- Minimum available pods
   minAvailable: 1
 
-  # -- Maximum unavailable pods
   # @schema
   # type: [integer, "null"]
   # @schema
+  # -- Maximum unavailable pods
   maxUnavailable: 1
 
 # @schema
 # additionalProperties: true
 # @schema
 networkPolicy:
-  # -- Enable Kubernetes NetworkPolicy
   # @schema
   # type: boolean
   # @schema
+  # -- Enable Kubernetes NetworkPolicy
   enabled: false
 
-  # -- Policy types (Ingress/Egress)
   # @schema
   # type: array
   # @schema
+  # -- Policy types (Ingress/Egress)
   policyTypes:
     - Ingress
     - Egress
 
-  # -- Ingress rules
   # @schema
   # type: array
   # @schema
+  # -- Ingress rules
   ingress: []
 
-  # -- Egress rules
   # @schema
   # type: array
   # @schema
+  # -- Egress rules
   egress: []
