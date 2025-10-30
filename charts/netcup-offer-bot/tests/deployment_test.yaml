@@ -19,7 +19,10 @@ tests:
           path: spec.template.spec.containers[0].env
           content:
             name: WEB_HOOK
-            value: "https://discord.com/api/webhooks/test"
+            valueFrom:
+              secretKeyRef:
+                name: RELEASE-NAME-netcup-offer-bot
+                key: webHook
 
   - it: should configure config map
     asserts:
@@ -34,12 +37,12 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].volumeMounts
           content:
-            name: data
+            name: RELEASE-NAME-netcup-offer-bot
             mountPath: /app/data
       - contains:
           path: spec.template.spec.volumes
           content:
-            name: data
+            name: RELEASE-NAME-netcup-offer-bot
             persistentVolumeClaim:
               claimName: RELEASE-NAME-netcup-offer-bot
 
