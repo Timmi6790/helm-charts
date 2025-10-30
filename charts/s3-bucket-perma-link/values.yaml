@@ -1,104 +1,222 @@
+# vim: set ft=yaml:
+# yaml-language-server: $schema=values.schema.json
+
+# @schema
+# additionalProperties: true
+# @schema
 image:
-  # -- Container image repository
+  # -- Container image repository where the application image is stored.
+  # Usually points to Docker Hub or a private registry.
+  # Example: ghcr.io/your-org/s3-bucket-perma-link
   # @schema
   # type: string
+  # @schema
   repository: timmi6790/s3-bucket-perma-link
-  # -- Container image tag
+
+  # -- Container image tag to deploy.
+  # Pin to a version for predictable deployments rather than using "latest".
   # @schema
   # type: string
+  # @schema
   tag: v0.2.2
-  # -- Image pull policy
+
+  # -- Kubernetes image pull policy.
+  # Determines when the image should be pulled from the registry.
+  # Valid options:
+  # * `Always` – pull image on every Pod start
+  # * `IfNotPresent` – use local image if available (recommended)
+  # * `Never` – never pull the image
   # @schema
-  # type: string
   # enum: [Always, IfNotPresent, Never]
+  # @schema
   pullPolicy: IfNotPresent
 
+
+# @schema
+# additionalProperties: true
+# @schema
 application:
-  # -- Application log level
+  # -- Log level for application output.
+  # Valid options:
+  # * `debug` – verbose internal logs
+  # * `info` – standard logs (default)
+  # * `warn` – warnings and important notices
+  # * `error` – critical errors only
   # @schema
-  # type: string
   # enum: [debug, info, warn, error]
+  # @schema
   logLevel: info
-  # -- Sentry DSN for error tracking
+
+  # -- Sentry DSN for error tracking and reporting.
+  # Leave empty to disable Sentry integration.
   # @schema
   # type: string
+  # @schema
   sentryDsn: ""
+
+  # -- HTTP server configuration.
+  # Defines where the application listens for incoming connections.
+  # @schema
+  # additionalProperties: true
+  # @schema
   server:
-    # -- Server port
+    # -- Port number the server listens on.
+    # Default is 8080.
     # @schema
     # type: integer
+    # @schema
     port: 8080
-    # -- Server host
+
+    # -- Host address to bind the HTTP server.
+    # Typically `0.0.0.0` to listen on all network interfaces.
     # @schema
     # type: string
+    # @schema
     host: 0.0.0.0
 
-  handler:
-    # -- Path entries mapping to S3 bucket and file paths. Key is the URL path, value is array of "bucket,file" strings. Example: `4tv#Sjfpj&: [bucket,file.txt]` or `hGEvxxML5*: [bucket2,dir/file.txt]`
-    # @schema
-    # type: object
-    # examples:
-    #   4tv#Sjfpj&:
-    #     - bucket,file.txt
-    #   hGEvxxML5*:
-    #     - bucket2,dir/file.txt
-    entries: {}
-
-  s3:
-    # -- Existing secret name with S3 credentials containing access_key and secret_key keys
-    # @schema
-    # type: string
-    secretName: ""
-    # -- S3 host endpoint
-    # @schema
-    # type: string
-    host: "s3.amazon.com"
-    # -- S3 region
-    # @schema
-    # type: string
-    region: "eu-central-1"
-
-service:
-  # -- Kubernetes service type
-  # @schema
-  # type: string
-  # enum: [ClusterIP, NodePort, LoadBalancer]
-  type: ClusterIP
-  # -- Service port
-  # @schema
-  # type: integer
-  port: 80
-
-ingress:
-  # -- Enable ingress
-  # @schema
-  # type: boolean
-  enabled: false
-  # -- Ingress class name
-  # @schema
-  # type: string
-  ingressClassName: "nginx"
-  # -- Ingress annotations
+  # -- Handler configuration defining static routes and their S3 mappings.
+  # Each key represents a URL path, and the value is a list of "bucket,file" pairs.
+  # Example:
+  # ```yaml
+  # handler:
+  #   entries:
+  #     myfile: ["bucket1,file.txt"]
+  #     mydir: ["bucket2,dir/index.html"]
+  # ```
   # @schema
   # type: object
+  # @schema
+  handler:
+    entries: {}
+
+  # -- Configuration for connecting to an S3-compatible service.
+  # @schema
+  # additionalProperties: true
+  # @schema
+  s3:
+    # -- Name of an existing Kubernetes Secret containing S3 credentials.
+    # The secret must include `access_key` and `secret_key` fields.
+    # @schema
+    # type: string
+    # @schema
+    secretName: ""
+
+    # -- S3-compatible API endpoint.
+    # Example: "https://s3.amazonaws.com" or "https://minio.yourdomain.com"
+    # @schema
+    # type: string
+    # @schema
+    host: "s3.amazon.com"
+
+    # -- AWS region or S3 region identifier.
+    # Used for authenticating with region-specific endpoints.
+    # @schema
+    # type: string
+    # @schema
+    region: "eu-central-1"
+
+
+# @schema
+# additionalProperties: true
+# @schema
+service:
+  # -- Kubernetes Service type that exposes the application.
+  # Valid options:
+  # * `ClusterIP` – internal-only access within the cluster
+  # * `NodePort` – exposes service on a node port
+  # * `LoadBalancer` – creates an external load balancer
+  # @schema
+  # enum: [ClusterIP, NodePort, LoadBalancer]
+  # @schema
+  type: ClusterIP
+
+  # -- Port that the Kubernetes Service will expose.
+  # Typically maps to `application.server.port`.
+  # @schema
+  # type: integer
+  # @schema
+  port: 80
+
+
+# @schema
+# additionalProperties: true
+# @schema
+ingress:
+  # -- Enable or disable Kubernetes Ingress resource creation.
+  # Set to `true` to expose the service externally via Ingress.
+  # @schema
+  # type: boolean
+  # @schema
+  enabled: false
+
+  # -- Ingress class to use (e.g., "nginx", "traefik").
+  # Should match your cluster’s ingress controller configuration.
+  # @schema
+  # type: string
+  # @schema
+  ingressClassName: "nginx"
+
+  # -- Custom annotations for the Ingress resource.
+  # Useful for configuring ingress controllers (e.g., cert-manager, rate limits).
+  # @schema
+  # type: object
+  # @schema
   annotations: {}
-  # -- Ingress hosts configuration
+
+  # -- List of host configurations for the Ingress.
+  # Each host defines rules for routing external traffic.
+  # Example:
+  # ```yaml
+  # hosts:
+  #   - host: s3.example.com
+  #     paths:
+  #       - path: /
+  #         pathType: Prefix
+  # ```
   # @schema
   # type: array
+  # @schema
   hosts: []
-  # -- TLS configuration
+
+  # -- TLS configuration for securing ingress connections.
+  # Example:
+  # ```yaml
+  # tls:
+  #   - secretName: s3-cert
+  #     hosts:
+  #       - s3.example.com
+  # ```
   # @schema
   # type: array
+  # @schema
   tls: []
 
+
+# @schema
+# additionalProperties: true
+# @schema
 resources:
+  # -- Resource limits define the maximum resources the container can use.
+  # @schema
+  # additionalProperties: true
+  # @schema
   limits:
-    # -- Memory limit
+    # -- Maximum memory allocation for the container.
+    # Example: "128Mi", "512Mi"
     # @schema
     # type: string
+    # @schema
     memory: 20Mi
+
+  # -- Resource requests define the guaranteed resources reserved for the container.
+  # @schema
+  # additionalProperties: true
+  # @schema
   requests:
-    # -- Memory request
+    # -- Minimum memory requested by the container.
+    # Used by Kubernetes scheduler to plan pod placement.
+    # Example: "64Mi"
     # @schema
     # type: string
+    # @schema
     memory: 15Mi

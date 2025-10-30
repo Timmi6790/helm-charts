@@ -1,77 +1,141 @@
+# vim: set ft=yaml:
+# yaml-language-server: $schema=values.schema.json
+
+# @schema
+# additionalProperties: true
+# @schema
 image:
-  # -- Container image repository
+  # -- The container image repository.
   # @schema
   # type: string
+  # @schema
   repository: timmi6790/netcup-offer-bot
-  # -- Container image tag
+
+  # -- The container image tag.
   # @schema
   # type: string
+  # @schema
   tag: v1.3.0
-  # -- Image pull policy
+
+  # -- The image pull policy.
+  # Valid options are: Always, IfNotPresent, Never
   # @schema
-  # type: string
   # enum: [Always, IfNotPresent, Never]
+  # @schema
   pullPolicy: IfNotPresent
 
+
+# @schema
+# additionalProperties: true
+# @schema
 env:
-  # -- Optional Sentry DSN for error tracking
+  # -- Sentry DSN for error tracking. Leave empty to disable.
   # @schema
   # type: string
+  # @schema
   sentryDns: ""
-  # -- Discord webhook URL for notifications
+
+  # -- Webhook URL to send updates or notifications.
   # @schema
   # type: string
+  # @schema
   webHook: ""
-  # -- Check interval in seconds
+
+  # -- Interval in seconds between offer checks.
+  # Must be a positive integer (minimum: 1).
   # @schema
   # type: integer
   # minimum: 1
-  checkInterval: 180
-  # -- Optional log level
   # @schema
-  # type: string
+  checkInterval: 180
+
+  # -- Log level for the application.
+  # Valid options: debug, info, warn, error
+  # @schema
   # enum: [debug, info, warn, error]
+  # @schema
   logLevel: info
 
+
+# @schema
+# additionalProperties: true
+# @schema
 persistence:
+  # -- Configuration for persistent data storage.
+  # @schema
+  # additionalProperties: true
+  # @schema
   data:
-    # -- Access mode for persistent volume
+    # -- The access mode for the persistent volume.
+    # Valid options: ReadWriteOnce, ReadOnlyMany, ReadWriteMany
     # @schema
-    # type: string
     # enum: [ReadWriteOnce, ReadOnlyMany, ReadWriteMany]
+    # @schema
     accessMode: ReadWriteOnce
-    # -- Size of persistent volume
+
+    # -- The storage size requested for the volume.
+    # Must be a valid Kubernetes size string (e.g. 10Mi, 1Gi).
     # @schema
     # type: string
+    # @schema
     size: 10Mi
 
+# @schema
+# additionalProperties: true
+# @schema
 metrics:
-  # -- Enable Prometheus metrics
+  # -- Enable Prometheus metrics endpoint.
   # @schema
   # type: boolean
+  # @schema
   enabled: false
-  # -- Metrics port
+
+  # -- Port to expose metrics on.
   # @schema
   # type: integer
+  # @schema
   port: 9184
+
+  # -- ServiceMonitor configuration for Prometheus Operator integration.
+  # @schema
+  # additionalProperties: true
+  # @schema
   serviceMonitor:
-    # -- ServiceMonitor scrape interval
+    # -- Metrics scrape interval (e.g., 1m, 30s).
     # @schema
     # type: string
+    # @schema
     interval: 1m
-    # -- ServiceMonitor scrape timeout
+
+    # -- Timeout for metrics scraping (e.g., 30s).
     # @schema
     # type: string
+    # @schema
     scrapeTimeout: 30s
 
+
+# @schema
+# additionalProperties: true
+# @schema
 resources:
+  # -- Resource limits for the container.
+  # @schema
+  # additionalProperties: true
+  # @schema
   limits:
-    # -- Memory limit
+    # -- Maximum allowed memory usage.
     # @schema
     # type: string
+    # @schema
     memory: 20Mi
+
+  # -- Resource requests for the container.
+  # @schema
+  # additionalProperties: true
+  # @schema
   requests:
-    # -- Memory request
+    # -- Minimum guaranteed memory allocation.
     # @schema
     # type: string
+    # @schema
     memory: 15Mi
