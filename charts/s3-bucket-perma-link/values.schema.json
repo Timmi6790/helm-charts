@@ -289,6 +289,41 @@
       },
       "required": [],
       "title": "service"
+    },
+    "serviceAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Additional annotations for the service account",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "automountToken": {
+          "default": false,
+          "description": "Whether to automount the service account token",
+          "required": [],
+          "title": "automountToken",
+          "type": "boolean"
+        },
+        "create": {
+          "default": true,
+          "description": "Whether to create a dedicated service account",
+          "required": [],
+          "title": "create",
+          "type": "boolean"
+        },
+        "name": {
+          "default": "",
+          "description": "Custom service account name (auto-generated if empty)",
+          "required": [],
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "serviceAccount"
     }
   },
   "required": [],

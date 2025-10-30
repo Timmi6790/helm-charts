@@ -76,6 +76,10 @@ The following table lists the configurable parameters of the chart and their def
 | resources.requests.memory | string | `"15Mi"` | Minimum memory requested by the container. |
 | service.port | int | `80` | Port that the Kubernetes Service will expose. Typically maps to `application.server.port`. |
 | service.type | string | `"ClusterIP"` | Kubernetes Service type that exposes the application. |
+| serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
+| serviceAccount.automountToken | bool | `false` | Whether to automount the service account token |
+| serviceAccount.create | bool | `true` | Whether to create a dedicated service account |
+| serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) |
 
 ## S3 Secret Configuration
 
