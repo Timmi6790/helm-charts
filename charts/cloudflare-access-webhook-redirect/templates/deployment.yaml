@@ -67,15 +67,15 @@ spec:
                   key: client_secret
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
-            {{- omit .Values.startupProbe "enabled" | toYaml | nindent 10 }}
+            {{- omit .Values.startupProbe "enabled" | toYaml | nindent 12 }}
           {{- end }}
         {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-          {{- omit .Values.livenessProbe "enabled" | toYaml | nindent 10 }}
+          {{- omit .Values.livenessProbe "enabled" | toYaml | nindent 12 }}
         {{- end }}
         {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-          {{- omit .Values.readinessProbe "enabled" | toYaml | nindent 10 }}
+          {{- omit .Values.readinessProbe "enabled" | toYaml | nindent 12 }}
         {{- end }}
         {{- with .Values.resources }}
           resources:
