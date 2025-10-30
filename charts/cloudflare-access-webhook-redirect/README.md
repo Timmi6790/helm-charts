@@ -54,85 +54,85 @@ The following table lists the configurable parameters of the chart and their def
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` | Pod affinity rules @schema type: object @schema |
-| application.cloudflareAccess.secretName | string | `""` | Existing secret name containing Cloudflare Access credentials Must contain client_id and client_secret keys @schema type: string @schema |
-| application.handler.paths | object | `{}` | Path configurations with allowed HTTP methods Example:   api/webhook:     - ALL   test:     - GET     - POST @schema type: object @schema |
-| application.handler.targetBase | string | `""` | Base URL for redirect targets @schema type: string @schema |
-| application.logLevel | string | `"info"` | Application log level Options: debug, info, warn, error @schema enum: [debug, info, warn, error] @schema |
-| application.sentryDsn | string | `""` | Sentry DSN for error tracking (empty disables) @schema type: string @schema |
-| application.server.host | string | `"0.0.0.0"` | Server bind address @schema type: string @schema |
-| application.server.port | int | `8080` | HTTP server port @schema type: integer @schema |
-| autoscaling.enabled | bool | `false` | Enable Horizontal Pod Autoscaler (HPA) @schema type: boolean @schema |
-| autoscaling.maxReplicas | int | `5` | Maximum replicas @schema type: integer minimum: 1 @schema |
-| autoscaling.minReplicas | int | `1` | Minimum replicas @schema type: integer minimum: 1 @schema |
-| autoscaling.targetCPUUtilizationPercentage | int | `80` | Target CPU utilization (%) @schema type: integer minimum: 1 maximum: 100 @schema |
-| autoscaling.targetMemoryUtilizationPercentage | int | `80` | Target memory utilization (%) @schema type: integer minimum: 1 maximum: 100 @schema |
-| fullnameOverride | string | `""` | Override the full release name @schema type: string @schema |
-| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy Valid options: Always, IfNotPresent, Never @schema enum: [Always, IfNotPresent, Never] @schema |
-| image.repository | string | `"timmi6790/cloudflare-access-webhook-redirect"` | Container image repository (e.g. docker.io/user/image) @schema type: string @schema |
-| image.tag | string | `"v0.3.3"` | Container image tag (version) @schema type: string @schema |
-| imagePullSecrets | list | `[]` | Optional image pull secrets for private registries @schema type: array @schema |
-| ingress.annotations | object | `{}` | Additional ingress annotations Example:   cert-manager.io/cluster-issuer: letsencrypt-prod   nginx.ingress.kubernetes.io/rate-limit: "100" @schema type: object @schema |
-| ingress.enabled | bool | `false` | Enable ingress resource @schema type: boolean @schema |
-| ingress.hosts | list | `[]` | Host definitions for ingress Example:   - host: example.local     paths:       - path: /         pathType: Prefix @schema type: array @schema |
-| ingress.ingressClassName | string | `"nginx"` | Ingress class name (e.g. nginx) @schema type: string @schema |
-| ingress.tls | list | `[]` | TLS configuration for ingress Example:   - secretName: example-tls     hosts:       - example.local @schema type: array @schema |
-| livenessProbe.enabled | bool | `true` | Enable liveness probe @schema type: boolean @schema |
-| livenessProbe.failureThreshold | int | `3` | Failure threshold @schema type: integer @schema |
-| livenessProbe.httpGet.path | string | `"/health"` | Health check path @schema type: string @schema |
-| livenessProbe.httpGet.port | string | `"http"` | Health check port @schema type: string @schema |
-| livenessProbe.initialDelaySeconds | int | `10` | Initial delay before probe starts @schema type: integer @schema |
-| livenessProbe.periodSeconds | int | `10` | Probe frequency @schema type: integer @schema |
-| livenessProbe.timeoutSeconds | int | `5` | Probe timeout @schema type: integer @schema |
-| nameOverride | string | `""` | Override the chart name @schema type: string @schema |
-| networkPolicy.egress | list | `[]` | Egress rules @schema type: array @schema |
-| networkPolicy.enabled | bool | `false` | Enable Kubernetes NetworkPolicy @schema type: boolean @schema |
-| networkPolicy.ingress | list | `[]` | Ingress rules @schema type: array @schema |
-| networkPolicy.policyTypes | list | `["Ingress","Egress"]` | Policy types (Ingress/Egress) @schema type: array @schema |
-| nodeSelector | object | `{}` | Node selector labels for scheduling @schema type: object @schema |
-| podAnnotations | object | `{}` | Additional annotations for the Pod metadata @schema type: object @schema |
-| podDisruptionBudget.enabled | bool | `false` | Enable PodDisruptionBudget @schema type: boolean @schema |
-| podDisruptionBudget.maxUnavailable | int | `1` | Maximum unavailable pods @schema type: [integer, "null"] @schema |
-| podDisruptionBudget.minAvailable | int | `1` | Minimum available pods @schema type: [integer, "null"] @schema |
-| podLabels | object | `{}` | Additional labels for the Pod metadata @schema type: object @schema |
-| podSecurityContext.fsGroup | int | `10001` | Group ID for file system access @schema type: integer @schema |
-| podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user @schema type: boolean @schema |
-| podSecurityContext.runAsUser | int | `10001` | User ID to run as @schema type: integer @schema |
-| priorityClassName | string | `""` | Optional Kubernetes PriorityClass name @schema type: string @schema |
-| readinessProbe.enabled | bool | `true` | Enable readiness probe @schema type: boolean @schema |
-| readinessProbe.failureThreshold | int | `3` | Failure threshold @schema type: integer @schema |
-| readinessProbe.httpGet.path | string | `"/health"` | Health check path @schema type: string @schema |
-| readinessProbe.httpGet.port | string | `"http"` | Health check port @schema type: string @schema |
-| readinessProbe.initialDelaySeconds | int | `5` | Initial delay before probe starts @schema type: integer @schema |
-| readinessProbe.periodSeconds | int | `5` | Probe frequency @schema type: integer @schema |
-| readinessProbe.timeoutSeconds | int | `3` | Probe timeout @schema type: integer @schema |
-| replicaCount | int | `1` | Number of replicas to deploy Must be at least 1 @schema type: integer minimum: 1 @schema |
-| resources.limits.cpu | string | `"100m"` | Maximum CPU usage (e.g. 100m = 0.1 core) @schema type: string @schema |
-| resources.limits.memory | string | `"15Mi"` | Maximum memory usage (e.g. 64Mi) @schema type: string @schema |
-| resources.requests.cpu | string | `"10m"` | Guaranteed CPU request @schema type: string @schema |
-| resources.requests.memory | string | `"10Mi"` | Guaranteed memory request @schema type: string @schema |
-| securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation @schema type: boolean @schema |
-| securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop @schema type: array @schema |
-| securityContext.readOnlyRootFilesystem | bool | `false` | Mount root filesystem as read-only @schema type: boolean @schema |
-| service.annotations | object | `{}` | Additional service annotations @schema type: object @schema |
-| service.port | int | `80` | Service port @schema type: integer @schema |
-| service.type | string | `"ClusterIP"` | Kubernetes service type Options: ClusterIP, NodePort, LoadBalancer @schema enum: [ClusterIP, NodePort, LoadBalancer] @schema |
-| serviceAccount.annotations | object | `{}` | Additional annotations for the service account @schema type: object @schema |
-| serviceAccount.automountToken | bool | `false` | Whether to automount the service account token @schema type: boolean @schema |
-| serviceAccount.create | bool | `true` | Whether to create a dedicated service account @schema type: boolean @schema |
-| serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) @schema type: string @schema |
-| startupProbe.enabled | bool | `true` | Enable startup probe @schema type: boolean @schema |
-| startupProbe.failureThreshold | int | `30` | Failure threshold @schema type: integer @schema |
-| startupProbe.httpGet.path | string | `"/health"` | Health check path @schema type: string @schema |
-| startupProbe.httpGet.port | string | `"http"` | Health check port @schema type: string @schema |
-| startupProbe.initialDelaySeconds | int | `0` | Initial delay before probe starts @schema type: integer @schema |
-| startupProbe.periodSeconds | int | `5` | Probe frequency @schema type: integer @schema |
-| startupProbe.successThreshold | int | `1` | Success threshold @schema type: integer @schema |
-| startupProbe.timeoutSeconds | int | `3` | Probe timeout @schema type: integer @schema |
-| tolerations | list | `[]` | Tolerations for taints @schema type: array @schema |
-| topologySpreadConstraints | list | `[]` | Pod topology spread constraints for availability @schema type: array @schema |
-| volumeMounts | list | `[]` | Additional volume mounts (e.g., /cache) @schema type: array @schema |
-| volumes | list | `[]` | Additional volumes (e.g., cache, tmp) @schema type: array @schema |
+| affinity | object | `{}` | Pod affinity rules |
+| application.cloudflareAccess.secretName | string | `""` | Existing secret name containing Cloudflare Access credentials Must contain client_id and client_secret keys |
+| application.handler.paths | object | `{}` | Path configurations with allowed HTTP methods Example:   api/webhook:     - ALL   test:     - GET     - POST |
+| application.handler.targetBase | string | `""` | Base URL for redirect targets |
+| application.logLevel | string | `"info"` | Application log level |
+| application.sentryDsn | string | `""` | Sentry DSN for error tracking (empty disables) |
+| application.server.host | string | `"0.0.0.0"` | Server bind address |
+| application.server.port | int | `8080` | HTTP server port |
+| autoscaling.enabled | bool | `false` | Enable Horizontal Pod Autoscaler (HPA) |
+| autoscaling.maxReplicas | int | `5` | Maximum replicas |
+| autoscaling.minReplicas | int | `1` | Minimum replicas |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` | Target CPU utilization (%) |
+| autoscaling.targetMemoryUtilizationPercentage | int | `80` | Target memory utilization (%) |
+| fullnameOverride | string | `""` | Override the full release name |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
+| image.repository | string | `"timmi6790/cloudflare-access-webhook-redirect"` | Container image repository (e.g. docker.io/user/image) |
+| image.tag | string | `"v0.3.3"` | Container image tag (version) |
+| imagePullSecrets | list | `[]` | Optional image pull secrets for private registries |
+| ingress.annotations | object | `{}` | Additional ingress annotations Example:   cert-manager.io/cluster-issuer: letsencrypt-prod   nginx.ingress.kubernetes.io/rate-limit: "100" |
+| ingress.enabled | bool | `false` | Enable ingress resource |
+| ingress.hosts | list | `[]` | Host definitions for ingress Example:   - host: example.local     paths:       - path: /         pathType: Prefix |
+| ingress.ingressClassName | string | `"nginx"` | Ingress class name (e.g. nginx) |
+| ingress.tls | list | `[]` | TLS configuration for ingress Example:   - secretName: example-tls     hosts:       - example.local |
+| livenessProbe.enabled | bool | `true` | Enable liveness probe |
+| livenessProbe.failureThreshold | int | `3` | Failure threshold |
+| livenessProbe.httpGet.path | string | `"/health"` | Health check path |
+| livenessProbe.httpGet.port | string | `"http"` | Health check port |
+| livenessProbe.initialDelaySeconds | int | `10` | Initial delay before probe starts |
+| livenessProbe.periodSeconds | int | `10` | Probe frequency |
+| livenessProbe.timeoutSeconds | int | `5` | Probe timeout |
+| nameOverride | string | `""` | Override the chart name |
+| networkPolicy.egress | list | `[]` | Egress rules |
+| networkPolicy.enabled | bool | `false` | Enable Kubernetes NetworkPolicy |
+| networkPolicy.ingress | list | `[]` | Ingress rules |
+| networkPolicy.policyTypes | list | `["Ingress","Egress"]` | Policy types (Ingress/Egress) |
+| nodeSelector | object | `{}` | Node selector labels for scheduling |
+| podAnnotations | object | `{}` | Additional annotations for the Pod metadata |
+| podDisruptionBudget.enabled | bool | `false` | Enable PodDisruptionBudget |
+| podDisruptionBudget.maxUnavailable | int | `1` | Maximum unavailable pods |
+| podDisruptionBudget.minAvailable | int | `1` | Minimum available pods |
+| podLabels | object | `{}` | Additional labels for the Pod metadata |
+| podSecurityContext.fsGroup | int | `10001` | Group ID for file system access |
+| podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
+| podSecurityContext.runAsUser | int | `10001` | User ID to run as |
+| priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
+| readinessProbe.enabled | bool | `true` | Enable readiness probe |
+| readinessProbe.failureThreshold | int | `3` | Failure threshold |
+| readinessProbe.httpGet.path | string | `"/health"` | Health check path |
+| readinessProbe.httpGet.port | string | `"http"` | Health check port |
+| readinessProbe.initialDelaySeconds | int | `5` | Initial delay before probe starts |
+| readinessProbe.periodSeconds | int | `5` | Probe frequency |
+| readinessProbe.timeoutSeconds | int | `3` | Probe timeout |
+| replicaCount | int | `1` | Number of replicas to deploy |
+| resources.limits.cpu | string | `"100m"` | Maximum CPU usage (e.g. 100m = 0.1 core) |
+| resources.limits.memory | string | `"15Mi"` | Maximum memory usage (e.g. 64Mi) |
+| resources.requests.cpu | string | `"10m"` | Guaranteed CPU request |
+| resources.requests.memory | string | `"10Mi"` | Guaranteed memory request |
+| securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
+| securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
+| securityContext.readOnlyRootFilesystem | bool | `false` | Mount root filesystem as read-only |
+| service.annotations | object | `{}` | Additional service annotations |
+| service.port | int | `80` | Service port |
+| service.type | string | `"ClusterIP"` | Kubernetes service type |
+| serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
+| serviceAccount.automountToken | bool | `false` | Whether to automount the service account token |
+| serviceAccount.create | bool | `true` | Whether to create a dedicated service account |
+| serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) |
+| startupProbe.enabled | bool | `true` | Enable startup probe |
+| startupProbe.failureThreshold | int | `30` | Failure threshold |
+| startupProbe.httpGet.path | string | `"/health"` | Health check path |
+| startupProbe.httpGet.port | string | `"http"` | Health check port |
+| startupProbe.initialDelaySeconds | int | `0` | Initial delay before probe starts |
+| startupProbe.periodSeconds | int | `5` | Probe frequency |
+| startupProbe.successThreshold | int | `1` | Success threshold |
+| startupProbe.timeoutSeconds | int | `3` | Probe timeout |
+| tolerations | list | `[]` | Tolerations for taints |
+| topologySpreadConstraints | list | `[]` | Pod topology spread constraints for availability |
+| volumeMounts | list | `[]` | Additional volume mounts (e.g., /cache) |
+| volumes | list | `[]` | Additional volumes (e.g., cache, tmp) |
 
 ## Cloudflare Access Configuration
 
