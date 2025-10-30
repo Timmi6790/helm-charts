@@ -24,7 +24,7 @@
         },
         "logLevel": {
           "default": "info",
-          "description": "Log level for application output.\nValid options:\n* `debug` – verbose internal logs\n* `info` – standard logs (default)\n* `warn` – warnings and important notices\n* `error` – critical errors only",
+          "description": "Log level for application output.",
           "enum": [
             "debug",
             "info",
@@ -83,7 +83,7 @@
             },
             "port": {
               "default": 8080,
-              "description": "Port number the server listens on.\nDefault is 8080.",
+              "description": "Port number the server listens on.",
               "required": [],
               "title": "port",
               "type": "integer"
@@ -107,7 +107,7 @@
       "properties": {
         "pullPolicy": {
           "default": "IfNotPresent",
-          "description": "Kubernetes image pull policy.\nDetermines when the image should be pulled from the registry.\nValid options:\n* `Always` – pull image on every Pod start\n* `IfNotPresent` – use local image if available (recommended)\n* `Never` – never pull the image",
+          "description": "Kubernetes image pull policy.\nDetermines when the image should be pulled from the registry.",
           "enum": [
             "Always",
             "IfNotPresent",
@@ -189,7 +189,7 @@
           "properties": {
             "memory": {
               "default": "20Mi",
-              "description": "Maximum memory allocation for the container.\nExample: \"128Mi\", \"512Mi\"",
+              "description": "Maximum memory allocation for the container.",
               "required": [],
               "title": "memory",
               "type": "string"
@@ -204,7 +204,7 @@
           "properties": {
             "memory": {
               "default": "15Mi",
-              "description": "Minimum memory requested by the container.\nUsed by Kubernetes scheduler to plan pod placement.\nExample: \"64Mi\"",
+              "description": "Minimum memory requested by the container.",
               "required": [],
               "title": "memory",
               "type": "string"
@@ -229,7 +229,7 @@
         },
         "type": {
           "default": "ClusterIP",
-          "description": "Kubernetes Service type that exposes the application.\nValid options:\n* `ClusterIP` – internal-only access within the cluster\n* `NodePort` – exposes service on a node port\n* `LoadBalancer` – creates an external load balancer",
+          "description": "Kubernetes Service type that exposes the application.",
           "enum": [
             "ClusterIP",
             "NodePort",
