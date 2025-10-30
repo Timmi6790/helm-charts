@@ -187,6 +187,10 @@ application:
 
     # @schema
     # type: object
+    # additionalProperties:
+    #   type: array
+    #   items:
+    #     type: string
     # @schema
     # -- Path configurations with allowed HTTP methods
     # Example:

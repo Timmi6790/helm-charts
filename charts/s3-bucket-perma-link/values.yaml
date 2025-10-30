@@ -65,6 +65,10 @@ application:
 
   # @schema
   # type: object
+  # additionalProperties:
+  #   type: array
+  #   items:
+  #     type: string
   # @schema
   # -- Handler configuration defining static routes and their S3 mappings.
   # Each key represents a URL path, and the value is a list of "bucket,file" pairs.
