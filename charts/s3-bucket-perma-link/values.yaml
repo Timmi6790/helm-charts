@@ -65,21 +65,23 @@ application:
 
   # @schema
   # type: object
-  # additionalProperties:
-  #   type: array
-  #   items:
-  #     type: string
   # @schema
-  # -- Handler configuration defining static routes and their S3 mappings.
-  # Each key represents a URL path, and the value is a list of "bucket,file" pairs.
-  # Example:
-  # ```yaml
-  # handler:
-  #   entries:
-  #     myfile: ["bucket1,file.txt"]
-  #     mydir: ["bucket2,dir/index.html"]
-  # ```
   handler:
+    # @schema
+    # type: object
+    # additionalProperties:
+    #   type: array
+    #   items:
+    #     type: string
+    # @schema
+    # -- Handler configuration defining static routes and their S3 mappings.
+    # Each key represents a URL path, and the value is a list of "bucket,file" pairs.
+    # Example:
+    # ```yaml
+    # entries:
+    #   myfile: ["bucket1,file.txt"]
+    #   mydir: ["bucket2,dir/index.html"]
+    # ```
     entries: {}
 
   # @schema
@@ -93,6 +95,18 @@ application:
     # -- Name of an existing Kubernetes Secret containing S3 credentials.
     # The secret must include `access_key` and `secret_key` fields.
     secretName: ""
+
+    # @schema
+    # type: [string, "null"]
+    # @schema
+    # -- Optional access key (alternative to secretName)
+    # accessKey: ""
+
+    # @schema
+    # type: [string, "null"]
+    # @schema
+    # -- Optional secret key (alternative to secretName)
+    # secretKey: ""
 
     # @schema
     # type: string
