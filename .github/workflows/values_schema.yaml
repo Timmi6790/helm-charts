@@ -42,7 +42,6 @@ jobs:
         id: auto-commit
         with:
           commit_message: "chore: update Helm values schemas"
-          file_pattern: "**/values.schema.json"
 
       - name: Comment on PR
         if: steps.auto-commit.outputs.changes_detected == 'true' && github.event_name == 'pull_request'
