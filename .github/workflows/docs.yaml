@@ -27,6 +27,27 @@ jobs:
         with:
           version: 'latest'
 
+      - name: Build Helm dependencies
+        run: |
+          for chart_dir in charts/*/; do
+            if [ -f "$chart_dir/Chart.yaml" ]; then
+              echo "Building dependencies for $chart_dir"
+              helm dependency build "$chart_dir"
+            fi
+          done
+
+      - name: Extract dependencies for schema generation
+        run: |
+          for chart_dir in charts/*/; do
+            if [ -d "$chart_dir/charts" ]; then
+              cd "$chart_dir/charts"
+              for tgz in *.tgz; do
+                [ -f "$tgz" ] && tar -xzf "$tgz"
+              done
+              cd -
+            fi
+          done
+
       - name: Install helm-schema plugin
         run: |
           helm plugin install https://github.com/dadav/helm-schema
