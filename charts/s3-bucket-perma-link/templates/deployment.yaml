@@ -87,9 +87,9 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: access_key
-                  name: {{ include "s3-bucket-perma-link.s3-secretName" }}
+                  name: {{ include "s3-bucket-perma-link.s3-secretName" . }}
             - name: S3.SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   key: secret_key
-                  name: {{ include "s3-bucket-perma-link.s3-secretName" }}
+                  name: {{ include "s3-bucket-perma-link.s3-secretName" . }}
