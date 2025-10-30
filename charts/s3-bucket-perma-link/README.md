@@ -47,7 +47,7 @@ The following table lists the configurable parameters of the chart and their def
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| application.handler | object | `{"entries":{}}` | Handler configuration defining static routes and their S3 mappings. Each key represents a URL path, and the value is a list of "bucket,file" pairs. Example: ```yaml handler:   entries:     myfile: ["bucket1,file.txt"]     mydir: ["bucket2,dir/index.html"] ``` |
+| application.handler.entries | object | `{}` | Handler configuration defining static routes and their S3 mappings. Each key represents a URL path, and the value is a list of "bucket,file" pairs. Example: ```yaml entries:   myfile: ["bucket1,file.txt"]   mydir: ["bucket2,dir/index.html"] ``` |
 | application.logLevel | string | `"info"` | Log level for application output. |
 | application.s3 | object | `{"host":"s3.amazon.com","region":"eu-central-1","secretName":""}` | Configuration for connecting to an S3-compatible service. |
 | application.s3.host | string | `"s3.amazon.com"` | S3-compatible API endpoint. Example: "https://s3.amazonaws.com" or "https://minio.yourdomain.com" |

@@ -6,24 +6,22 @@
       "additionalProperties": true,
       "properties": {
         "handler": {
-          "additionalProperties": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "description": "Handler configuration defining static routes and their S3 mappings.\nEach key represents a URL path, and the value is a list of \"bucket,file\" pairs.\nExample:\n```yaml\nhandler:\n  entries:\n    myfile: [\"bucket1,file.txt\"]\n    mydir: [\"bucket2,dir/index.html\"]\n```",
+          "additionalProperties": false,
           "properties": {
             "entries": {
-              "additionalProperties": false,
+              "additionalProperties": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "description": "Handler configuration defining static routes and their S3 mappings.\nEach key represents a URL path, and the value is a list of \"bucket,file\" pairs.\nExample:\n```yaml\nentries:\n  myfile: [\"bucket1,file.txt\"]\n  mydir: [\"bucket2,dir/index.html\"]\n```",
               "required": [],
               "title": "entries",
               "type": "object"
             }
           },
-          "required": [
-            "entries"
-          ],
+          "required": [],
           "title": "handler",
           "type": "object"
         },
