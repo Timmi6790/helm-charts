@@ -21,19 +21,18 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Install Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: 'latest'
-
-      - name: Install helm-docs plugin
+      - name: Install helm-docs
         run: |
-          brew install norwoodj/tap/helm-docs
-          helm docs --version
+          cd /tmp
+          HELM_DOCS_VERSION=$(curl -s https://api.github.com/repos/norwoodj/helm-docs/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+          wget https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz
+          tar -xzf helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz
+          sudo mv helm-docs /usr/local/bin/
+          helm-docs --version
 
       - name: Generate docs
         run: |
-          helm docs --chart-search-root=charts --template-files=README.md.gotmpl
+          helm-docs --chart-search-root=charts --template-files=README.md.gotmpl
 
       - name: Commit documentation changes
         uses: stefanzweifel/git-auto-commit-action@v7
