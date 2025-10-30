@@ -2,10 +2,14 @@ name: netcup-offer-bot
 description: This chart deploys the Netcup Offer Bot, which monitors https://www.netcup-sonderangebote.de/ RSS feed and sends notifications to Discord webhooks when new offers are available.
 version: 1.0.7
 appVersion: v1.3.0
-apiVersion: v1
+apiVersion: v2
 home: https://github.com/Timmi6790/charts
 sources:
   - https://github.com/Timmi6790/netcup-offer-bot
 maintainers:
   - name: Timmi6790
     email: contact@timmi6790.de
+dependencies:
+  - name: common
+    version: 0.1.0
+    repository: "file://../common"

@@ -16,3 +16,7 @@ sources:
 maintainers:
   - name: Timmi6790
     url: https://github.com/Timmi6790
+dependencies:
+  - name: common
+    version: 0.1.0
+    repository: "file://../common"
