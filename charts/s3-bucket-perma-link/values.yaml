@@ -107,6 +107,40 @@ application:
 # @schema
 # additionalProperties: true
 # @schema
+podSecurityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Run pod as non-root user
+  runAsNonRoot: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only
+  readOnlyRootFilesystem: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- User ID to run as
+  runAsUser: 1000
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- Group ID for file system access
+  fsGroup: 1000
+
+# @schema
+# additionalProperties: true
+# @schema
 service:
   # @schema
   # enum: [ClusterIP, NodePort, LoadBalancer]

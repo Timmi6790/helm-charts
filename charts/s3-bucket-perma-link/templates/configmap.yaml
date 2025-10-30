@@ -1,9 +1,9 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
+  name: {{ include "common.fullname" . }}
   labels:
-{{ include "common.labels" . | indent 4 }}
-  name: {{ .Release.Name }}
+    {{- include "common.labels" . | nindent 4 }}
 data:
   SERVER.HOST: {{ required "server host is required" .Values.application.server.host | quote }}
   SERVER.PORT: {{ required "server port is required" .Values.application.server.port | quote }}

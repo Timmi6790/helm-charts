@@ -24,6 +24,11 @@ image:
   # -- The image pull policy.
   pullPolicy: IfNotPresent
 
+# @schema
+# type: array
+# @schema
+# -- Optional image pull secrets for private registries
+imagePullSecrets: []
 
 # @schema
 # additionalProperties: true
@@ -53,6 +58,80 @@ env:
   # @schema
   # -- Log level for the application.
   logLevel: info
+
+# @schema
+# additionalProperties: true
+# @schema
+podSecurityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Run pod as non-root user
+  runAsNonRoot: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only
+  readOnlyRootFilesystem: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- User ID to run as
+  runAsUser: 1000
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- Group ID for file system access
+  fsGroup: 1000
+
+# @schema
+# additionalProperties: true
+# @schema
+serviceAccount:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to create a dedicated service account
+  create: true
+
+  # @schema
+  # type: object
+  # @schema
+  # -- Additional annotations for the service account
+  annotations: {}
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Custom service account name (auto-generated if empty)
+  name: ""
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to automount the service account token
+  automountToken: false
+
+# @schema
+# type: array
+# @schema
+# -- Pod topology spread constraints for availability
+topologySpreadConstraints: []
+
+# @schema
+# type: string
+# @schema
+# -- Optional Kubernetes PriorityClass name
+priorityClassName: ""
 
 # @schema
 # additionalProperties: true

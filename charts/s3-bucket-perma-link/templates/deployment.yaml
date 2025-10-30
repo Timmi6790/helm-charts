@@ -1,32 +1,50 @@
-{{- $s3SecretName := .Values.application.s3.secretName -}}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: {{ include "common.fullname" . }}
   labels:
-{{ include "common.labels" . | indent 4 }}
-  name: {{ .Release.Name }}
+    {{- include "common.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-{{ include "common.labels" . | indent 8 }}
+      {{- include "common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
-{{ include "common.labels" . | indent 12 }}
+        {{- include "common.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-      automountServiceAccountToken: false
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "common.serviceAccountName" . }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+       {{- with .Values.securityContext }}
           securityContext:
-            runAsNonRoot: true
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
-            runAsGroup: 1000
-            runAsUser: 1000
+         {{- toYaml . | nindent 10 }}
+       {{- end }}
           ports:
             - name: port
               containerPort: {{ .Values.application.server.port }}
@@ -63,15 +81,15 @@ spec:
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}
+                name: {{ include "common.fullname" . }}
           env:
             - name: S3.ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   key: access_key
-                  name: {{ $s3SecretName }}
+                  name: {{ .Values.application.s3.secretName }}
             - name: S3.SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   key: secret_key
-                  name: {{ $s3SecretName }}
+                  name: {{ .Values.application.s3.secretName }}
