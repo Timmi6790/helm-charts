@@ -33,9 +33,9 @@ jobs:
 
       - name: Generate schemas
         run: |
-          for chart_dir in $(find . -name "values.yaml" -exec dirname {} \;); do
+          for chart_dir in $(find charts -name "values.yaml" -exec dirname {} \;); do
             echo "Generating schema for $chart_dir"
-            helm-schema -input "$chart_dir/values.yaml" -output "$chart_dir/values.schema.json"
+            helm schema -input "$chart_dir/values.yaml" -output "$chart_dir/values.schema.json"
           done
 
       - name: Check for changes
