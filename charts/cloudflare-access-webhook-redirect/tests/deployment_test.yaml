@@ -18,20 +18,13 @@ tests:
           path: spec.replicas
           value: 3
 
-  - it: should configure handler target
-    set:
-      application:
-        handler:
-          targetBase: "http://backend:8080"
+  - it: should configure config map
     asserts:
       - contains:
-          path: spec.template.spec.containers[0].env
+          path: spec.template.spec.containers[0].envFrom
           content:
-            name: WEBHOOK.TARGET_BASE
-            valueFrom:
-              configMapKeyRef:
-                name: RELEASE-NAME-cloudflare-access-webhook-redirect
-                key: target_base
+            configMapRef:
+              name: RELEASE-NAME-cloudflare-access-webhook-redirect
 
   - it: should use cloudflare secret
     set:

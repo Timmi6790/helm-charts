@@ -1,0 +1,76 @@
+suite: test configmap
+templates:
+  - configmap.yaml
+tests:
+  - it: should create configmap
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-cloudflare-access-webhook-redirect
+
+  - it: should configure server settings
+    set:
+      application:
+        server:
+          host: "127.0.0.1"
+          port: 9090
+    asserts:
+      - equal:
+          path: data.SERVER\.HOST
+          value: "127.0.0.1"
+      - equal:
+          path: data.SERVER\.PORT
+          value: "9090"
+
+  - it: should configure webhook target base
+    set:
+      application:
+        handler:
+          targetBase: "http://backend:8080"
+    asserts:
+      - equal:
+          path: data.WEBHOOK\.TARGET_BASE
+          value: "http://backend:8080"
+
+  - it: should configure webhook paths
+    set:
+      application:
+        handler:
+          paths:
+            api/webhook:
+              - ALL
+            test:
+              - GET
+              - POST
+    asserts:
+      - equal:
+          path: data.WEBHOOK\.PATHS
+          value: "api/webhook:ALL; test:GET,POST"
+
+  - it: should configure log level
+    set:
+      application:
+        logLevel: "debug"
+    asserts:
+      - equal:
+          path: data.LOG_LEVEL
+          value: "debug"
+
+  - it: should configure sentry dsn when provided
+    set:
+      application:
+        sentryDsn: "https://example@sentry.io/123"
+    asserts:
+      - equal:
+          path: data.SENTRY_DSN
+          value: "https://example@sentry.io/123"
+
+  - it: should not include sentry dsn when empty
+    set:
+      application:
+        sentryDsn: ""
+    asserts:
+      - notExists:
+          path: data.SENTRY_DSN
