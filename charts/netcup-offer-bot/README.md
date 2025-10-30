@@ -47,25 +47,25 @@ The following table lists the configurable parameters of the chart and their def
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| env.checkInterval | int | `180` | Interval in seconds between offer checks. Must be a positive integer (minimum: 1). @schema type: integer minimum: 1 @schema |
-| env.logLevel | string | `"info"` | Log level for the application. Valid options: debug, info, warn, error @schema enum: [debug, info, warn, error] @schema |
-| env.sentryDns | string | `""` | Sentry DSN for error tracking. Leave empty to disable. @schema type: string @schema |
-| env.webHook | string | `""` | Webhook URL to send updates or notifications. @schema type: string @schema |
-| image.pullPolicy | string | `"IfNotPresent"` | The image pull policy. Valid options are: Always, IfNotPresent, Never @schema enum: [Always, IfNotPresent, Never] @schema |
-| image.repository | string | `"timmi6790/netcup-offer-bot"` | The container image repository. @schema type: string @schema |
-| image.tag | string | `"v1.3.0"` | The container image tag. @schema type: string @schema |
-| metrics.enabled | bool | `false` | Enable Prometheus metrics endpoint. @schema type: boolean @schema |
-| metrics.port | int | `9184` | Port to expose metrics on. @schema type: integer @schema |
-| metrics.serviceMonitor | object | `{"interval":"1m","scrapeTimeout":"30s"}` | ServiceMonitor configuration for Prometheus Operator integration. @schema additionalProperties: true @schema |
-| metrics.serviceMonitor.interval | string | `"1m"` | Metrics scrape interval (e.g., 1m, 30s). @schema type: string @schema |
-| metrics.serviceMonitor.scrapeTimeout | string | `"30s"` | Timeout for metrics scraping (e.g., 30s). @schema type: string @schema |
-| persistence.data | object | `{"accessMode":"ReadWriteOnce","size":"10Mi"}` | Configuration for persistent data storage. @schema additionalProperties: true @schema |
-| persistence.data.accessMode | string | `"ReadWriteOnce"` | The access mode for the persistent volume. Valid options: ReadWriteOnce, ReadOnlyMany, ReadWriteMany @schema enum: [ReadWriteOnce, ReadOnlyMany, ReadWriteMany] @schema |
-| persistence.data.size | string | `"10Mi"` | The storage size requested for the volume. Must be a valid Kubernetes size string (e.g. 10Mi, 1Gi). @schema type: string @schema |
-| resources.limits | object | `{"memory":"20Mi"}` | Resource limits for the container. @schema additionalProperties: true @schema |
-| resources.limits.memory | string | `"20Mi"` | Maximum allowed memory usage. @schema type: string @schema |
-| resources.requests | object | `{"memory":"15Mi"}` | Resource requests for the container. @schema additionalProperties: true @schema |
-| resources.requests.memory | string | `"15Mi"` | Minimum guaranteed memory allocation. @schema type: string @schema |
+| env.checkInterval | int | `180` | Interval in seconds between offer checks. |
+| env.logLevel | string | `"info"` | Log level for the application. |
+| env.sentryDns | string | `""` | Sentry DSN for error tracking. Leave empty to disable. |
+| env.webHook | string | `""` | Webhook URL to send updates or notifications. |
+| image.pullPolicy | string | `"IfNotPresent"` | The image pull policy. |
+| image.repository | string | `"timmi6790/netcup-offer-bot"` | The container image repository. |
+| image.tag | string | `"v1.3.0"` | The container image tag. |
+| metrics.enabled | bool | `false` | Enable Prometheus metrics endpoint. |
+| metrics.port | int | `9184` | Port to expose metrics on. |
+| metrics.serviceMonitor | object | `{"interval":"1m","scrapeTimeout":"30s"}` | ServiceMonitor configuration for Prometheus Operator integration. |
+| metrics.serviceMonitor.interval | string | `"1m"` | Metrics scrape interval (e.g., 1m, 30s). |
+| metrics.serviceMonitor.scrapeTimeout | string | `"30s"` | Timeout for metrics scraping (e.g., 30s). |
+| persistence.data | object | `{"accessMode":"ReadWriteOnce","size":"10Mi"}` | Configuration for persistent data storage. |
+| persistence.data.accessMode | string | `"ReadWriteOnce"` | The access mode for the persistent volume. |
+| persistence.data.size | string | `"10Mi"` | The storage size requested for the volume. |
+| resources.limits | object | `{"memory":"20Mi"}` | Resource limits for the container. |
+| resources.limits.memory | string | `"20Mi"` | Maximum allowed memory usage. |
+| resources.requests | object | `{"memory":"15Mi"}` | Resource requests for the container. |
+| resources.requests.memory | string | `"15Mi"` | Minimum guaranteed memory allocation. |
 
 ## Examples
 

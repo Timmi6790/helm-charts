@@ -49,7 +49,7 @@
         },
         "logLevel": {
           "default": "info",
-          "description": "Application log level\nOptions: debug, info, warn, error",
+          "description": "Application log level",
           "enum": [
             "debug",
             "info",
@@ -157,7 +157,7 @@
       "properties": {
         "pullPolicy": {
           "default": "IfNotPresent",
-          "description": "Image pull policy\nValid options: Always, IfNotPresent, Never",
+          "description": "Image pull policy",
           "enum": [
             "Always",
             "IfNotPresent",
@@ -515,7 +515,7 @@
     },
     "replicaCount": {
       "default": 1,
-      "description": "Number of replicas to deploy\nMust be at least 1",
+      "description": "Number of replicas to deploy",
       "minimum": 1,
       "required": [],
       "title": "replicaCount",
@@ -632,7 +632,7 @@
         },
         "type": {
           "default": "ClusterIP",
-          "description": "Kubernetes service type\nOptions: ClusterIP, NodePort, LoadBalancer",
+          "description": "Kubernetes service type",
           "enum": [
             "ClusterIP",
             "NodePort",

@@ -7,7 +7,7 @@
       "properties": {
         "checkInterval": {
           "default": 180,
-          "description": "Interval in seconds between offer checks.\nMust be a positive integer (minimum: 1).",
+          "description": "Interval in seconds between offer checks.",
           "minimum": 1,
           "required": [],
           "title": "checkInterval",
@@ -15,7 +15,7 @@
         },
         "logLevel": {
           "default": "info",
-          "description": "Log level for the application.\nValid options: debug, info, warn, error",
+          "description": "Log level for the application.",
           "enum": [
             "debug",
             "info",
@@ -54,7 +54,7 @@
       "properties": {
         "pullPolicy": {
           "default": "IfNotPresent",
-          "description": "The image pull policy.\nValid options are: Always, IfNotPresent, Never",
+          "description": "Valid options are: Always, IfNotPresent, Never\nThe image pull policy.",
           "enum": [
             "Always",
             "IfNotPresent",
@@ -133,7 +133,7 @@
           "properties": {
             "accessMode": {
               "default": "ReadWriteOnce",
-              "description": "The access mode for the persistent volume.\nValid options: ReadWriteOnce, ReadOnlyMany, ReadWriteMany",
+              "description": "The access mode for the persistent volume.",
               "enum": [
                 "ReadWriteOnce",
                 "ReadOnlyMany",
@@ -144,7 +144,7 @@
             },
             "size": {
               "default": "10Mi",
-              "description": "The storage size requested for the volume.\nMust be a valid Kubernetes size string (e.g. 10Mi, 1Gi).",
+              "description": "The storage size requested for the volume.",
               "required": [],
               "title": "size",
               "type": "string"
