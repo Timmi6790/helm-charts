@@ -96,6 +96,12 @@
       "required": [],
       "title": "application"
     },
+    "common": {
+      "description": "Common helper templates for all charts",
+      "required": [],
+      "title": "common",
+      "type": "object"
+    },
     "global": {
       "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
       "required": [],

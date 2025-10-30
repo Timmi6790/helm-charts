@@ -139,6 +139,12 @@
       "required": [],
       "title": "autoscaling"
     },
+    "common": {
+      "description": "Common helper templates for all charts",
+      "required": [],
+      "title": "common",
+      "type": "object"
+    },
     "fullnameOverride": {
       "default": "",
       "description": "Override the full release name",
