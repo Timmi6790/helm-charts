@@ -3,6 +3,10 @@ templates:
   - configmap.yaml
 tests:
   - it: should create configmap
+    set:
+      application:
+        handler:
+          targetBase: "http://backend:8080"
     asserts:
       - isKind:
           of: ConfigMap
@@ -16,6 +20,8 @@ tests:
         server:
           host: "127.0.0.1"
           port: 9090
+        handler:
+          targetBase: "http://backend:8080"
     asserts:
       - equal:
           path: data.SERVER\.HOST
@@ -38,10 +44,11 @@ tests:
     set:
       application:
         handler:
+          targetBase: "http://backend:8080"
           paths:
-            api/webhook:
+            "api/webhook":
               - ALL
-            test:
+            "test":
               - GET
               - POST
     asserts:
@@ -53,6 +60,8 @@ tests:
     set:
       application:
         logLevel: "debug"
+        handler:
+          targetBase: "http://backend:8080"
     asserts:
       - equal:
           path: data.LOG_LEVEL
@@ -62,6 +71,8 @@ tests:
     set:
       application:
         sentryDsn: "https://example@sentry.io/123"
+        handler:
+          targetBase: "http://backend:8080"
     asserts:
       - equal:
           path: data.SENTRY_DSN
@@ -71,6 +82,8 @@ tests:
     set:
       application:
         sentryDsn: ""
+        handler:
+          targetBase: "http://backend:8080"
     asserts:
       - notExists:
           path: data.SENTRY_DSN
