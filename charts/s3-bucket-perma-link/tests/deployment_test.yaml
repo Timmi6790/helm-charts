@@ -19,7 +19,7 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: S3_ACCESS_KEY
+            name: S3.ACCESS_KEY
             valueFrom:
               secretKeyRef:
                 name: s3-creds
@@ -27,26 +27,16 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: S3_SECRET_KEY
+            name: S3.SECRET_KEY
             valueFrom:
               secretKeyRef:
                 name: s3-creds
                 key: secret_key
 
-  - it: should set S3 configuration
-    set:
-      application:
-        s3:
-          host: "minio.local"
-          region: "us-west-2"
+  - it: should configure config map
     asserts:
       - contains:
-          path: spec.template.spec.containers[0].env
+          path: spec.template.spec.containers[0].envFrom
           content:
-            name: S3_HOST
-            value: "minio.local"
-      - contains:
-          path: spec.template.spec.containers[0].env
-          content:
-            name: S3_REGION
-            value: "us-west-2"
+            configMapRef:
+              name: RELEASE-NAME-s3-bucket-perma-link
