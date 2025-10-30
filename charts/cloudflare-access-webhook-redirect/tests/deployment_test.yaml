@@ -27,8 +27,11 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: HANDLER.TARGET_BASE
-            value: "http://backend:8080"
+            name: WEBHOOK.TARGET_BASE
+            valueFrom:
+              configMapKeyRef:
+                name: RELEASE-NAME-cloudflare-access-webhook-redirect
+                key: target_base
 
   - it: should use cloudflare secret
     set:
