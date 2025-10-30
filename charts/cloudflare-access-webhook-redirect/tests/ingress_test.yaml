@@ -23,10 +23,15 @@ tests:
       - equal:
           path: spec.ingressClassName
           value: nginx
-      - contains:
-          path: spec.rules
-          content:
-            host: example.com
+      - equal:
+          path: spec.rules[0].host
+          value: example.com
+      - equal:
+          path: spec.rules[0].http.paths[0].path
+          value: /
+      - equal:
+          path: spec.rules[0].http.paths[0].pathType
+          value: Prefix
 
   - it: should configure TLS
     set:
