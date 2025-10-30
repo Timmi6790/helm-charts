@@ -54,6 +54,7 @@ The following table lists the configurable parameters of the chart and their def
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy. |
 | image.repository | string | `"timmi6790/netcup-offer-bot"` | The container image repository. |
 | image.tag | string | `"v1.3.0"` | The container image tag. |
+| imagePullSecrets | list | `[]` | Optional image pull secrets for private registries |
 | metrics.enabled | bool | `false` | Enable Prometheus metrics endpoint. |
 | metrics.port | int | `9184` | Port to expose metrics on. |
 | metrics.serviceMonitor | object | `{"interval":"1m","scrapeTimeout":"30s"}` | ServiceMonitor configuration for Prometheus Operator integration. |
@@ -62,10 +63,21 @@ The following table lists the configurable parameters of the chart and their def
 | persistence.data | object | `{"accessMode":"ReadWriteOnce","size":"10Mi"}` | Configuration for persistent data storage. |
 | persistence.data.accessMode | string | `"ReadWriteOnce"` | The access mode for the persistent volume. |
 | persistence.data.size | string | `"10Mi"` | The storage size requested for the volume. |
+| podSecurityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
+| podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
+| podSecurityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only |
+| podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
+| podSecurityContext.runAsUser | int | `1000` | User ID to run as |
+| priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
 | resources.limits | object | `{"memory":"20Mi"}` | Resource limits for the container. |
 | resources.limits.memory | string | `"20Mi"` | Maximum allowed memory usage. |
 | resources.requests | object | `{"memory":"15Mi"}` | Resource requests for the container. |
 | resources.requests.memory | string | `"15Mi"` | Minimum guaranteed memory allocation. |
+| serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
+| serviceAccount.automountToken | bool | `false` | Whether to automount the service account token |
+| serviceAccount.create | bool | `true` | Whether to create a dedicated service account |
+| serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) |
+| topologySpreadConstraints | list | `[]` | Pod topology spread constraints for availability |
 
 ## Examples
 

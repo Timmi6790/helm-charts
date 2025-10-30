@@ -186,6 +186,48 @@
       "required": [],
       "title": "ingress"
     },
+    "podSecurityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "default": false,
+          "description": "Allow privilege escalation",
+          "required": [],
+          "title": "allowPrivilegeEscalation",
+          "type": "boolean"
+        },
+        "fsGroup": {
+          "default": 1000,
+          "description": "Group ID for file system access",
+          "required": [],
+          "title": "fsGroup",
+          "type": "integer"
+        },
+        "readOnlyRootFilesystem": {
+          "default": true,
+          "description": "Mount root filesystem as read-only",
+          "required": [],
+          "title": "readOnlyRootFilesystem",
+          "type": "boolean"
+        },
+        "runAsNonRoot": {
+          "default": true,
+          "description": "Run pod as non-root user",
+          "required": [],
+          "title": "runAsNonRoot",
+          "type": "boolean"
+        },
+        "runAsUser": {
+          "default": 1000,
+          "description": "User ID to run as",
+          "required": [],
+          "title": "runAsUser",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "podSecurityContext"
+    },
     "resources": {
       "additionalProperties": true,
       "properties": {
