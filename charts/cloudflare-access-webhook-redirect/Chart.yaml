@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cloudflare-access-webhook-redirect
-description: A Helm chart for Cloudflare Access Webhook Redirect
+description: A Helm chart for deploying the Cloudflare Access Webhook Redirect service. This service acts as an authentication proxy that validates requests using Cloudflare Access Service Auth tokens before forwarding them to target backend services.
 type: application
 version: 2.0.2
 appVersion: "v0.3.3"
