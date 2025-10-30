@@ -141,6 +141,34 @@ podSecurityContext:
 # @schema
 # additionalProperties: true
 # @schema
+serviceAccount:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to create a dedicated service account
+  create: true
+
+  # @schema
+  # type: object
+  # @schema
+  # -- Additional annotations for the service account
+  annotations: {}
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Custom service account name (auto-generated if empty)
+  name: ""
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to automount the service account token
+  automountToken: false
+
+# @schema
+# additionalProperties: true
+# @schema
 service:
   # @schema
   # enum: [ClusterIP, NodePort, LoadBalancer]
