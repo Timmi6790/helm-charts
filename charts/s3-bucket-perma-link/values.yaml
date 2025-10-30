@@ -5,75 +5,67 @@
 # additionalProperties: true
 # @schema
 image:
+  # @schema
+  # type: string
+  # @schema
   # -- Container image repository where the application image is stored.
   # Usually points to Docker Hub or a private registry.
   # Example: ghcr.io/your-org/s3-bucket-perma-link
-  # @schema
-  # type: string
-  # @schema
   repository: timmi6790/s3-bucket-perma-link
 
-  # -- Container image tag to deploy.
-  # Pin to a version for predictable deployments rather than using "latest".
   # @schema
   # type: string
   # @schema
+  # -- Container image tag to deploy.
+  # Pin to a version for predictable deployments rather than using "latest".
   tag: v0.2.2
 
-  # -- Kubernetes image pull policy.
-  # Determines when the image should be pulled from the registry.
-  # Valid options:
-  # * `Always` – pull image on every Pod start
-  # * `IfNotPresent` – use local image if available (recommended)
-  # * `Never` – never pull the image
   # @schema
   # enum: [Always, IfNotPresent, Never]
   # @schema
+  # -- Kubernetes image pull policy.
+  # Determines when the image should be pulled from the registry.
   pullPolicy: IfNotPresent
-
 
 # @schema
 # additionalProperties: true
 # @schema
 application:
-  # -- Log level for application output.
-  # Valid options:
-  # * `debug` – verbose internal logs
-  # * `info` – standard logs (default)
-  # * `warn` – warnings and important notices
-  # * `error` – critical errors only
   # @schema
   # enum: [debug, info, warn, error]
   # @schema
+  # -- Log level for application output.
   logLevel: info
 
-  # -- Sentry DSN for error tracking and reporting.
-  # Leave empty to disable Sentry integration.
   # @schema
   # type: string
   # @schema
+  # -- Sentry DSN for error tracking and reporting.
+  # Leave empty to disable Sentry integration.
   sentryDsn: ""
 
-  # -- HTTP server configuration.
-  # Defines where the application listens for incoming connections.
   # @schema
   # additionalProperties: true
   # @schema
+  # -- HTTP server configuration.
+  # Defines where the application listens for incoming connections.
   server:
-    # -- Port number the server listens on.
-    # Default is 8080.
     # @schema
     # type: integer
     # @schema
+    # -- Port number the server listens on.
     port: 8080
 
-    # -- Host address to bind the HTTP server.
-    # Typically `0.0.0.0` to listen on all network interfaces.
     # @schema
     # type: string
     # @schema
+    # -- Host address to bind the HTTP server.
+    # Typically `0.0.0.0` to listen on all network interfaces.
     host: 0.0.0.0
 
+  # @schema
+  # type: object
+  # @schema
   # -- Handler configuration defining static routes and their S3 mappings.
   # Each key represents a URL path, and the value is a list of "bucket,file" pairs.
   # Example:
@@ -83,86 +75,80 @@ application:
   #     myfile: ["bucket1,file.txt"]
   #     mydir: ["bucket2,dir/index.html"]
   # ```
-  # @schema
-  # type: object
-  # @schema
   handler:
     entries: {}
 
-  # -- Configuration for connecting to an S3-compatible service.
   # @schema
   # additionalProperties: true
   # @schema
+  # -- Configuration for connecting to an S3-compatible service.
   s3:
+    # @schema
+    # type: string
+    # @schema
     # -- Name of an existing Kubernetes Secret containing S3 credentials.
     # The secret must include `access_key` and `secret_key` fields.
-    # @schema
-    # type: string
-    # @schema
     secretName: ""
 
+    # @schema
+    # type: string
+    # @schema
     # -- S3-compatible API endpoint.
     # Example: "https://s3.amazonaws.com" or "https://minio.yourdomain.com"
-    # @schema
-    # type: string
-    # @schema
     host: "s3.amazon.com"
 
-    # -- AWS region or S3 region identifier.
-    # Used for authenticating with region-specific endpoints.
     # @schema
     # type: string
     # @schema
+    # -- AWS region or S3 region identifier.
+    # Used for authenticating with region-specific endpoints.
     region: "eu-central-1"
-
 
 # @schema
 # additionalProperties: true
 # @schema
 service:
-  # -- Kubernetes Service type that exposes the application.
-  # Valid options:
-  # * `ClusterIP` – internal-only access within the cluster
-  # * `NodePort` – exposes service on a node port
-  # * `LoadBalancer` – creates an external load balancer
   # @schema
   # enum: [ClusterIP, NodePort, LoadBalancer]
   # @schema
+  # -- Kubernetes Service type that exposes the application.
   type: ClusterIP
 
-  # -- Port that the Kubernetes Service will expose.
-  # Typically maps to `application.server.port`.
   # @schema
   # type: integer
   # @schema
+  # -- Port that the Kubernetes Service will expose.
+  # Typically maps to `application.server.port`.
   port: 80
-
 
 # @schema
 # additionalProperties: true
 # @schema
 ingress:
-  # -- Enable or disable Kubernetes Ingress resource creation.
-  # Set to `true` to expose the service externally via Ingress.
   # @schema
   # type: boolean
   # @schema
+  # -- Enable or disable Kubernetes Ingress resource creation.
+  # Set to `true` to expose the service externally via Ingress.
   enabled: false
 
-  # -- Ingress class to use (e.g., "nginx", "traefik").
-  # Should match your cluster’s ingress controller configuration.
   # @schema
   # type: string
   # @schema
+  # -- Ingress class to use (e.g., "nginx", "traefik").
+  # Should match your cluster’s ingress controller configuration.
   ingressClassName: "nginx"
 
-  # -- Custom annotations for the Ingress resource.
-  # Useful for configuring ingress controllers (e.g., cert-manager, rate limits).
   # @schema
   # type: object
   # @schema
+  # -- Custom annotations for the Ingress resource.
+  # Useful for configuring ingress controllers (e.g., cert-manager, rate limits).
   annotations: {}
 
+  # @schema
+  # type: array
+  # @schema
   # -- List of host configurations for the Ingress.
   # Each host defines rules for routing external traffic.
   # Example:
@@ -173,11 +159,11 @@ ingress:
   #       - path: /
   #         pathType: Prefix
   # ```
+  hosts: []
+
   # @schema
   # type: array
   # @schema
-  hosts: []
-
   # -- TLS configuration for securing ingress connections.
   # Example:
   # ```yaml
@@ -186,37 +172,30 @@ ingress:
   #     hosts:
   #       - s3.example.com
   # ```
-  # @schema
-  # type: array
-  # @schema
   tls: []
-
 
 # @schema
 # additionalProperties: true
 # @schema
 resources:
-  # -- Resource limits define the maximum resources the container can use.
   # @schema
   # additionalProperties: true
   # @schema
+  # -- Resource limits define the maximum resources the container can use.
   limits:
-    # -- Maximum memory allocation for the container.
-    # Example: "128Mi", "512Mi"
     # @schema
     # type: string
     # @schema
+    # -- Maximum memory allocation for the container.
     memory: 20Mi
 
-  # -- Resource requests define the guaranteed resources reserved for the container.
   # @schema
   # additionalProperties: true
   # @schema
+  # -- Resource requests define the guaranteed resources reserved for the container.
   requests:
-    # -- Minimum memory requested by the container.
-    # Used by Kubernetes scheduler to plan pod placement.
-    # Example: "64Mi"
     # @schema
     # type: string
     # @schema
+    # -- Minimum memory requested by the container.
     memory: 15Mi
