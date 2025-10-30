@@ -2,187 +2,439 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Number of replicas to deploy
+# @schema
+# type: integer
+# minimum: 1
 replicaCount: 1
 
 image:
+  # -- Container image repository
+  # @schema
+  # type: string
   repository: timmi6790/cloudflare-access-webhook-redirect
+  # -- Container image tag
+  # @schema
+  # type: string
   tag: v0.3.3
+  # -- Image pull policy
+  # @schema
+  # type: string
+  # enum: [Always, IfNotPresent, Never]
   pullPolicy: IfNotPresent
 
+# -- Image pull secrets for private registries
+# @schema
+# type: array
 imagePullSecrets: []
+
+# -- Override the chart name
+# @schema
+# type: string
 nameOverride: ""
+
+# -- Override the full release name
+# @schema
+# type: string
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
+  # @schema
+  # type: boolean
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
+  # @schema
+  # type: object
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # -- The name of the service account to use. If not set and create is true, a name is generated using the fullname template
+  # @schema
+  # type: string
   name: ""
-  # Whether to automount the service account token
+  # -- Whether to automount the service account token
+  # @schema
+  # type: boolean
   automountToken: false
 
-# Priority class for pod scheduling
+# -- Priority class name for pod scheduling
+# @schema
+# type: string
 priorityClassName: ""
+
+# -- Annotations to add to pods
+# @schema
+# type: object
 podAnnotations: {}
+
+# -- Labels to add to pods
+# @schema
+# type: object
 podLabels: {}
 
 podSecurityContext:
+  # -- Run pod as non-root user
+  # @schema
+  # type: boolean
   runAsNonRoot: true
+  # -- User ID to run as
+  # @schema
+  # type: integer
   runAsUser: 10001
+  # -- Group ID for volumes
+  # @schema
+  # type: integer
   fsGroup: 10001
 
 securityContext:
+  # -- Allow privilege escalation
+  # @schema
+  # type: boolean
   allowPrivilegeEscalation: false
   capabilities:
+    # -- Linux capabilities to drop
+    # @schema
+    # type: array
     drop:
       - ALL
+  # -- Mount root filesystem as read-only
+  # @schema
+  # type: boolean
   readOnlyRootFilesystem: false
 
 application:
+  # -- Application log level
+  # @schema
+  # type: string
+  # enum: [debug, info, warn, error]
   logLevel: info
+  # -- Sentry DSN for error tracking
+  # @schema
+  # type: string
   sentryDsn: ""
   server:
+    # -- Server port
+    # @schema
+    # type: integer
     port: 8080
+    # -- Server host
+    # @schema
+    # type: string
     host: 0.0.0.0
 
   handler:
+    # -- Base URL for target redirects
+    # @schema
+    # type: string
     targetBase: ""
+    # -- Path configurations with allowed HTTP methods. Example: `api/webhook: [ALL]` or `test: [GET, POST]`
+    # @schema
+    # type: object
+    # examples:
+    #   - api/webhook:
+    #       - ALL
+    #   - test:
+    #       - GET
+    #       - POST
     paths: {}
-    # Example:
-    # api/webhook:
-    #   - ALL
-    # test:
-    #   - GET
-    #   - POST
 
   cloudflareAccess:
-    # Existing secret name with the cloudflare access tokens with client_id and client_secret
+    # -- Existing secret name containing Cloudflare Access credentials with client_id and client_secret keys
+    # @schema
+    # type: string
     secretName: ""
-    # Alternative: provide values directly (will create secret)
+    # -- (string) Cloudflare Access client ID (alternative to secretName, will create secret)
+    # @schema
+    # type: [string, "null"]
     # clientId: ""
+    # -- (string) Cloudflare Access client secret (alternative to secretName, will create secret)
+    # @schema
+    # type: [string, "null"]
     # clientSecret: ""
 
 service:
+  # -- Kubernetes service type
+  # @schema
+  # type: string
+  # enum: [ClusterIP, NodePort, LoadBalancer]
   type: ClusterIP
+  # -- Service port
+  # @schema
+  # type: integer
   port: 80
+  # -- Service annotations
+  # @schema
+  # type: object
   annotations: {}
 
 ingress:
+  # -- Enable ingress
+  # @schema
+  # type: boolean
   enabled: false
+  # -- Ingress class name
+  # @schema
+  # type: string
   ingressClassName: "nginx"
+  # -- Ingress annotations. Example: `cert-manager.io/cluster-issuer: letsencrypt-prod` or `nginx.ingress.kubernetes.io/rate-limit: "100"`
+  # @schema
+  # type: object
+  # examples:
+  #   - cert-manager.io/cluster-issuer: letsencrypt-prod
+  #   - nginx.ingress.kubernetes.io/rate-limit: "100"
   annotations: {}
-  # cert-manager.io/cluster-issuer: letsencrypt-prod
-  # nginx.ingress.kubernetes.io/rate-limit: "100"
+  # -- Ingress hosts configuration. Example: `- host: chart-example.local` with `paths: [path: /, pathType: Prefix]`
+  # @schema
+  # type: array
+  # examples:
+  #   - host: chart-example.local
+  #     paths:
+  #       - path: /
+  #         pathType: Prefix
   hosts: []
-    # - host: chart-example.local
-    #   paths:
-    #     - path: /
-    #       pathType: Prefix
+  # -- TLS configuration. Example: `- secretName: chart-example-tls` with `hosts: [chart-example.local]`
+  # @schema
+  # type: array
+  # examples:
+  #   - secretName: chart-example-tls
+  #     hosts:
+  #       - chart-example.local
   tls: []
-    # - secretName: chart-example-tls
-    #   hosts:
-    #     - chart-example.local
 
 resources:
   limits:
+    # -- CPU limit
+    # @schema
+    # type: string
     cpu: 100m
+    # -- Memory limit
+    # @schema
+    # type: string
     memory: 15Mi
   requests:
+    # -- CPU request
+    # @schema
+    # type: string
     cpu: 10m
+    # -- Memory request
+    # @schema
+    # type: string
     memory: 10Mi
 
 startupProbe:
+  # -- Enable startup probe
+  # @schema
+  # type: boolean
   enabled: true
   httpGet:
+    # -- Health check path
+    # @schema
+    # type: string
     path: /health
+    # -- Health check port
+    # @schema
+    # type: string
     port: http
+  # -- Initial delay in seconds
+  # @schema
+  # type: integer
   initialDelaySeconds: 0
+  # -- Period in seconds
+  # @schema
+  # type: integer
   periodSeconds: 5
+  # -- Timeout in seconds
+  # @schema
+  # type: integer
   timeoutSeconds: 3
+  # -- Failure threshold
+  # @schema
+  # type: integer
   failureThreshold: 30
+  # -- Success threshold
+  # @schema
+  # type: integer
   successThreshold: 1
 
 livenessProbe:
+  # -- Enable liveness probe
+  # @schema
+  # type: boolean
   enabled: true
   httpGet:
+    # -- Health check path
+    # @schema
+    # type: string
     path: /health
+    # -- Health check port
+    # @schema
+    # type: string
     port: http
+  # -- Initial delay in seconds
+  # @schema
+  # type: integer
   initialDelaySeconds: 10
+  # -- Period in seconds
+  # @schema
+  # type: integer
   periodSeconds: 10
+  # -- Timeout in seconds
+  # @schema
+  # type: integer
   timeoutSeconds: 5
+  # -- Failure threshold
+  # @schema
+  # type: integer
   failureThreshold: 3
 
 readinessProbe:
+  # -- Enable readiness probe
+  # @schema
+  # type: boolean
   enabled: true
   httpGet:
+    # -- Health check path
+    # @schema
+    # type: string
     path: /health
+    # -- Health check port
+    # @schema
+    # type: string
     port: http
+  # -- Initial delay in seconds
+  # @schema
+  # type: integer
   initialDelaySeconds: 5
+  # -- Period in seconds
+  # @schema
+  # type: integer
   periodSeconds: 5
+  # -- Timeout in seconds
+  # @schema
+  # type: integer
   timeoutSeconds: 3
+  # -- Failure threshold
+  # @schema
+  # type: integer
   failureThreshold: 3
 
 autoscaling:
+  # -- Enable horizontal pod autoscaling
+  # @schema
+  # type: boolean
   enabled: false
+  # -- Minimum replicas
+  # @schema
+  # type: integer
+  # minimum: 1
   minReplicas: 1
+  # -- Maximum replicas
+  # @schema
+  # type: integer
+  # minimum: 1
   maxReplicas: 5
+  # -- Target CPU utilization percentage
+  # @schema
+  # type: integer
+  # minimum: 1
+  # maximum: 100
   targetCPUUtilizationPercentage: 80
+  # -- Target memory utilization percentage
+  # @schema
+  # type: integer
+  # minimum: 1
+  # maximum: 100
   targetMemoryUtilizationPercentage: 80
 
-# Pod Topology Spread Constraints for better availability
+# -- Pod topology spread constraints for better availability. Example: `maxSkew: 1` with `topologyKey: kubernetes.io/hostname`
+# @schema
+# type: array
+# examples:
+#   - maxSkew: 1
+#     topologyKey: kubernetes.io/hostname
+#     whenUnsatisfiable: ScheduleAnyway
+#     labelSelector:
+#       matchLabels:
+#         app.kubernetes.io/name: cloudflare-access-webhook-redirect
+#   - maxSkew: 1
+#     topologyKey: topology.kubernetes.io/zone
+#     whenUnsatisfiable: ScheduleAnyway
 topologySpreadConstraints: []
-# - maxSkew: 1
-#   topologyKey: kubernetes.io/hostname
-#   whenUnsatisfiable: ScheduleAnyway
-#   labelSelector:
-#     matchLabels:
-#       app.kubernetes.io/name: cloudflare-access-webhook-redirect
-# - maxSkew: 1
-#   topologyKey: topology.kubernetes.io/zone
-#   whenUnsatisfiable: ScheduleAnyway
 
-# Additional volumes on the output Deployment definition.
+# -- Additional volumes on the output Deployment definition. Example: `name: cache` with `emptyDir: {}`
+# @schema
+# type: array
+# examples:
+#   - name: cache
+#     emptyDir: {}
 volumes: []
-# - name: cache
-#   emptyDir: {}
 
-# Additional volumeMounts on the output Deployment definition.
+# -- Additional volume mounts on the output Deployment definition. Example: `name: cache` with `mountPath: /cache`
+# @schema
+# type: array
+# examples:
+#   - name: cache
+#     mountPath: /cache
 volumeMounts: []
-# - name: cache
-#   mountPath: /cache
 
+# -- Node selector labels
+# @schema
+# type: object
 nodeSelector: {}
 
+# -- Pod tolerations
+# @schema
+# type: array
 tolerations: []
 
+# -- Pod affinity rules
+# @schema
+# type: object
 affinity: {}
 
-# Pod Disruption Budget
 podDisruptionBudget:
+  # -- Enable pod disruption budget
+  # @schema
+  # type: boolean
   enabled: false
+  # -- (integer) Minimum available pods
+  # @schema
+  # type: [integer, "null"]
   minAvailable: 1
+  # -- (integer) Maximum unavailable pods (alternative to minAvailable)
+  # @schema
+  # type: [integer, "null"]
   # maxUnavailable: 1
 
-# Network Policy
 networkPolicy:
+  # -- Enable network policy
+  # @schema
+  # type: boolean
   enabled: false
+  # -- Policy types
+  # @schema
+  # type: array
   policyTypes:
     - Ingress
     - Egress
+  # -- Ingress rules. Example: from namespaceSelector with ports TCP 8080
+  # @schema
+  # type: array
+  # examples:
+  #   - from:
+  #       - namespaceSelector:
+  #           matchLabels:
+  #             name: ingress-nginx
+  #     ports:
+  #       - protocol: TCP
+  #         port: 8080
   ingress: []
-  # - from:
-  #   - namespaceSelector:
-  #       matchLabels:
-  #         name: ingress-nginx
-  #   ports:
-  #   - protocol: TCP
-  #     port: 8080
+  # -- Egress rules. Example: to any namespace with port TCP 443
+  # @schema
+  # type: array
+  # examples:
+  #   - to:
+  #       - namespaceSelector: {}
+  #     ports:
+  #       - protocol: TCP
+  #         port: 443
   egress: []
-  # - to:
-  #   - namespaceSelector: {}
-  #   ports:
-  #   - protocol: TCP
-  #     port: 443

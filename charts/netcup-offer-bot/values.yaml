@@ -1,32 +1,77 @@
 image:
+  # -- Container image repository
+  # @schema
+  # type: string
   repository: timmi6790/netcup-offer-bot
+  # -- Container image tag
+  # @schema
+  # type: string
   tag: v1.3.0
+  # -- Image pull policy
+  # @schema
+  # type: string
+  # enum: [Always, IfNotPresent, Never]
   pullPolicy: IfNotPresent
 
 env:
-  # Optional sentry url
+  # -- Optional Sentry DSN for error tracking
+  # @schema
+  # type: string
   sentryDns: ""
-  # Discord webhook url
+  # -- Discord webhook URL for notifications
+  # @schema
+  # type: string
   webHook: ""
-  # Check interval in seconds
+  # -- Check interval in seconds
+  # @schema
+  # type: integer
+  # minimum: 1
   checkInterval: 180
-  # Optional log level
+  # -- Optional log level
+  # @schema
+  # type: string
+  # enum: [debug, info, warn, error]
   logLevel: info
 
 persistence:
   data:
+    # -- Access mode for persistent volume
+    # @schema
+    # type: string
+    # enum: [ReadWriteOnce, ReadOnlyMany, ReadWriteMany]
     accessMode: ReadWriteOnce
+    # -- Size of persistent volume
+    # @schema
+    # type: string
     size: 10Mi
 
 metrics:
+  # -- Enable Prometheus metrics
+  # @schema
+  # type: boolean
   enabled: false
+  # -- Metrics port
+  # @schema
+  # type: integer
   port: 9184
   serviceMonitor:
+    # -- ServiceMonitor scrape interval
+    # @schema
+    # type: string
     interval: 1m
+    # -- ServiceMonitor scrape timeout
+    # @schema
+    # type: string
     scrapeTimeout: 30s
 
 resources:
   limits:
+    # -- Memory limit
+    # @schema
+    # type: string
     memory: 20Mi
   requests:
+    # -- Memory request
+    # @schema
+    # type: string
     memory: 15Mi

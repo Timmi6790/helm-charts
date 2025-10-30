@@ -1,42 +1,104 @@
 image:
+  # -- Container image repository
+  # @schema
+  # type: string
   repository: timmi6790/s3-bucket-perma-link
+  # -- Container image tag
+  # @schema
+  # type: string
   tag: v0.2.2
+  # -- Image pull policy
+  # @schema
+  # type: string
+  # enum: [Always, IfNotPresent, Never]
   pullPolicy: IfNotPresent
 
 application:
+  # -- Application log level
+  # @schema
+  # type: string
+  # enum: [debug, info, warn, error]
   logLevel: info
+  # -- Sentry DSN for error tracking
+  # @schema
+  # type: string
   sentryDsn: ""
   server:
+    # -- Server port
+    # @schema
+    # type: integer
     port: 8080
+    # -- Server host
+    # @schema
+    # type: string
     host: 0.0.0.0
 
   handler:
-    entries: { }
-      # Path: bucket,file
-      # 4tv#Sjfpj&:
-      #   - bucket,file.txt
-      # hGEvxxML5*:
-    #   - bucket2,dir/file.txt
-  
+    # -- Path entries mapping to S3 bucket and file paths. Key is the URL path, value is array of "bucket,file" strings. Example: `4tv#Sjfpj&: [bucket,file.txt]` or `hGEvxxML5*: [bucket2,dir/file.txt]`
+    # @schema
+    # type: object
+    # examples:
+    #   4tv#Sjfpj&:
+    #     - bucket,file.txt
+    #   hGEvxxML5*:
+    #     - bucket2,dir/file.txt
+    entries: {}
+
   s3:
-    # Existing secret name with the cloudflare access tokens with access_key and secret_key
+    # -- Existing secret name with S3 credentials containing access_key and secret_key keys
+    # @schema
+    # type: string
     secretName: ""
+    # -- S3 host endpoint
+    # @schema
+    # type: string
     host: "s3.amazon.com"
+    # -- S3 region
+    # @schema
+    # type: string
     region: "eu-central-1"
 
 service:
+  # -- Kubernetes service type
+  # @schema
+  # type: string
+  # enum: [ClusterIP, NodePort, LoadBalancer]
   type: ClusterIP
+  # -- Service port
+  # @schema
+  # type: integer
   port: 80
 
 ingress:
+  # -- Enable ingress
+  # @schema
+  # type: boolean
   enabled: false
+  # -- Ingress class name
+  # @schema
+  # type: string
   ingressClassName: "nginx"
-  annotations: { }
-  hosts: [ ]
-  tls: [ ]
+  # -- Ingress annotations
+  # @schema
+  # type: object
+  annotations: {}
+  # -- Ingress hosts configuration
+  # @schema
+  # type: array
+  hosts: []
+  # -- TLS configuration
+  # @schema
+  # type: array
+  tls: []
 
 resources:
   limits:
+    # -- Memory limit
+    # @schema
+    # type: string
     memory: 20Mi
   requests:
+    # -- Memory request
+    # @schema
+    # type: string
     memory: 15Mi

@@ -1,0 +1,61 @@
+name: Helm Schema Validation
+
+on:
+  pull_request:
+    paths:
+      - '**/values.yaml'
+      - '**/values.schema.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  validate-and-update-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install helm-schema
+        run: |
+          curl -L https://github.com/dadav/helm-schema/releases/latest/download/helm-schema_linux_amd64.tar.gz | tar xz
+          sudo mv helm-schema /usr/local/bin/
+          helm-schema --version
+
+      - name: Generate schemas
+        run: |
+          for chart_dir in $(find . -name "values.yaml" -exec dirname {} \;); do
+            echo "Generating schema for $chart_dir"
+            helm-schema -input "$chart_dir/values.yaml" -output "$chart_dir/values.schema.json"
+          done
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code '**/values.schema.json' || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit schema changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add '**/values.schema.json'
+          git commit -m "chore: update Helm values schemas"
+          git push
+
+      - name: Comment on PR
+        if: steps.git-check.outputs.changes == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🔄 Helm values schemas have been automatically updated.'
+            })
