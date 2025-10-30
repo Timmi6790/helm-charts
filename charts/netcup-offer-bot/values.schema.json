@@ -1,0 +1,200 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "env": {
+      "additionalProperties": true,
+      "properties": {
+        "checkInterval": {
+          "default": 180,
+          "description": "Interval in seconds between offer checks.\nMust be a positive integer (minimum: 1).",
+          "minimum": 1,
+          "required": [],
+          "title": "checkInterval",
+          "type": "integer"
+        },
+        "logLevel": {
+          "default": "info",
+          "description": "Log level for the application.\nValid options: debug, info, warn, error",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "required": [],
+          "title": "logLevel"
+        },
+        "sentryDns": {
+          "default": "",
+          "description": "Sentry DSN for error tracking. Leave empty to disable.",
+          "required": [],
+          "title": "sentryDns",
+          "type": "string"
+        },
+        "webHook": {
+          "default": "",
+          "description": "Webhook URL to send updates or notifications.",
+          "required": [],
+          "title": "webHook",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "env"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": true,
+      "properties": {
+        "pullPolicy": {
+          "default": "IfNotPresent",
+          "description": "The image pull policy.\nValid options are: Always, IfNotPresent, Never",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ],
+          "required": [],
+          "title": "pullPolicy"
+        },
+        "repository": {
+          "default": "timmi6790/netcup-offer-bot",
+          "description": "The container image repository.",
+          "required": [],
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "v1.3.0",
+          "description": "The container image tag.",
+          "required": [],
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "image"
+    },
+    "metrics": {
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "default": false,
+          "description": "Enable Prometheus metrics endpoint.",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "port": {
+          "default": 9184,
+          "description": "Port to expose metrics on.",
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        },
+        "serviceMonitor": {
+          "additionalProperties": true,
+          "description": "ServiceMonitor configuration for Prometheus Operator integration.",
+          "properties": {
+            "interval": {
+              "default": "1m",
+              "description": "Metrics scrape interval (e.g., 1m, 30s).",
+              "required": [],
+              "title": "interval",
+              "type": "string"
+            },
+            "scrapeTimeout": {
+              "default": "30s",
+              "description": "Timeout for metrics scraping (e.g., 30s).",
+              "required": [],
+              "title": "scrapeTimeout",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "serviceMonitor"
+        }
+      },
+      "required": [],
+      "title": "metrics"
+    },
+    "persistence": {
+      "additionalProperties": true,
+      "properties": {
+        "data": {
+          "additionalProperties": true,
+          "description": "Configuration for persistent data storage.",
+          "properties": {
+            "accessMode": {
+              "default": "ReadWriteOnce",
+              "description": "The access mode for the persistent volume.\nValid options: ReadWriteOnce, ReadOnlyMany, ReadWriteMany",
+              "enum": [
+                "ReadWriteOnce",
+                "ReadOnlyMany",
+                "ReadWriteMany"
+              ],
+              "required": [],
+              "title": "accessMode"
+            },
+            "size": {
+              "default": "10Mi",
+              "description": "The storage size requested for the volume.\nMust be a valid Kubernetes size string (e.g. 10Mi, 1Gi).",
+              "required": [],
+              "title": "size",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "data"
+        }
+      },
+      "required": [],
+      "title": "persistence"
+    },
+    "resources": {
+      "additionalProperties": true,
+      "properties": {
+        "limits": {
+          "additionalProperties": true,
+          "description": "Resource limits for the container.",
+          "properties": {
+            "memory": {
+              "default": "20Mi",
+              "description": "Maximum allowed memory usage.",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "limits"
+        },
+        "requests": {
+          "additionalProperties": true,
+          "description": "Resource requests for the container.",
+          "properties": {
+            "memory": {
+              "default": "15Mi",
+              "description": "Minimum guaranteed memory allocation.",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "requests"
+        }
+      },
+      "required": [],
+      "title": "resources"
+    }
+  },
+  "required": [],
+  "type": "object"
+}
