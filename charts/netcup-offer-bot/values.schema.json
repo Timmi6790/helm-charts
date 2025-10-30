@@ -2,6 +2,12 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "properties": {
+    "common": {
+      "description": "Common helper templates for all charts",
+      "required": [],
+      "title": "common",
+      "type": "object"
+    },
     "env": {
       "additionalProperties": true,
       "properties": {
