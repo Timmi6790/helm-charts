@@ -58,12 +58,12 @@ spec:
             - name: CLOUDFLARE.CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "common.secretName" . }}
+                  name: {{ include "cloudflare-access-webhook-redirect.access-secretName" . }}
                   key: client_id
             - name: CLOUDFLARE.CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "common.secretName" . }}
+                  name: {{ include "cloudflare-access-webhook-redirect.access-secretName" . }}
                   key: client_secret
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
