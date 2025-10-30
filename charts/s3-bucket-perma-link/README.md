@@ -65,6 +65,11 @@ The following table lists the configurable parameters of the chart and their def
 | ingress.hosts | list | `[]` | List of host configurations for the Ingress. Each host defines rules for routing external traffic. Example: ```yaml hosts:   - host: s3.example.com     paths:       - path: /         pathType: Prefix ``` |
 | ingress.ingressClassName | string | `"nginx"` | Ingress class to use (e.g., "nginx", "traefik"). Should match your cluster’s ingress controller configuration. |
 | ingress.tls | list | `[]` | TLS configuration for securing ingress connections. Example: ```yaml tls:   - secretName: s3-cert     hosts:       - s3.example.com ``` |
+| podSecurityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
+| podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
+| podSecurityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only |
+| podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
+| podSecurityContext.runAsUser | int | `1000` | User ID to run as |
 | resources.limits | object | `{"memory":"20Mi"}` | Resource limits define the maximum resources the container can use. |
 | resources.limits.memory | string | `"20Mi"` | Maximum memory allocation for the container. |
 | resources.requests | object | `{"memory":"15Mi"}` | Resource requests define the guaranteed resources reserved for the container. |
