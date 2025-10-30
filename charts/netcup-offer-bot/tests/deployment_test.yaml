@@ -1,0 +1,63 @@
+suite: test deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: should create deployment with correct name
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-netcup-offer-bot
+
+  - it: should set environment variables
+    set:
+      env:
+        webHook: "https://discord.com/api/webhooks/test"
+        checkInterval: 300
+        logLevel: debug
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: WEB_HOOK
+            value: "https://discord.com/api/webhooks/test"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CHECK_INTERVAL
+            value: "300"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOG_LEVEL
+            value: debug
+
+  - it: should mount persistent volume
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: data
+            mountPath: /data
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: data
+            persistentVolumeClaim:
+              claimName: RELEASE-NAME-netcup-offer-bot-data
+
+  - it: should set resource limits
+    set:
+      resources:
+        limits:
+          memory: 30Mi
+        requests:
+          memory: 20Mi
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].resources.limits.memory
+          value: 30Mi
+      - equal:
+          path: spec.template.spec.containers[0].resources.requests.memory
+          value: 20Mi
