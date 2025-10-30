@@ -2,9 +2,9 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
+  name: {{ include "common.fullname" . }}
   labels:
-    {{- include "cloudflare-access-webhook-redirect.labels" . | nindent 4 }}
+    {{- include "common.labels" . | nindent 4 }}
 spec:
   {{- if .Values.podDisruptionBudget.minAvailable }}
   minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
@@ -14,5 +14,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "cloudflare-access-webhook-redirect.selectorLabels" . | nindent 6 }}
+      {{- include "common.selectorLabels" . | nindent 6 }}
 {{- end }}

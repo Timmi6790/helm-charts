@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
+  name: {{ include "common.fullname" . }}
   labels:
-    {{- include "cloudflare-access-webhook-redirect.labels" . | nindent 4 }}
+    {{- include "common.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "cloudflare-access-webhook-redirect.selectorLabels" . | nindent 6 }}
+      {{- include "common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "cloudflare-access-webhook-redirect.labels" . | nindent 8 }}
+        {{- include "common.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -34,7 +34,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "cloudflare-access-webhook-redirect.serviceAccountName" . }}
+      serviceAccountName: {{ include "common.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -53,17 +53,17 @@ spec:
               protocol: TCP
           envFrom:
             - configMapRef:
-                name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
+                name: {{ include "common.fullname" . }}
           env:
             - name: CLOUDFLARE.CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "cloudflare-access-webhook-redirect.secretName" . }}
+                  name: {{ include "common.secretName" . }}
                   key: client_id
             - name: CLOUDFLARE.CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "cloudflare-access-webhook-redirect.secretName" . }}
+                  name: {{ include "common.secretName" . }}
                   key: client_secret
           {{- if .Values.startupProbe.enabled }}
           startupProbe:
@@ -92,7 +92,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ include "cloudflare-access-webhook-redirect.fullname" . }}
+            name: {{ include "common.fullname" . }}
       {{- if .Values.securityContext.readOnlyRootFilesystem }}
         - name: tmp
           emptyDir: {}
