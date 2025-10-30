@@ -27,7 +27,7 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: HANDLER_TARGET_BASE
+            name: HANDLER.TARGET_BASE
             value: "http://backend:8080"
 
   - it: should use cloudflare secret
@@ -39,11 +39,19 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: CLOUDFLARE_ACCESS_CLIENT_ID
+            name: CLOUDFLARE.CLIENT_ID
             valueFrom:
               secretKeyRef:
                 name: cf-secret
                 key: client_id
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: CLOUDFLARE.CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: cf-secret
+                key: client_secret
 
   - it: should set security context
     asserts:
