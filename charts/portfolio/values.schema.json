@@ -422,7 +422,7 @@
         },
         "readOnlyRootFilesystem": {
           "default": false,
-          "description": "Mount root filesystem as read-only.\nNext.js requires writable /tmp directory which is provided via emptyDir volume.",
+          "description": "Mount root filesystem as read-only.\nNext.js ISR requires write access to update prerender cache.\nSet to true only if your app doesn't use ISR.",
           "required": [],
           "title": "readOnlyRootFilesystem",
           "type": "boolean"
