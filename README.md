@@ -74,6 +74,7 @@ helm uninstall my-release
 | [cloudflare-access-webhook-redirect](./charts/cloudflare-access-webhook-redirect) | Middleware service that authenticates requests using Cloudflare Access tokens before forwarding them to target services | Check [Chart.yaml](./charts/cloudflare-access-webhook-redirect/Chart.yaml) |
 | [netcup-offer-bot](./charts/netcup-offer-bot) | Automated bot for monitoring and processing Netcup offers | Check [Chart.yaml](./charts/netcup-offer-bot/Chart.yaml) | 
 | [s3-bucket-perma-link](./charts/s3-bucket-perma-link) | Service for generating and managing permanent links to S3 bucket objects | Check [Chart.yaml](./charts/s3-bucket-perma-link/Chart.yaml) |
+| [portfolio](./charts/portfolio) | Personal portfolio website | Check [Chart.yaml](./charts/portfolio/Chart.yaml) |
 
 ## Chart Documentation
 

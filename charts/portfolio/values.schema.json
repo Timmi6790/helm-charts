@@ -1,0 +1,515 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "affinity": {
+      "additionalProperties": false,
+      "description": "Affinity rules for pod assignment",
+      "required": [],
+      "title": "affinity",
+      "type": "object"
+    },
+    "application": {
+      "additionalProperties": true,
+      "properties": {
+        "github": {
+          "additionalProperties": true,
+          "description": "GitHub configuration for the Portfolio application.\nThe GITHUB_TOKEN is required for the application to function correctly.",
+          "properties": {
+            "secretName": {
+              "default": "",
+              "description": "Name of an existing Kubernetes Secret containing the GitHub token.\nThe secret must include a `GITHUB_TOKEN` field.\nIf not provided, a secret will be created from the `token` field below.",
+              "required": [],
+              "title": "secretName",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "github"
+        },
+        "healthCheck": {
+          "additionalProperties": true,
+          "description": "Health check probe configuration.\nNext.js Portfolio application exposes health checks on /api/health.",
+          "properties": {
+            "liveness": {
+              "additionalProperties": true,
+              "description": "Liveness probe configuration.\nDetects if the container needs to be restarted.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 3,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before liveness probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 10,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 5,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "liveness"
+            },
+            "path": {
+              "default": "/api/health",
+              "description": "Path for health check endpoint.",
+              "required": [],
+              "title": "path",
+              "type": "string"
+            },
+            "readiness": {
+              "additionalProperties": true,
+              "description": "Readiness probe configuration.\nDetects if the container is ready to serve traffic.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 3,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before readiness probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 5,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 3,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "readiness"
+            },
+            "startup": {
+              "additionalProperties": true,
+              "description": "Startup probe configuration.\nProtects slow starting containers from being killed by liveness probe.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 12,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before startup probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 5,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 3,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "startup"
+            }
+          },
+          "required": [],
+          "title": "healthCheck"
+        },
+        "port": {
+          "default": 3000,
+          "description": "Port number the Next.js application listens on.\nNext.js standalone server defaults to 3000.",
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "application"
+    },
+    "common": {
+      "description": "Common helper templates for all charts",
+      "required": [],
+      "title": "common",
+      "type": "object"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": true,
+      "properties": {
+        "pullPolicy": {
+          "default": "IfNotPresent",
+          "description": "Kubernetes image pull policy.\nDetermines when the image should be pulled from the registry.",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never"
+          ],
+          "required": [],
+          "title": "pullPolicy"
+        },
+        "repository": {
+          "default": "timmi6790/portfolio",
+          "description": "Container image repository where the Portfolio application image is stored.\nPoints to Docker Hub timmi6790/portfolio.",
+          "required": [],
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "v1.2.0",
+          "description": "Container image tag to deploy.",
+          "required": [],
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "image"
+    },
+    "imagePullSecrets": {
+      "description": "Optional image pull secrets for private registries",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "imagePullSecrets",
+      "type": "array"
+    },
+    "ingress": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Custom annotations for the Ingress resource.\nUseful for configuring ingress controllers (e.g., cert-manager, rate limits).\nExample:\n```yaml\nannotations:\n  cert-manager.io/cluster-issuer: \"letsencrypt-prod\"\n  nginx.ingress.kubernetes.io/ssl-redirect: \"true\"\n```",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "enabled": {
+          "default": false,
+          "description": "Enable or disable Kubernetes Ingress resource creation.\nSet to `true` to expose the service externally via Ingress.",
+          "required": [],
+          "title": "enabled",
+          "type": "boolean"
+        },
+        "hosts": {
+          "description": "List of host configurations for the Ingress.\nEach host defines rules for routing external traffic.\nExample:\n```yaml\nhosts:\n  - host: portfolio.example.com\n    paths:\n      - path: /\n        pathType: Prefix\n```",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "hosts",
+          "type": "array"
+        },
+        "ingressClassName": {
+          "default": "nginx",
+          "description": "Ingress class to use (e.g., \"nginx\", \"traefik\").\nShould match your cluster's ingress controller configuration.",
+          "required": [],
+          "title": "ingressClassName",
+          "type": "string"
+        },
+        "tls": {
+          "description": "TLS configuration for securing ingress connections.\nExample:\n```yaml\ntls:\n  - secretName: portfolio-tls\n    hosts:\n      - portfolio.example.com\n```",
+          "items": {
+            "required": []
+          },
+          "required": [],
+          "title": "tls",
+          "type": "array"
+        }
+      },
+      "required": [],
+      "title": "ingress"
+    },
+    "nodeSelector": {
+      "additionalProperties": false,
+      "description": "Node selector for pod assignment",
+      "required": [],
+      "title": "nodeSelector",
+      "type": "object"
+    },
+    "podAnnotations": {
+      "additionalProperties": false,
+      "description": "Additional annotations to add to the pod",
+      "required": [],
+      "title": "podAnnotations",
+      "type": "object"
+    },
+    "podLabels": {
+      "additionalProperties": false,
+      "description": "Additional labels to add to the pod",
+      "required": [],
+      "title": "podLabels",
+      "type": "object"
+    },
+    "podSecurityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "fsGroup": {
+          "default": 1000,
+          "description": "Group ID for file system access",
+          "required": [],
+          "title": "fsGroup",
+          "type": "integer"
+        },
+        "runAsNonRoot": {
+          "default": true,
+          "description": "Run pod as non-root user",
+          "required": [],
+          "title": "runAsNonRoot",
+          "type": "boolean"
+        },
+        "runAsUser": {
+          "default": 1000,
+          "description": "User ID to run as.\nNext.js standalone server uses user ID 1000 by default.",
+          "required": [],
+          "title": "runAsUser",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "title": "podSecurityContext"
+    },
+    "priorityClassName": {
+      "default": "",
+      "description": "Optional Kubernetes PriorityClass name",
+      "required": [],
+      "title": "priorityClassName",
+      "type": "string"
+    },
+    "resources": {
+      "additionalProperties": true,
+      "properties": {
+        "limits": {
+          "additionalProperties": true,
+          "description": "Resource limits define the maximum resources the container can use.\nNext.js applications typically require more memory than simple web servers.",
+          "properties": {
+            "cpu": {
+              "default": "500m",
+              "description": "Maximum CPU allocation for the container.",
+              "required": [],
+              "title": "cpu",
+              "type": "string"
+            },
+            "memory": {
+              "default": "256Mi",
+              "description": "Maximum memory allocation for the container.",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "limits"
+        },
+        "requests": {
+          "additionalProperties": true,
+          "description": "Resource requests define the guaranteed resources reserved for the container.",
+          "properties": {
+            "cpu": {
+              "default": "100m",
+              "description": "Minimum CPU requested by the container.",
+              "required": [],
+              "title": "cpu",
+              "type": "string"
+            },
+            "memory": {
+              "default": "128Mi",
+              "description": "Minimum memory requested by the container.",
+              "required": [],
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "requests"
+        }
+      },
+      "required": [],
+      "title": "resources"
+    },
+    "securityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "default": false,
+          "description": "Allow privilege escalation",
+          "required": [],
+          "title": "allowPrivilegeEscalation",
+          "type": "boolean"
+        },
+        "capabilities": {
+          "additionalProperties": true,
+          "properties": {
+            "drop": {
+              "description": "Linux capabilities to drop",
+              "items": {
+                "anyOf": [
+                  {
+                    "required": [],
+                    "type": "string"
+                  }
+                ],
+                "required": []
+              },
+              "required": [],
+              "title": "drop",
+              "type": "array"
+            }
+          },
+          "required": [],
+          "title": "capabilities"
+        },
+        "readOnlyRootFilesystem": {
+          "default": true,
+          "description": "Mount root filesystem as read-only.\nNext.js requires writable /tmp directory which is provided via emptyDir volume.",
+          "required": [],
+          "title": "readOnlyRootFilesystem",
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "title": "securityContext"
+    },
+    "service": {
+      "additionalProperties": true,
+      "properties": {
+        "port": {
+          "default": 80,
+          "description": "Port that the Kubernetes Service will expose.\nThis port is mapped to the application container port (3000).",
+          "required": [],
+          "title": "port",
+          "type": "integer"
+        },
+        "type": {
+          "default": "ClusterIP",
+          "description": "Kubernetes Service type that exposes the application.",
+          "enum": [
+            "ClusterIP",
+            "NodePort",
+            "LoadBalancer"
+          ],
+          "required": [],
+          "title": "type"
+        }
+      },
+      "required": [],
+      "title": "service"
+    },
+    "serviceAccount": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": false,
+          "description": "Additional annotations for the service account",
+          "required": [],
+          "title": "annotations",
+          "type": "object"
+        },
+        "automountToken": {
+          "default": false,
+          "description": "Whether to automount the service account token",
+          "required": [],
+          "title": "automountToken",
+          "type": "boolean"
+        },
+        "create": {
+          "default": true,
+          "description": "Whether to create a dedicated service account",
+          "required": [],
+          "title": "create",
+          "type": "boolean"
+        },
+        "name": {
+          "default": "",
+          "description": "Custom service account name (auto-generated if empty)",
+          "required": [],
+          "title": "name",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "serviceAccount"
+    },
+    "tolerations": {
+      "description": "Tolerations for pod assignment",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "tolerations",
+      "type": "array"
+    },
+    "topologySpreadConstraints": {
+      "description": "Pod topology spread constraints for availability",
+      "items": {
+        "required": []
+      },
+      "required": [],
+      "title": "topologySpreadConstraints",
+      "type": "array"
+    }
+  },
+  "required": [],
+  "type": "object"
+}

@@ -1,0 +1,273 @@
+{{ template "chart.header" . }}
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+## Prerequisites
+
+- Kubernetes 1.19+
+- Helm 3.0+
+- GitHub Personal Access Token
+
+## Get Repository Info
+
+```shell
+helm repo add timmi6790 https://timmi6790.github.io/helm-charts
+helm repo update
+```
+
+## Install Chart
+
+```shell
+helm install [RELEASE_NAME] timmi6790/{{ template "chart.name" . }} \
+  --namespace [NAMESPACE] \
+  --create-namespace \
+  --set application.github.token="your-github-token"
+```
+
+## Upgrade Chart
+
+```shell
+helm upgrade [RELEASE_NAME] timmi6790/{{ template "chart.name" . }} \
+  --namespace [NAMESPACE]
+```
+
+## Uninstall Chart
+
+```shell
+helm uninstall [RELEASE_NAME] --namespace [NAMESPACE]
+```
+
+## Configuration
+
+The following table lists the configurable parameters of the chart and their default values.
+
+{{ template "chart.valuesSection" . }}
+
+## GitHub Token Configuration
+
+The Portfolio application requires a GitHub token to function correctly. You can provide this in two ways:
+
+### Option 1: Create a Kubernetes Secret (Recommended)
+
+Create a secret manually before installing the chart:
+
+```bash
+kubectl create secret generic portfolio-github \
+  --namespace [NAMESPACE] \
+  --from-literal=GITHUB_TOKEN='your-github-token'
+```
+
+Then reference it in your values:
+
+```yaml
+application:
+  github:
+    secretName: "portfolio-github"
+```
+
+### Option 2: Provide Token Inline
+
+```yaml
+application:
+  github:
+    token: "your-github-token"
+```
+
+> [!WARNING]
+> This creates the secret automatically but the token will be visible in your values file.
+> Use Option 1 for production deployments.
+
+## Examples
+
+### Minimal Configuration
+
+```yaml
+application:
+  github:
+    secretName: "portfolio-github"
+```
+
+### With Ingress and TLS
+
+```yaml
+application:
+  github:
+    secretName: "portfolio-github"
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: portfolio.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: portfolio-tls
+      hosts:
+        - portfolio.example.com
+```
+
+### Production Configuration with Resource Limits
+
+```yaml
+application:
+  github:
+    secretName: "portfolio-github"
+  logLevel: info
+  sentryDsn: "https://your-sentry-dsn@sentry.io/project"
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+  hosts:
+    - host: portfolio.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: portfolio-tls
+      hosts:
+        - portfolio.example.com
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "3000"
+  prometheus.io/path: "/api/metrics"
+```
+
+### High Availability Configuration
+
+```yaml
+application:
+  github:
+    secretName: "portfolio-github"
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: portfolio
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: portfolio
+          topologyKey: kubernetes.io/hostname
+```
+
+## Health Checks
+
+The chart configures comprehensive health checks using the `/api/health` endpoint:
+
+- **Startup Probe**: Protects slow starting containers (up to 60 seconds)
+- **Liveness Probe**: Restarts unhealthy containers
+- **Readiness Probe**: Controls traffic routing to ready pods
+
+All probes are fully configurable via values:
+
+```yaml
+application:
+  healthCheck:
+    path: /api/health
+    startup:
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 12
+    liveness:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 3
+    readiness:
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 3
+```
+
+## Security
+
+The chart follows security best practices:
+
+- Runs as non-root user (UID 1000)
+- Read-only root filesystem
+- No privilege escalation
+- Service account token not automounted by default
+- Drop all capabilities
+
+Writable volumes are provided only where necessary:
+- `/tmp` - Temporary files
+- `/app/.next/cache` - Next.js build cache
+
+## Resource Recommendations
+
+Based on the Next.js application characteristics:
+
+| Environment | CPU Request | CPU Limit | Memory Request | Memory Limit |
+|-------------|-------------|-----------|----------------|--------------|
+| Development | 100m        | 500m      | 128Mi          | 256Mi        |
+| Production  | 200m        | 1000m     | 256Mi          | 512Mi        |
+| High Traffic| 500m        | 2000m     | 512Mi          | 1Gi          |
+
+## Troubleshooting
+
+### Pod not starting
+
+Check if the GitHub token is correctly configured:
+
+```bash
+kubectl get secret [SECRET_NAME] -n [NAMESPACE] -o jsonpath='{.data.GITHUB_TOKEN}' | base64 -d
+```
+
+### Health check failures
+
+View pod logs to diagnose:
+
+```bash
+kubectl logs -n [NAMESPACE] -l app.kubernetes.io/name=portfolio
+```
+
+Check health endpoint directly:
+
+```bash
+kubectl port-forward -n [NAMESPACE] svc/[SERVICE_NAME] 8080:80
+curl http://localhost:8080/api/health
+```
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}
