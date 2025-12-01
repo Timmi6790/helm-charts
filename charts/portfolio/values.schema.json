@@ -239,7 +239,7 @@
       "additionalProperties": true,
       "properties": {
         "annotations": {
-          "additionalProperties": false,
+          "additionalProperties": true,
           "description": "Custom annotations for the Ingress resource.\nUseful for configuring ingress controllers (e.g., cert-manager, rate limits).\nExample:\n```yaml\nannotations:\n  cert-manager.io/cluster-issuer: \"letsencrypt-prod\"\n  nginx.ingress.kubernetes.io/ssl-redirect: \"true\"\n```",
           "required": [],
           "title": "annotations",
