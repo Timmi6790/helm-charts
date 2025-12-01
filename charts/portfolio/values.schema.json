@@ -216,8 +216,8 @@
           "type": "string"
         },
         "tag": {
-          "default": "latest",
-          "description": "Container image tag to deploy.\nPin to a specific version for predictable deployments rather than using \"latest\".",
+          "default": "v1.2.0",
+          "description": "Container image tag to deploy.",
           "required": [],
           "title": "tag",
           "type": "string"
