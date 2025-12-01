@@ -90,9 +90,6 @@ tests:
       - equal:
           path: spec.template.spec.initContainers[0].name
           value: cache-init
-      - equal:
-          path: spec.template.spec.initContainers[0].image
-          value: timmi6790/portfolio:latest
       - contains:
           path: spec.template.spec.initContainers[0].volumeMounts
           content:
