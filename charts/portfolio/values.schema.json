@@ -289,7 +289,7 @@
       "type": "object"
     },
     "podAnnotations": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Additional annotations to add to the pod",
       "required": [],
       "title": "podAnnotations",
@@ -460,7 +460,7 @@
       "additionalProperties": true,
       "properties": {
         "annotations": {
-          "additionalProperties": false,
+          "additionalProperties": true,
           "description": "Additional annotations for the service account",
           "required": [],
           "title": "annotations",
