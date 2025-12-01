@@ -247,6 +247,7 @@ serviceAccount:
 
   # @schema
   # type: object
+  # additionalProperties: true
   # @schema
   # -- Additional annotations for the service account
   annotations: {}
@@ -265,6 +266,7 @@ serviceAccount:
 
 # @schema
 # type: object
+# additionalProperties: true
 # @schema
 # -- Additional annotations to add to the pod
 podAnnotations: {}
