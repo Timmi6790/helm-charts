@@ -83,9 +83,7 @@ The following table lists the configurable parameters of the chart and their def
 | nodeSelector | object | `{}` | Node selector for pod assignment |
 | podAnnotations | object | `{}` | Additional annotations to add to the pod |
 | podLabels | object | `{}` | Additional labels to add to the pod |
-| podSecurityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
-| podSecurityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only. Next.js requires writable /tmp directory which is provided via emptyDir volume. |
 | podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
 | podSecurityContext.runAsUser | int | `1000` | User ID to run as. Next.js standalone server uses user ID 1000 by default. |
 | priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
@@ -95,6 +93,9 @@ The following table lists the configurable parameters of the chart and their def
 | resources.requests | object | `{"cpu":"100m","memory":"128Mi"}` | Resource requests define the guaranteed resources reserved for the container. |
 | resources.requests.cpu | string | `"100m"` | Minimum CPU requested by the container. |
 | resources.requests.memory | string | `"128Mi"` | Minimum memory requested by the container. |
+| securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
+| securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
+| securityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only. Next.js requires writable /tmp directory which is provided via emptyDir volume. |
 | service.port | int | `80` | Port that the Kubernetes Service will expose. This port is mapped to the application container port (3000). |
 | service.type | string | `"ClusterIP"` | Kubernetes Service type that exposes the application. |
 | serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
