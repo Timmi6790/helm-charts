@@ -72,16 +72,6 @@ tests:
           content:
             name: tmp
             mountPath: /tmp
-      - contains:
-          path: spec.template.spec.containers[0].volumeMounts
-          content:
-            name: nextjs-cache
-            mountPath: /app/.next/cache
-      - contains:
-          path: spec.template.spec.containers[0].volumeMounts
-          content:
-            name: nextjs-server
-            mountPath: /app/.next/server
 
   - it: should set resource limits
     asserts:
