@@ -53,19 +53,8 @@ spec:
         - name: cache-init
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['sh', '-c']
-          args:
-            - |
-              echo "Initializing Next.js cache from Docker image..."
-              if [ -d /app/.next/server ]; then
-                echo "Copying pre-built server cache..."
-                cp -rp /app/.next/server/* /cache-server/ 2>/dev/null || echo "No server cache to copy"
-              fi
-              if [ -d /app/.next/cache ]; then
-                echo "Copying pre-built build cache..."
-                cp -rp /app/.next/cache/* /cache-build/ 2>/dev/null || echo "No build cache to copy"
-              fi
-              echo "Cache initialization complete"
+          command: ['node']
+          args: ['-e', 'const fs=require("fs");const src="/app/.next";const cache=src+"/cache";const server=src+"/server";if(fs.existsSync(cache))fs.cpSync(cache,"/cache-build",{recursive:true});if(fs.existsSync(server))fs.cpSync(server,"/cache-server",{recursive:true});console.log("Cache init complete");']
           volumeMounts:
             - name: nextjs-server
               mountPath: /cache-server
