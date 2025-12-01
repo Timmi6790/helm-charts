@@ -421,7 +421,7 @@
           "title": "capabilities"
         },
         "readOnlyRootFilesystem": {
-          "default": true,
+          "default": false,
           "description": "Mount root filesystem as read-only.\nNext.js requires writable /tmp directory which is provided via emptyDir volume.",
           "required": [],
           "title": "readOnlyRootFilesystem",

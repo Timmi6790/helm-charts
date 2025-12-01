@@ -83,24 +83,6 @@ tests:
             name: nextjs-server
             mountPath: /app/.next/server
 
-  - it: should configure initContainer for cache preservation
-    asserts:
-      - isNotEmpty:
-          path: spec.template.spec.initContainers
-      - equal:
-          path: spec.template.spec.initContainers[0].name
-          value: cache-init
-      - contains:
-          path: spec.template.spec.initContainers[0].volumeMounts
-          content:
-            name: nextjs-server
-            mountPath: /cache-server
-      - contains:
-          path: spec.template.spec.initContainers[0].volumeMounts
-          content:
-            name: nextjs-cache
-            mountPath: /cache-build
-
   - it: should set resource limits
     asserts:
       - equal:

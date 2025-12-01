@@ -49,21 +49,6 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      initContainers:
-        - name: cache-init
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ['node']
-          args: ['-e', 'const fs=require("fs");const src="/app/.next";const cache=src+"/cache";const server=src+"/server";if(fs.existsSync(cache))fs.cpSync(cache,"/cache-build",{recursive:true});if(fs.existsSync(server))fs.cpSync(server,"/cache-server",{recursive:true});console.log("Cache init complete");']
-          volumeMounts:
-            - name: nextjs-server
-              mountPath: /cache-server
-            - name: nextjs-cache
-              mountPath: /cache-build
-          {{- with .Values.securityContext }}
-          securityContext:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -134,14 +119,6 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
-            - name: nextjs-cache
-              mountPath: /app/.next/cache
-            - name: nextjs-server
-              mountPath: /app/.next/server
       volumes:
         - name: tmp
-          emptyDir: {}
-        - name: nextjs-cache
-          emptyDir: {}
-        - name: nextjs-server
           emptyDir: {}

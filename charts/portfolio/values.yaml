@@ -232,8 +232,9 @@ securityContext:
   # type: boolean
   # @schema
   # -- Mount root filesystem as read-only.
-  # Next.js requires writable /tmp directory which is provided via emptyDir volume.
-  readOnlyRootFilesystem: true
+  # Next.js ISR requires write access to update prerender cache.
+  # Set to true only if your app doesn't use ISR.
+  readOnlyRootFilesystem: false
 
 # @schema
 # additionalProperties: true
