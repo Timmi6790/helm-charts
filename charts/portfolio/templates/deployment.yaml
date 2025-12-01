@@ -49,6 +49,32 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: cache-init
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['sh', '-c']
+          args:
+            - |
+              echo "Initializing Next.js cache from Docker image..."
+              if [ -d /app/.next/server ]; then
+                echo "Copying pre-built server cache..."
+                cp -rp /app/.next/server/* /cache-server/ 2>/dev/null || echo "No server cache to copy"
+              fi
+              if [ -d /app/.next/cache ]; then
+                echo "Copying pre-built build cache..."
+                cp -rp /app/.next/cache/* /cache-build/ 2>/dev/null || echo "No build cache to copy"
+              fi
+              echo "Cache initialization complete"
+          volumeMounts:
+            - name: nextjs-server
+              mountPath: /cache-server
+            - name: nextjs-cache
+              mountPath: /cache-build
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -121,8 +147,12 @@ spec:
               mountPath: /tmp
             - name: nextjs-cache
               mountPath: /app/.next/cache
+            - name: nextjs-server
+              mountPath: /app/.next/server
       volumes:
         - name: tmp
           emptyDir: {}
         - name: nextjs-cache
+          emptyDir: {}
+        - name: nextjs-server
           emptyDir: {}
