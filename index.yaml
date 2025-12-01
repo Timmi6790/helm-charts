@@ -519,6 +519,27 @@ entries:
     urls:
     - https://github.com/Timmi6790/charts/releases/download/netcup-offer-bot-1.0.0/netcup-offer-bot-1.0.0.tgz
     version: 1.0.0
+  portfolio:
+  - apiVersion: v2
+    appVersion: v1.2.0
+    created: "2025-12-01T12:48:54.099540508Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: Personal portfolio built with Next.js.
+    digest: 6e9b87fcb45ff1866b2979f1a036de2d035b7019619be61948cf9f88afc8169d
+    home: https://github.com/Timmi6790/helm-charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: portfolio
+    sources:
+    - https://github.com/Timmi6790/Portfolio
+    - https://hub.docker.com/r/timmi6790/portfolio
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/portfolio-1.0.0/portfolio-1.0.0.tgz
+    version: 1.0.0
   s3-bucket-perma-link:
   - apiVersion: v2
     appVersion: v0.2.2
@@ -605,4 +626,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2025-10-30T15:10:17.759788253Z"
+generated: "2025-12-01T12:48:54.099626178Z"
