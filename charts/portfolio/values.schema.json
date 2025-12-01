@@ -289,7 +289,7 @@
       "type": "object"
     },
     "podAnnotations": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Additional annotations to add to the pod",
       "required": [],
       "title": "podAnnotations",
@@ -421,8 +421,8 @@
           "title": "capabilities"
         },
         "readOnlyRootFilesystem": {
-          "default": true,
-          "description": "Mount root filesystem as read-only.\nNext.js requires writable /tmp directory which is provided via emptyDir volume.",
+          "default": false,
+          "description": "Mount root filesystem as read-only.\nNext.js ISR requires write access to update prerender cache.\nSet to true only if your app doesn't use ISR.",
           "required": [],
           "title": "readOnlyRootFilesystem",
           "type": "boolean"
@@ -460,7 +460,7 @@
       "additionalProperties": true,
       "properties": {
         "annotations": {
-          "additionalProperties": false,
+          "additionalProperties": true,
           "description": "Additional annotations for the service account",
           "required": [],
           "title": "annotations",

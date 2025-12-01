@@ -1,0 +1,23 @@
+suite: test configmap
+templates:
+  - configmap.yaml
+tests:
+  - it: should create a ConfigMap
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-portfolio
+
+  - it: should set PORT correctly
+    asserts:
+      - equal:
+          path: data.PORT
+          value: "3000"
+
+  - it: should set NODE_ENV to production
+    asserts:
+      - equal:
+          path: data.NODE_ENV
+          value: production

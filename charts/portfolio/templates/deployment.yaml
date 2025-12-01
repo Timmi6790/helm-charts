@@ -119,10 +119,6 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
-            - name: nextjs-cache
-              mountPath: /app/.next/cache
       volumes:
         - name: tmp
-          emptyDir: {}
-        - name: nextjs-cache
           emptyDir: {}
