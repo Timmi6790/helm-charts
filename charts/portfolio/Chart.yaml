@@ -1,7 +1,7 @@
 name: portfolio
 description: Personal portfolio built with Next.js.
 version: 1.0.0
-appVersion: latest
+appVersion: v1.2.0
 apiVersion: v2
 home: https://github.com/Timmi6790/helm-charts
 sources:

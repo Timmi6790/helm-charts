@@ -16,8 +16,7 @@ image:
   # type: string
   # @schema
   # -- Container image tag to deploy.
-  # Pin to a specific version for predictable deployments rather than using "latest".
-  tag: latest
+  tag: v1.2.0
 
   # @schema
   # enum: [Always, IfNotPresent, Never]
