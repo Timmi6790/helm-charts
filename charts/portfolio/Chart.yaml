@@ -1,0 +1,16 @@
+name: portfolio
+description: Personal portfolio built with Next.js.
+version: 1.0.0
+appVersion: latest
+apiVersion: v2
+home: https://github.com/Timmi6790/helm-charts
+sources:
+  - https://github.com/Timmi6790/Portfolio
+  - https://hub.docker.com/r/timmi6790/portfolio
+maintainers:
+  - name: Timmi6790
+    email: contact@timmi6790.de
+dependencies:
+  - name: common
+    version: 0.1.0
+    repository: "file://../common"

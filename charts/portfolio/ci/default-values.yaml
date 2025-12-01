@@ -1,0 +1,11 @@
+application:
+  github:
+    token: "test-github-token-12345"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: portfolio.local
+      paths:
+        - path: /
+          pathType: Prefix

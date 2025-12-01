@@ -1,0 +1,407 @@
+# vim: set ft=yaml:
+# yaml-language-server: $schema=values.schema.json
+
+# @schema
+# additionalProperties: true
+# @schema
+image:
+  # @schema
+  # type: string
+  # @schema
+  # -- Container image repository where the Portfolio application image is stored.
+  # Points to Docker Hub timmi6790/portfolio.
+  repository: timmi6790/portfolio
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Container image tag to deploy.
+  # Pin to a specific version for predictable deployments rather than using "latest".
+  tag: latest
+
+  # @schema
+  # enum: [Always, IfNotPresent, Never]
+  # @schema
+  # -- Kubernetes image pull policy.
+  # Determines when the image should be pulled from the registry.
+  pullPolicy: IfNotPresent
+
+# @schema
+# type: array
+# @schema
+# -- Optional image pull secrets for private registries
+imagePullSecrets: []
+
+# @schema
+# additionalProperties: true
+# @schema
+application:
+  # @schema
+  # type: integer
+  # @schema
+  # -- Port number the Next.js application listens on.
+  # Next.js standalone server defaults to 3000.
+  port: 3000
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- GitHub configuration for the Portfolio application.
+  # The GITHUB_TOKEN is required for the application to function correctly.
+  github:
+    # @schema
+    # type: string
+    # @schema
+    # -- Name of an existing Kubernetes Secret containing the GitHub token.
+    # The secret must include a `GITHUB_TOKEN` field.
+    # If not provided, a secret will be created from the `token` field below.
+    secretName: ""
+
+    # @schema
+    # type: [string, "null"]
+    # @schema
+    # -- GitHub personal access token (alternative to secretName).
+    # Only used if secretName is not provided.
+    # This will create a Kubernetes Secret automatically.
+    # token: ""
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Health check probe configuration.
+  # Next.js Portfolio application exposes health checks on /api/health.
+  healthCheck:
+    # @schema
+    # type: string
+    # @schema
+    # -- Path for health check endpoint.
+    path: /api/health
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Startup probe configuration.
+    # Protects slow starting containers from being killed by liveness probe.
+    startup:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before startup probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 3
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 12
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Liveness probe configuration.
+    # Detects if the container needs to be restarted.
+    liveness:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before liveness probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 10
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 3
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Readiness probe configuration.
+    # Detects if the container is ready to serve traffic.
+    readiness:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before readiness probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 3
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 3
+
+# @schema
+# additionalProperties: true
+# @schema
+podSecurityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Run pod as non-root user
+  runAsNonRoot: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only.
+  # Next.js requires writable /tmp directory which is provided via emptyDir volume.
+  readOnlyRootFilesystem: true
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- User ID to run as.
+  # Next.js standalone server uses user ID 1000 by default.
+  runAsUser: 1000
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- Group ID for file system access
+  fsGroup: 1000
+
+# @schema
+# additionalProperties: true
+# @schema
+serviceAccount:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to create a dedicated service account
+  create: true
+
+  # @schema
+  # type: object
+  # @schema
+  # -- Additional annotations for the service account
+  annotations: {}
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Custom service account name (auto-generated if empty)
+  name: ""
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Whether to automount the service account token
+  automountToken: false
+
+# @schema
+# type: object
+# @schema
+# -- Additional annotations to add to the pod
+podAnnotations: {}
+
+# @schema
+# type: object
+# @schema
+# -- Additional labels to add to the pod
+podLabels: {}
+
+# @schema
+# additionalProperties: true
+# @schema
+service:
+  # @schema
+  # enum: [ClusterIP, NodePort, LoadBalancer]
+  # @schema
+  # -- Kubernetes Service type that exposes the application.
+  type: ClusterIP
+
+  # @schema
+  # type: integer
+  # @schema
+  # -- Port that the Kubernetes Service will expose.
+  # This port is mapped to the application container port (3000).
+  port: 80
+
+# @schema
+# additionalProperties: true
+# @schema
+ingress:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Enable or disable Kubernetes Ingress resource creation.
+  # Set to `true` to expose the service externally via Ingress.
+  enabled: false
+
+  # @schema
+  # type: string
+  # @schema
+  # -- Ingress class to use (e.g., "nginx", "traefik").
+  # Should match your cluster's ingress controller configuration.
+  ingressClassName: "nginx"
+
+  # @schema
+  # type: object
+  # @schema
+  # -- Custom annotations for the Ingress resource.
+  # Useful for configuring ingress controllers (e.g., cert-manager, rate limits).
+  # Example:
+  # ```yaml
+  # annotations:
+  #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  # ```
+  annotations: {}
+
+  # @schema
+  # type: array
+  # @schema
+  # -- List of host configurations for the Ingress.
+  # Each host defines rules for routing external traffic.
+  # Example:
+  # ```yaml
+  # hosts:
+  #   - host: portfolio.example.com
+  #     paths:
+  #       - path: /
+  #         pathType: Prefix
+  # ```
+  hosts: []
+
+  # @schema
+  # type: array
+  # @schema
+  # -- TLS configuration for securing ingress connections.
+  # Example:
+  # ```yaml
+  # tls:
+  #   - secretName: portfolio-tls
+  #     hosts:
+  #       - portfolio.example.com
+  # ```
+  tls: []
+
+# @schema
+# additionalProperties: true
+# @schema
+resources:
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Resource limits define the maximum resources the container can use.
+  # Next.js applications typically require more memory than simple web servers.
+  limits:
+    # @schema
+    # type: string
+    # @schema
+    # -- Maximum CPU allocation for the container.
+    cpu: 500m
+
+    # @schema
+    # type: string
+    # @schema
+    # -- Maximum memory allocation for the container.
+    memory: 256Mi
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Resource requests define the guaranteed resources reserved for the container.
+  requests:
+    # @schema
+    # type: string
+    # @schema
+    # -- Minimum CPU requested by the container.
+    cpu: 100m
+
+    # @schema
+    # type: string
+    # @schema
+    # -- Minimum memory requested by the container.
+    memory: 128Mi
+
+# @schema
+# type: array
+# @schema
+# -- Pod topology spread constraints for availability
+topologySpreadConstraints: []
+
+# @schema
+# type: string
+# @schema
+# -- Optional Kubernetes PriorityClass name
+priorityClassName: ""
+
+# @schema
+# type: object
+# @schema
+# -- Node selector for pod assignment
+nodeSelector: {}
+
+# @schema
+# type: array
+# @schema
+# -- Tolerations for pod assignment
+tolerations: []
+
+# @schema
+# type: object
+# @schema
+# -- Affinity rules for pod assignment
+affinity: {}
