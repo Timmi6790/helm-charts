@@ -52,7 +52,7 @@ jobs:
 
       - name: Install helm-schema plugin
         run: |
-          helm plugin install https://github.com/dadav/helm-schema
+          helm plugin install https://github.com/dadav/helm-schema --verify=false
           helm schema --version
 
       - name: Generate schemas
