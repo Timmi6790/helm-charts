@@ -83,10 +83,10 @@ The following table lists the configurable parameters of the chart and their def
 | nodeSelector | object | `{}` | Node selector for pod assignment |
 | podAnnotations | object | `{}` | Additional annotations to add to the pod |
 | podLabels | object | `{}` | Additional labels to add to the pod |
-| podSecurityContext.fsGroup | int | `65532` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
-| podSecurityContext.runAsGroup | int | `65532` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.fsGroup | int | `1000` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.runAsGroup | int | `1000` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
 | podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
-| podSecurityContext.runAsUser | int | `65532` | User ID to run as. We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.runAsUser | int | `1000` | User ID to run as. We use the nonroot distroless user id here to allow cache updates |
 | priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
 | resources.limits | object | `{"cpu":"500m","memory":"256Mi"}` | Resource limits define the maximum resources the container can use. Next.js applications typically require more memory than simple web servers. |
 | resources.limits.cpu | string | `"500m"` | Maximum CPU allocation for the container. |
@@ -96,7 +96,7 @@ The following table lists the configurable parameters of the chart and their def
 | resources.requests.memory | string | `"128Mi"` | Minimum memory requested by the container. |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
-| securityContext.readOnlyRootFilesystem | bool | `false` | Mount root filesystem as read-only. Next.js ISR requires write access to update prerender cache. Set to true only if your app doesn't use ISR. |
+| securityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only. Next.js ISR requires write access to update prerender cache. Set to true only if your app doesn't use ISR. |
 | service.port | int | `80` | Port that the Kubernetes Service will expose. This port is mapped to the application container port (3000). |
 | service.type | string | `"ClusterIP"` | Kubernetes Service type that exposes the application. |
 | serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
