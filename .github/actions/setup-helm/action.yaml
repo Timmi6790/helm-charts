@@ -1,0 +1,24 @@
+name: 'Setup Helm Environment'
+description: 'Installs Helm and common plugins'
+inputs:
+  token:
+    description: 'GitHub Token'
+    required: false
+    default: ${{ github.token }}
+runs:
+  using: "composite"
+  steps:
+    - name: Install Helm
+      uses: azure/setup-helm@v4.2.0
+      with:
+        version: 'latest'
+
+    - name: Install helm-unittest
+      shell: bash
+      run: |
+        helm plugin install https://github.com/helm-unittest/helm-unittest --verify=false
+
+    - name: Install helm-schema
+      shell: bash
+      run: |
+        helm plugin install https://github.com/dadav/helm-schema --verify=false

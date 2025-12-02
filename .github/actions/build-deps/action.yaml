@@ -1,0 +1,27 @@
+name: 'Build Helm Dependencies'
+description: 'Builds dependencies for all charts'
+runs:
+  using: "composite"
+  steps:
+    - name: Build Helm dependencies
+      shell: bash
+      run: |
+        for chart_dir in charts/*/; do
+          if [ -f "$chart_dir/Chart.yaml" ]; then
+            echo "Building dependencies for $chart_dir"
+            helm dependency build "$chart_dir"
+          fi
+        done
+
+    - name: Extract dependencies for schema generation
+      shell: bash
+      run: |
+        for chart_dir in charts/*/; do
+          if [ -d "$chart_dir/charts" ]; then
+            cd "$chart_dir/charts"
+            for tgz in *.tgz; do
+              [ -f "$tgz" ] && tar -xzf "$tgz"
+            done
+            cd -
+          fi
+        done

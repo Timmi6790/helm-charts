@@ -1,0 +1,173 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    outputs:
+      changes_detected: ${{ steps.auto-commit.outputs.changes_detected }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          # Need to run this with a custom token to re-trigger workflows after commit.
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Helm Environment
+        uses: ./.github/actions/setup-helm
+
+      - name: Build Helm dependencies
+        uses: ./.github/actions/build-deps
+
+      - name: Generate schemas
+        run: helm schema
+
+      - name: Install helm-docs
+        run: |
+          cd /tmp
+          HELM_DOCS_VERSION=$(curl -s https://api.github.com/repos/norwoodj/helm-docs/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+          wget https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz
+          tar -xzf helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz
+          sudo mv helm-docs /usr/local/bin/
+          helm-docs --version
+
+      - name: Generate docs
+        run: helm-docs --chart-search-root=charts --template-files=README.md.gotmpl
+
+      - name: Commit documentation changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        id: auto-commit
+        with:
+          commit_message: "docs: update Helm chart documentation and schemas"
+
+      - name: Comment on PR
+        if: steps.auto-commit.outputs.changes_detected == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📚 Helm chart documentation and schema have been automatically updated.'
+            })
+
+  unit-test:
+    needs: docs
+    if: needs.docs.outputs.changes_detected != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Helm Environment
+        uses: ./.github/actions/setup-helm
+
+      - name: Build Helm dependencies
+        uses: ./.github/actions/build-deps
+
+      - name: Run unit tests
+        run: |
+          for chart in charts/*; do
+            if [ -d "$chart/tests" ]; then
+              echo "Running tests for $chart"
+              helm unittest $chart
+            else
+              echo "No tests found for $chart, skipping..."
+            fi
+          done
+
+  checkov:
+    needs: docs
+    if: needs.docs.outputs.changes_detected != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: charts
+          framework: helm
+          quiet: true
+
+  lint:
+    needs: docs
+    if: needs.docs.outputs.changes_detected != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Helm Environment
+        uses: ./.github/actions/setup-helm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config ./.github/configs/ct-lint.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run chart-testing (lint)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct lint --debug --config ./.github/configs/ct-lint.yaml --lint-conf ./.github/configs/lintconf.yaml
+
+  install:
+    needs: [docs, lint]
+    if: needs.docs.outputs.changes_detected != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Helm Environment
+        uses: ./.github/actions/setup-helm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          check-latest: true
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config ./.github/configs/ct-lint.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create kind cluster
+        if: steps.list-changed.outputs.changed == 'true'
+        uses: helm/kind-action@v1.10.0
+        with:
+          wait: '120s'
+
+      - name: Run chart-testing (install)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct install --config ./.github/configs/ct-lint.yaml

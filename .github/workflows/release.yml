@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -30,11 +30,11 @@ jobs:
       - name: Export GPG key to legacy format
         run: gpg --export-secret-keys > ~/.gnupg/pubring.gpg
 
-      - name: Install Helms
-        uses: azure/setup-helm@v4
+      - name: Setup Helm Environment
+        uses: ./.github/actions/setup-helm
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.7.0
+        uses: helm/chart-releaser-action@v1.6.0
         with:
           config: ./.github/configs/cr.yaml
         env:
