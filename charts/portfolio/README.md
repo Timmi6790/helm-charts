@@ -96,6 +96,7 @@ The following table lists the configurable parameters of the chart and their def
 | resources.requests.memory | string | `"128Mi"` | Minimum memory requested by the container. |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
+| securityContext.fsGroupChangePolicy | string | `"OnRootMismatch"` | Change the fsGroup of the pod for Security Context Constraints. |
 | securityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only. Next.js ISR requires write access to update prerender cache. Set to true only if your app doesn't use ISR. |
 | service.port | int | `80` | Port that the Kubernetes Service will expose. This port is mapped to the application container port (3000). |
 | service.type | string | `"ClusterIP"` | Kubernetes Service type that exposes the application. |
