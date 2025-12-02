@@ -199,21 +199,21 @@ podSecurityContext:
   # @schema
   # -- User ID to run as.
   # We use the nonroot distroless user id here to allow cache updates
-  runAsUser: 1000
+  runAsUser: 65532
 
   # @schema
   # type: integer
   # @schema
   # -- Group ID for file system access
   # We use the nonroot distroless user id here to allow cache updates
-  runAsGroup: 1000
+  runAsGroup: 65532
 
   # @schema
   # type: integer
   # @schema
   # -- Group ID for file system access
   # We use the nonroot distroless user id here to allow cache updates
-  fsGroup: 1000
+  fsGroup: 65532
 
   # @schema
   # type: string
