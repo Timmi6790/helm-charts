@@ -49,6 +49,33 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: init-next-server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command:
+            - /nodejs/bin/node
+            - -e
+            - >
+              const fs=require('fs'),path=require('path');
+              const copy=(s,d)=>{
+                if(!fs.existsSync(d)) fs.mkdirSync(d,{recursive:true});
+                for(const e of fs.readdirSync(s,{withFileTypes:true})){
+                  const sp=path.join(s,e.name), dp=path.join(d,e.name);
+                  if(e.isDirectory()) copy(sp,dp);
+                  else if(e.isFile()) fs.copyFileSync(sp,dp);
+                }
+              };
+              copy('/app/.next/server','/mnt/next-server');
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ "ALL" ]
+          volumeMounts:
+            - name: next-server
+              mountPath: /mnt/next-server
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -121,8 +148,12 @@ spec:
               mountPath: /tmp
             - name: next-cache
               mountPath: /app/.next/cache
+            - name: next-server
+              mountPath: /app/.next/server
       volumes:
         - name: tmp
           emptyDir: {}
         - name: next-cache
           emptyDir: { }
+        - name: next-server
+          emptyDir: {}
