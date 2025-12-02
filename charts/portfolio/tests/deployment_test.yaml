@@ -40,6 +40,9 @@ tests:
           path: spec.template.spec.securityContext.runAsUser
           value: 1000
       - equal:
+          path: spec.template.spec.securityContext.runAsGroup
+          value: 1000
+      - equal:
           path: spec.template.spec.securityContext.fsGroup
           value: 1000
       - equal:
@@ -47,7 +50,7 @@ tests:
           value: false
       - equal:
           path: spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem
-          value: false
+          value: true
       - contains:
           path: spec.template.spec.containers[0].securityContext.capabilities.drop
           content: ALL
