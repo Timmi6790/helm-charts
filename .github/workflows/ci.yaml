@@ -100,6 +100,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Helm Environment
+        uses: ./.github/actions/setup-helm
+
+      - name: Build Helm dependencies
+        uses: ./.github/actions/build-deps
+
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
