@@ -427,6 +427,13 @@
           "required": [],
           "title": "capabilities"
         },
+        "fsGroupChangePolicy": {
+          "default": "OnRootMismatch",
+          "description": "Change the fsGroup of the pod for Security Context Constraints.",
+          "required": [],
+          "title": "fsGroupChangePolicy",
+          "type": "string"
+        },
         "readOnlyRootFilesystem": {
           "default": true,
           "description": "Mount root filesystem as read-only.\nNext.js ISR requires write access to update prerender cache.\nSet to true only if your app doesn't use ISR.",
