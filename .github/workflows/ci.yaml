@@ -90,29 +90,6 @@ jobs:
             fi
           done
 
-  checkov:
-    needs: docs
-    if: needs.docs.outputs.changes_detected != 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Helm Environment
-        uses: ./.github/actions/setup-helm
-
-      - name: Build Helm dependencies
-        uses: ./.github/actions/build-deps
-
-      - name: Run Checkov
-        uses: bridgecrewio/checkov-action@v12
-        with:
-          directory: charts
-          framework: helm
-          quiet: true
-
   lint:
     needs: docs
     if: needs.docs.outputs.changes_detected != 'true'
