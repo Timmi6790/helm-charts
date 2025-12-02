@@ -1,6 +1,6 @@
 # portfolio
 
-![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![AppVersion: v1.2.0](https://img.shields.io/badge/AppVersion-v1.2.0-informational?style=flat-square)
+![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![AppVersion: v1.2.0](https://img.shields.io/badge/AppVersion-v1.2.0-informational?style=flat-square)
 
 Personal portfolio built with Next.js.
 
@@ -83,9 +83,10 @@ The following table lists the configurable parameters of the chart and their def
 | nodeSelector | object | `{}` | Node selector for pod assignment |
 | podAnnotations | object | `{}` | Additional annotations to add to the pod |
 | podLabels | object | `{}` | Additional labels to add to the pod |
-| podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
+| podSecurityContext.fsGroup | int | `65532` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.runAsGroup | int | `65532` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
 | podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
-| podSecurityContext.runAsUser | int | `1000` | User ID to run as. Next.js standalone server uses user ID 1000 by default. |
+| podSecurityContext.runAsUser | int | `65532` | User ID to run as. We use the nonroot distroless user id here to allow cache updates |
 | priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
 | resources.limits | object | `{"cpu":"500m","memory":"256Mi"}` | Resource limits define the maximum resources the container can use. Next.js applications typically require more memory than simple web servers. |
 | resources.limits.cpu | string | `"500m"` | Maximum CPU allocation for the container. |
