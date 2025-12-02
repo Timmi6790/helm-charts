@@ -123,8 +123,8 @@ spec:
               })();
           securityContext:
             runAsNonRoot: true
-            runAsUser: 65532
-            runAsGroup: 65532
+            runAsUser: {{ .Values.podSecurityContext.runAsUser }}
+            runAsGroup: {{ .Values.podSecurityContext.runAsGroup }}
             allowPrivilegeEscalation: false
             capabilities:
               drop: [ "ALL" ]
