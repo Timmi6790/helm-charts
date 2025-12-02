@@ -244,6 +244,12 @@ securityContext:
   # Set to true only if your app doesn't use ISR.
   readOnlyRootFilesystem: true
 
+  # @schema
+  # type: string
+  # @schema
+  # -- Change the fsGroup of the pod for Security Context Constraints.
+  fsGroupChangePolicy: "OnRootMismatch"
+
 # @schema
 # additionalProperties: true
 # @schema
