@@ -522,6 +522,26 @@ entries:
   portfolio:
   - apiVersion: v2
     appVersion: v1.2.0
+    created: "2025-12-02T07:45:17.792313282Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: Personal portfolio built with Next.js.
+    digest: 30a51924cbe2efcce0dde2eac8f0938d7f69560c0df4e4a6000fb26b43c49e72
+    home: https://github.com/Timmi6790/helm-charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: portfolio
+    sources:
+    - https://github.com/Timmi6790/Portfolio
+    - https://hub.docker.com/r/timmi6790/portfolio
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/portfolio-1.0.4/portfolio-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: v1.2.0
     created: "2025-12-01T16:18:11.359058973Z"
     dependencies:
     - name: common
@@ -666,4 +686,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2025-12-01T16:18:11.359163811Z"
+generated: "2025-12-02T07:45:17.792435411Z"
