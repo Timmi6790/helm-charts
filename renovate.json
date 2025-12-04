@@ -4,7 +4,6 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests",
     ":semanticCommits",
-    ":pruneStaleBranches",
     ":rebaseStalePrs"
   ],
   "labels": [
