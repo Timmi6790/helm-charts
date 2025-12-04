@@ -46,7 +46,7 @@ jobs:
         run: helm-docs --chart-search-root=charts --template-files=README.md.gotmpl
 
       - name: Commit documentation changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3 # v7
         id: auto-commit
         with:
           commit_message: "docs: update Helm chart documentation and schemas"
