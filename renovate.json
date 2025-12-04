@@ -34,7 +34,7 @@
     },
     {
       "matchManagers": [
-        "helm",
+        "helmv3",
         "helm-values"
       ],
       "groupName": "all non-major charts",
