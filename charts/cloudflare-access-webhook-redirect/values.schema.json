@@ -730,7 +730,7 @@
           "title": "httpGet"
         },
         "initialDelaySeconds": {
-          "default": 0,
+          "default": 2,
           "description": "Initial delay before probe starts",
           "required": [],
           "title": "initialDelaySeconds",
