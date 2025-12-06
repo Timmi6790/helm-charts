@@ -1,6 +1,6 @@
 # cloudflare-access-webhook-redirect
 
-![Version: 2.0.3](https://img.shields.io/badge/Version-2.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.3.3](https://img.shields.io/badge/AppVersion-v0.3.3-informational?style=flat-square)
+![Version: 2.0.4](https://img.shields.io/badge/Version-2.0.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.3.3](https://img.shields.io/badge/AppVersion-v0.3.3-informational?style=flat-square)
 
 A Helm chart for deploying the Cloudflare Access Webhook Redirect service. This service acts as an authentication proxy that validates requests using Cloudflare Access Service Auth tokens before forwarding them to target backend services.
 
@@ -108,9 +108,9 @@ The following table lists the configurable parameters of the chart and their def
 | readinessProbe.timeoutSeconds | int | `3` | Probe timeout |
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources.limits.cpu | string | `"100m"` | Maximum CPU usage (e.g. 100m = 0.1 core) |
-| resources.limits.memory | string | `"15Mi"` | Maximum memory usage (e.g. 64Mi) |
+| resources.limits.memory | string | `"50Mi"` | Maximum memory usage (e.g. 64Mi) |
 | resources.requests.cpu | string | `"10m"` | Guaranteed CPU request |
-| resources.requests.memory | string | `"10Mi"` | Guaranteed memory request |
+| resources.requests.memory | string | `"35Mi"` | Guaranteed memory request |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
 | securityContext.readOnlyRootFilesystem | bool | `false` | Mount root filesystem as read-only |
@@ -125,7 +125,7 @@ The following table lists the configurable parameters of the chart and their def
 | startupProbe.failureThreshold | int | `30` | Failure threshold |
 | startupProbe.httpGet.path | string | `"/health"` | Health check path |
 | startupProbe.httpGet.port | string | `"http"` | Health check port |
-| startupProbe.initialDelaySeconds | int | `0` | Initial delay before probe starts |
+| startupProbe.initialDelaySeconds | int | `2` | Initial delay before probe starts |
 | startupProbe.periodSeconds | int | `5` | Probe frequency |
 | startupProbe.successThreshold | int | `1` | Success threshold |
 | startupProbe.timeoutSeconds | int | `3` | Probe timeout |

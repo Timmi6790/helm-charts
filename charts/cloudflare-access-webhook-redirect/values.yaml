@@ -60,6 +60,7 @@ serviceAccount:
 
   # @schema
   # type: object
+  # additionalProperties: true
   # @schema
   # -- Additional annotations for the service account
   annotations: {}
@@ -84,12 +85,14 @@ priorityClassName: ""
 
 # @schema
 # type: object
+# additionalProperties: true
 # @schema
 # -- Additional annotations for the Pod metadata
 podAnnotations: {}
 
 # @schema
 # type: object
+# additionalProperties: true
 # @schema
 # -- Additional labels for the Pod metadata
 podLabels: {}
@@ -242,6 +245,7 @@ service:
 
   # @schema
   # type: object
+  # additionalProperties: true
   # @schema
   # -- Additional service annotations
   annotations: {}
@@ -264,6 +268,7 @@ ingress:
 
   # @schema
   # type: object
+  # additionalProperties: true
   # @schema
   # -- Additional ingress annotations
   # Example:
@@ -310,7 +315,7 @@ resources:
     # type: string
     # @schema
     # -- Maximum memory usage (e.g. 64Mi)
-    memory: 15Mi
+    memory: 50Mi
 
   # @schema
   # additionalProperties: true
@@ -326,7 +331,7 @@ resources:
     # type: string
     # @schema
     # -- Guaranteed memory request
-    memory: 10Mi
+    memory: 35Mi
 
 # @schema
 # additionalProperties: true
@@ -358,7 +363,7 @@ startupProbe:
   # type: integer
   # @schema
   # -- Initial delay before probe starts
-  initialDelaySeconds: 0
+  initialDelaySeconds: 2
 
   # @schema
   # type: integer
@@ -544,6 +549,7 @@ volumeMounts: []
 
 # @schema
 # type: object
+# additionalProperties: true
 # @schema
 # -- Node selector labels for scheduling
 nodeSelector: {}
@@ -556,6 +562,7 @@ tolerations: []
 
 # @schema
 # type: object
+# additionalProperties: true
 # @schema
 # -- Pod affinity rules
 affinity: {}

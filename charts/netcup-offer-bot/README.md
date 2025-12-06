@@ -1,6 +1,6 @@
 # netcup-offer-bot
 
-![Version: 1.0.8](https://img.shields.io/badge/Version-1.0.8-informational?style=flat-square) ![AppVersion: v1.3.0](https://img.shields.io/badge/AppVersion-v1.3.0-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: v1.3.1](https://img.shields.io/badge/AppVersion-v1.3.1-informational?style=flat-square)
 
 This chart deploys the Netcup Offer Bot, which monitors https://www.netcup-sonderangebote.de/ RSS feed and sends notifications to Discord webhooks when new offers are available.
 
@@ -53,7 +53,7 @@ The following table lists the configurable parameters of the chart and their def
 | env.webHook | string | `""` | Webhook URL to send updates or notifications. |
 | image.pullPolicy | string | `"IfNotPresent"` | The image pull policy. |
 | image.repository | string | `"timmi6790/netcup-offer-bot"` | The container image repository. |
-| image.tag | string | `"v1.3.0"` | The container image tag. |
+| image.tag | string | `"v1.3.1"` | The container image tag. |
 | imagePullSecrets | list | `[]` | Optional image pull secrets for private registries |
 | metrics.enabled | bool | `false` | Enable Prometheus metrics endpoint. |
 | metrics.port | int | `9184` | Port to expose metrics on. |
@@ -63,9 +63,7 @@ The following table lists the configurable parameters of the chart and their def
 | persistence.data | object | `{"accessMode":"ReadWriteOnce","size":"10Mi"}` | Configuration for persistent data storage. |
 | persistence.data.accessMode | string | `"ReadWriteOnce"` | The access mode for the persistent volume. |
 | persistence.data.size | string | `"10Mi"` | The storage size requested for the volume. |
-| podSecurityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
-| podSecurityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only |
 | podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
 | podSecurityContext.runAsUser | int | `1000` | User ID to run as |
 | priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
@@ -73,6 +71,9 @@ The following table lists the configurable parameters of the chart and their def
 | resources.limits.memory | string | `"20Mi"` | Maximum allowed memory usage. |
 | resources.requests | object | `{"memory":"15Mi"}` | Resource requests for the container. |
 | resources.requests.memory | string | `"15Mi"` | Minimum guaranteed memory allocation. |
+| securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
+| securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
+| securityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only |
 | serviceAccount.annotations | object | `{}` | Additional annotations for the service account |
 | serviceAccount.automountToken | bool | `false` | Whether to automount the service account token |
 | serviceAccount.create | bool | `true` | Whether to create a dedicated service account |

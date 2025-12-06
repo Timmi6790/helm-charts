@@ -3,7 +3,7 @@
   "additionalProperties": false,
   "properties": {
     "affinity": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Pod affinity rules",
       "required": [],
       "title": "affinity",
@@ -208,7 +208,7 @@
       "additionalProperties": true,
       "properties": {
         "annotations": {
-          "additionalProperties": false,
+          "additionalProperties": true,
           "description": "Additional ingress annotations\nExample:\n  cert-manager.io/cluster-issuer: letsencrypt-prod\n  nginx.ingress.kubernetes.io/rate-limit: \"100\"",
           "required": [],
           "title": "annotations",
@@ -372,14 +372,14 @@
       "title": "networkPolicy"
     },
     "nodeSelector": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Node selector labels for scheduling",
       "required": [],
       "title": "nodeSelector",
       "type": "object"
     },
     "podAnnotations": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Additional annotations for the Pod metadata",
       "required": [],
       "title": "podAnnotations",
@@ -420,7 +420,7 @@
       "title": "podDisruptionBudget"
     },
     "podLabels": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Additional labels for the Pod metadata",
       "required": [],
       "title": "podLabels",
@@ -546,7 +546,7 @@
               "type": "string"
             },
             "memory": {
-              "default": "15Mi",
+              "default": "50Mi",
               "description": "Maximum memory usage (e.g. 64Mi)",
               "required": [],
               "title": "memory",
@@ -567,7 +567,7 @@
               "type": "string"
             },
             "memory": {
-              "default": "10Mi",
+              "default": "35Mi",
               "description": "Guaranteed memory request",
               "required": [],
               "title": "memory",
@@ -628,7 +628,7 @@
       "additionalProperties": true,
       "properties": {
         "annotations": {
-          "additionalProperties": false,
+          "additionalProperties": true,
           "description": "Additional service annotations",
           "required": [],
           "title": "annotations",
@@ -660,7 +660,7 @@
       "additionalProperties": true,
       "properties": {
         "annotations": {
-          "additionalProperties": false,
+          "additionalProperties": true,
           "description": "Additional annotations for the service account",
           "required": [],
           "title": "annotations",
@@ -730,7 +730,7 @@
           "title": "httpGet"
         },
         "initialDelaySeconds": {
-          "default": 0,
+          "default": 2,
           "description": "Initial delay before probe starts",
           "required": [],
           "title": "initialDelaySeconds",
