@@ -123,11 +123,10 @@ The following table lists the configurable parameters of the chart and their def
 | serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) |
 | startupProbe.enabled | bool | `true` | Enable startup probe |
 | startupProbe.failureThreshold | int | `30` | Failure threshold |
-| startupProbe.httpGet.path | string | `"/health"` | Health check path |
-| startupProbe.httpGet.port | string | `"http"` | Health check port |
 | startupProbe.initialDelaySeconds | int | `2` | Initial delay before probe starts |
 | startupProbe.periodSeconds | int | `5` | Probe frequency |
 | startupProbe.successThreshold | int | `1` | Success threshold |
+| startupProbe.tcpSocket.port | string | `"http"` | Port to probe |
 | startupProbe.timeoutSeconds | int | `3` | Probe timeout |
 | tolerations | list | `[]` | Tolerations for taints |
 | topologySpreadConstraints | list | `[]` | Pod topology spread constraints for availability |
