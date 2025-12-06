@@ -3,6 +3,35 @@ entries:
   cloudflare-access-webhook-redirect:
   - apiVersion: v2
     appVersion: v0.3.3
+    created: "2025-12-06T10:08:31.172884407Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: A Helm chart for deploying the Cloudflare Access Webhook Redirect
+      service. This service acts as an authentication proxy that validates requests
+      using Cloudflare Access Service Auth tokens before forwarding them to target
+      backend services.
+    digest: 72ace157e591bac783e0da62ecd481f21a55cab8007547d860ae51bd97dceb3a
+    home: https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    keywords:
+    - cloudflare
+    - webhook
+    - redirect
+    - authentication
+    maintainers:
+    - name: Timmi6790
+      url: https://github.com/Timmi6790
+    name: cloudflare-access-webhook-redirect
+    sources:
+    - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+    - https://github.com/Timmi6790/helm-charts
+    type: application
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/cloudflare-access-webhook-redirect-2.0.4/cloudflare-access-webhook-redirect-2.0.4.tgz
+    version: 2.0.4
+  - apiVersion: v2
+    appVersion: v0.3.3
     created: "2025-10-30T15:10:17.082023742Z"
     dependencies:
     - name: common
@@ -383,6 +412,26 @@ entries:
     - https://github.com/Timmi6790/helm-charts/releases/download/common-0.1.0/common-0.1.0.tgz
     version: 0.1.0
   netcup-offer-bot:
+  - apiVersion: v2
+    appVersion: v1.3.1
+    created: "2025-12-06T10:08:31.309394935Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.0
+    description: This chart deploys the Netcup Offer Bot, which monitors https://www.netcup-sonderangebote.de/
+      RSS feed and sends notifications to Discord webhooks when new offers are available.
+    digest: ccb4eec1cd8562efb2a6bf5ec3c8ce154052795fd0ed3e1f62d23ca02849ddb6
+    home: https://github.com/Timmi6790/charts
+    maintainers:
+    - email: contact@timmi6790.de
+      name: Timmi6790
+    name: netcup-offer-bot
+    sources:
+    - https://github.com/Timmi6790/netcup-offer-bot
+    urls:
+    - https://github.com/Timmi6790/helm-charts/releases/download/netcup-offer-bot-2.0.0/netcup-offer-bot-2.0.0.tgz
+    version: 2.0.0
   - apiVersion: v2
     appVersion: v1.3.0
     created: "2025-10-30T15:10:17.544010581Z"
@@ -766,4 +815,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2025-12-06T06:38:30.685035901Z"
+generated: "2025-12-06T10:08:31.30963906Z"
