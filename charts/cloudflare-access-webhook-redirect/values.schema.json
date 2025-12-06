@@ -708,27 +708,6 @@
           "title": "failureThreshold",
           "type": "integer"
         },
-        "httpGet": {
-          "additionalProperties": true,
-          "properties": {
-            "path": {
-              "default": "/health",
-              "description": "Health check path",
-              "required": [],
-              "title": "path",
-              "type": "string"
-            },
-            "port": {
-              "default": "http",
-              "description": "Health check port",
-              "required": [],
-              "title": "port",
-              "type": "string"
-            }
-          },
-          "required": [],
-          "title": "httpGet"
-        },
         "initialDelaySeconds": {
           "default": 2,
           "description": "Initial delay before probe starts",
@@ -749,6 +728,20 @@
           "required": [],
           "title": "successThreshold",
           "type": "integer"
+        },
+        "tcpSocket": {
+          "additionalProperties": true,
+          "properties": {
+            "port": {
+              "default": "http",
+              "description": "Port to probe",
+              "required": [],
+              "title": "port",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "title": "tcpSocket"
         },
         "timeoutSeconds": {
           "default": 3,
