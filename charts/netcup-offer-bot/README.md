@@ -63,7 +63,6 @@ The following table lists the configurable parameters of the chart and their def
 | persistence.data | object | `{"accessMode":"ReadWriteOnce","size":"10Mi"}` | Configuration for persistent data storage. |
 | persistence.data.accessMode | string | `"ReadWriteOnce"` | The access mode for the persistent volume. |
 | persistence.data.size | string | `"10Mi"` | The storage size requested for the volume. |
-| podSecurityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
 | podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
 | podSecurityContext.runAsUser | int | `1000` | User ID to run as |
