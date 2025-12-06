@@ -346,17 +346,11 @@ startupProbe:
   # @schema
   # additionalProperties: true
   # @schema
-  httpGet:
+  tcpSocket:
     # @schema
     # type: string
     # @schema
-    # -- Health check path
-    path: /health
-
-    # @schema
-    # type: string
-    # @schema
-    # -- Health check port
+    # -- Port to probe
     port: http
 
   # @schema
