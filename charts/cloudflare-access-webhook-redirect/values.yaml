@@ -363,7 +363,7 @@ startupProbe:
   # type: integer
   # @schema
   # -- Initial delay before probe starts
-  initialDelaySeconds: 0
+  initialDelaySeconds: 2
 
   # @schema
   # type: integer
