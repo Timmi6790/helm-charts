@@ -125,7 +125,7 @@ The following table lists the configurable parameters of the chart and their def
 | startupProbe.failureThreshold | int | `30` | Failure threshold |
 | startupProbe.httpGet.path | string | `"/health"` | Health check path |
 | startupProbe.httpGet.port | string | `"http"` | Health check port |
-| startupProbe.initialDelaySeconds | int | `0` | Initial delay before probe starts |
+| startupProbe.initialDelaySeconds | int | `2` | Initial delay before probe starts |
 | startupProbe.periodSeconds | int | `5` | Probe frequency |
 | startupProbe.successThreshold | int | `1` | Success threshold |
 | startupProbe.timeoutSeconds | int | `3` | Probe timeout |
