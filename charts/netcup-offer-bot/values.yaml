@@ -72,12 +72,6 @@ podSecurityContext:
   # @schema
   # type: boolean
   # @schema
-  # -- Mount root filesystem as read-only
-  readOnlyRootFilesystem: true
-
-  # @schema
-  # type: boolean
-  # @schema
   # -- Allow privilege escalation
   allowPrivilegeEscalation: false
 
@@ -92,6 +86,33 @@ podSecurityContext:
   # @schema
   # -- Group ID for file system access
   fsGroup: 1000
+
+# @schema
+# additionalProperties: true
+# @schema
+securityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  capabilities:
+    # @schema
+    # type: array
+    # @schema
+    # -- Linux capabilities to drop
+    drop:
+      - ALL
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only
+  readOnlyRootFilesystem: true
 
 # @schema
 # additionalProperties: true
