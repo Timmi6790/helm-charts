@@ -216,7 +216,7 @@
           "type": "string"
         },
         "tag": {
-          "default": "v1.3.0",
+          "default": "v1.3.1",
           "description": "Container image tag to deploy.",
           "required": [],
           "title": "tag",
