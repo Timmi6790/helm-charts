@@ -108,9 +108,9 @@ The following table lists the configurable parameters of the chart and their def
 | readinessProbe.timeoutSeconds | int | `3` | Probe timeout |
 | replicaCount | int | `1` | Number of replicas to deploy |
 | resources.limits.cpu | string | `"100m"` | Maximum CPU usage (e.g. 100m = 0.1 core) |
-| resources.limits.memory | string | `"15Mi"` | Maximum memory usage (e.g. 64Mi) |
+| resources.limits.memory | string | `"50Mi"` | Maximum memory usage (e.g. 64Mi) |
 | resources.requests.cpu | string | `"10m"` | Guaranteed CPU request |
-| resources.requests.memory | string | `"10Mi"` | Guaranteed memory request |
+| resources.requests.memory | string | `"35Mi"` | Guaranteed memory request |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
 | securityContext.readOnlyRootFilesystem | bool | `false` | Mount root filesystem as read-only |
@@ -123,10 +123,11 @@ The following table lists the configurable parameters of the chart and their def
 | serviceAccount.name | string | `""` | Custom service account name (auto-generated if empty) |
 | startupProbe.enabled | bool | `true` | Enable startup probe |
 | startupProbe.failureThreshold | int | `30` | Failure threshold |
+| startupProbe.httpGet.path | string | `"/health"` | Health check path |
+| startupProbe.httpGet.port | string | `"http"` | Health check port |
 | startupProbe.initialDelaySeconds | int | `2` | Initial delay before probe starts |
 | startupProbe.periodSeconds | int | `5` | Probe frequency |
 | startupProbe.successThreshold | int | `1` | Success threshold |
-| startupProbe.tcpSocket.port | string | `"http"` | Port to probe |
 | startupProbe.timeoutSeconds | int | `3` | Probe timeout |
 | tolerations | list | `[]` | Tolerations for taints |
 | topologySpreadConstraints | list | `[]` | Pod topology spread constraints for availability |
