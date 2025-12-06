@@ -315,7 +315,7 @@ resources:
     # type: string
     # @schema
     # -- Maximum memory usage (e.g. 64Mi)
-    memory: 15Mi
+    memory: 50Mi
 
   # @schema
   # additionalProperties: true
@@ -331,7 +331,7 @@ resources:
     # type: string
     # @schema
     # -- Guaranteed memory request
-    memory: 10Mi
+    memory: 35Mi
 
 # @schema
 # additionalProperties: true
@@ -346,11 +346,17 @@ startupProbe:
   # @schema
   # additionalProperties: true
   # @schema
-  tcpSocket:
+  httpGet:
     # @schema
     # type: string
     # @schema
-    # -- Port to probe
+    # -- Health check path
+    path: /health
+
+    # @schema
+    # type: string
+    # @schema
+    # -- Health check port
     port: http
 
   # @schema
