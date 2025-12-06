@@ -70,12 +70,6 @@ podSecurityContext:
   runAsNonRoot: true
 
   # @schema
-  # type: boolean
-  # @schema
-  # -- Allow privilege escalation
-  allowPrivilegeEscalation: false
-
-  # @schema
   # type: integer
   # @schema
   # -- User ID to run as
