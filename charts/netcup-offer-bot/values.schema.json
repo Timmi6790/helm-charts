@@ -175,13 +175,6 @@
     "podSecurityContext": {
       "additionalProperties": true,
       "properties": {
-        "allowPrivilegeEscalation": {
-          "default": false,
-          "description": "Allow privilege escalation",
-          "required": [],
-          "title": "allowPrivilegeEscalation",
-          "type": "boolean"
-        },
         "fsGroup": {
           "default": 1000,
           "description": "Group ID for file system access",
