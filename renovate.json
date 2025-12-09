@@ -1,14 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended",
+    "config:best-practices",
     "helpers:pinGitHubActionDigests",
-    ":semanticCommits",
-    ":rebaseStalePrs"
+    "workarounds:all"
   ],
+  "dependencyDashboard": true,
+  "semanticCommits": "enabled",
   "labels": [
     "dependencies"
   ],
+  "rebaseWhen": "auto",
+  "timezone": "Europe/Berlin",
+  "minimumReleaseAge": null,
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "branchConcurrentLimit": 0,
   "regexManagers": [
     {
       "fileMatch": [
