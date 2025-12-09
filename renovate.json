@@ -16,10 +16,11 @@
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "branchConcurrentLimit": 0,
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": [
-        "^charts/[^/]+/Chart\\.ya?ml$"
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^charts/[^/]+/Chart\\.ya?ml$/"
       ],
       "matchStrings": [
         "(?m)^name:\\s*(?<chartName>[\\w\\-]+)[\\s\\S]*?^appVersion:\\s*\"?(?<currentValue>v?[0-9][^\"\\s]*)\"?"
@@ -29,8 +30,9 @@
       "versioningTemplate": "docker"
     },
     {
-      "fileMatch": [
-        "^charts/[^/]+/values\\.ya?ml$"
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^charts/[^/]+/values\\.ya?ml$/"
       ],
       "matchStrings": [
         "(?m)^image:\\s*[\\s\\S]*?^\\s*repository:\\s*(?<depName>[^\\s#]+)[\\s\\S]*?^\\s*tag:\\s*\"?(?<currentValue>v?[0-9][^\"\\s#]*)\"?"
