@@ -9,6 +9,29 @@
   "labels": [
     "dependencies"
   ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^charts/[^/]+/Chart\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "(?m)^name:\\s*(?<chartName>[\\w\\-]+)[\\s\\S]*?^appVersion:\\s*\"?(?<currentValue>v?[0-9][^\"\\s]*)\"?"
+      ],
+      "depNameTemplate": "timmi6790/{{{chartName}}}",
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "^charts/[^/]+/values\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "(?m)^image:\\s*[\\s\\S]*?^\\s*repository:\\s*(?<depName>[^\\s#]+)[\\s\\S]*?^\\s*tag:\\s*\"?(?<currentValue>v?[0-9][^\"\\s#]*)\"?"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
