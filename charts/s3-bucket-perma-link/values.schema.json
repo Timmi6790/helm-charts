@@ -25,6 +25,150 @@
           "title": "handler",
           "type": "object"
         },
+        "healthCheck": {
+          "additionalProperties": true,
+          "description": "Health check probe configuration.\nApplication exposes health check on /health.",
+          "properties": {
+            "liveness": {
+              "additionalProperties": true,
+              "description": "Liveness probe configuration.\nDetects if the container needs to be restarted.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 3,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before liveness probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 10,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 5,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "liveness"
+            },
+            "path": {
+              "default": "/health",
+              "description": "Path for health check endpoint.",
+              "required": [],
+              "title": "path",
+              "type": "string"
+            },
+            "readiness": {
+              "additionalProperties": true,
+              "description": "Readiness probe configuration.\nDetects if the container is ready to serve traffic.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 3,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before readiness probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 5,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 3,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "readiness"
+            },
+            "startup": {
+              "additionalProperties": true,
+              "description": "Startup probe configuration.\nProtects slow starting containers from being killed by liveness probe.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 12,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before startup probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 5,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 3,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "startup"
+            }
+          },
+          "required": [],
+          "title": "healthCheck"
+        },
         "logLevel": {
           "default": "info",
           "description": "Log level for application output.",
@@ -133,7 +277,7 @@
           "type": "string"
         },
         "tag": {
-          "default": "v0.2.2",
+          "default": "v0.2.2@sha256:242b6ae9e2b6856c8b60ddbab2b7dc747741ff400a0e0c279106a2174bd31101",
           "description": "Container image tag to deploy.\nPin to a version for predictable deployments rather than using \"latest\".",
           "required": [],
           "title": "tag",
@@ -192,26 +336,12 @@
     "podSecurityContext": {
       "additionalProperties": true,
       "properties": {
-        "allowPrivilegeEscalation": {
-          "default": false,
-          "description": "Allow privilege escalation",
-          "required": [],
-          "title": "allowPrivilegeEscalation",
-          "type": "boolean"
-        },
         "fsGroup": {
           "default": 1000,
           "description": "Group ID for file system access",
           "required": [],
           "title": "fsGroup",
           "type": "integer"
-        },
-        "readOnlyRootFilesystem": {
-          "default": true,
-          "description": "Mount root filesystem as read-only",
-          "required": [],
-          "title": "readOnlyRootFilesystem",
-          "type": "boolean"
         },
         "runAsNonRoot": {
           "default": true,
@@ -267,6 +397,49 @@
       },
       "required": [],
       "title": "resources"
+    },
+    "securityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "default": false,
+          "description": "Allow privilege escalation",
+          "required": [],
+          "title": "allowPrivilegeEscalation",
+          "type": "boolean"
+        },
+        "capabilities": {
+          "additionalProperties": true,
+          "properties": {
+            "drop": {
+              "description": "Linux capabilities to drop",
+              "items": {
+                "anyOf": [
+                  {
+                    "required": [],
+                    "type": "string"
+                  }
+                ],
+                "required": []
+              },
+              "required": [],
+              "title": "drop",
+              "type": "array"
+            }
+          },
+          "required": [],
+          "title": "capabilities"
+        },
+        "readOnlyRootFilesystem": {
+          "default": true,
+          "description": "Mount root filesystem as read-only.\nNext.js ISR requires write access to update prerender cache.\nSet to true only if your app doesn't use ISR.",
+          "required": [],
+          "title": "readOnlyRootFilesystem",
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "title": "securityContext"
     },
     "service": {
       "additionalProperties": true,

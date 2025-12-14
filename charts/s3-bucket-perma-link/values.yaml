@@ -18,7 +18,7 @@ image:
   # @schema
   # -- Container image tag to deploy.
   # Pin to a version for predictable deployments rather than using "latest".
-  tag: v0.2.2
+  tag: v0.2.2@sha256:242b6ae9e2b6856c8b60ddbab2b7dc747741ff400a0e0c279106a2174bd31101
 
   # @schema
   # enum: [Always, IfNotPresent, Never]
@@ -122,6 +122,155 @@ application:
     # Used for authenticating with region-specific endpoints.
     region: "eu-central-1"
 
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Health check probe configuration.
+  # Application exposes health check on /health.
+  healthCheck:
+    # @schema
+    # type: string
+    # @schema
+    # -- Path for health check endpoint.
+    path: /health
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Startup probe configuration.
+    # Protects slow starting containers from being killed by liveness probe.
+    startup:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before startup probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 3
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 12
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Liveness probe configuration.
+    # Detects if the container needs to be restarted.
+    liveness:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before liveness probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 10
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 3
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Readiness probe configuration.
+    # Detects if the container is ready to serve traffic.
+    readiness:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before readiness probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 3
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 3
+
+# @schema
+# additionalProperties: true
+# @schema
+securityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  capabilities:
+    # @schema
+    # type: array
+    # @schema
+    # -- Linux capabilities to drop
+    drop:
+      - ALL
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only.
+  # Next.js ISR requires write access to update prerender cache.
+  # Set to true only if your app doesn't use ISR.
+  readOnlyRootFilesystem: true
+
 # @schema
 # additionalProperties: true
 # @schema
@@ -131,18 +280,6 @@ podSecurityContext:
   # @schema
   # -- Run pod as non-root user
   runAsNonRoot: true
-
-  # @schema
-  # type: boolean
-  # @schema
-  # -- Mount root filesystem as read-only
-  readOnlyRootFilesystem: true
-
-  # @schema
-  # type: boolean
-  # @schema
-  # -- Allow privilege escalation
-  allowPrivilegeEscalation: false
 
   # @schema
   # type: integer
