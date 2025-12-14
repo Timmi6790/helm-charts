@@ -133,7 +133,7 @@
           "type": "string"
         },
         "tag": {
-          "default": "v0.2.2",
+          "default": "v0.2.2@sha256:242b6ae9e2b6856c8b60ddbab2b7dc747741ff400a0e0c279106a2174bd31101",
           "description": "Container image tag to deploy.\nPin to a version for predictable deployments rather than using \"latest\".",
           "required": [],
           "title": "tag",
