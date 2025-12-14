@@ -122,6 +122,126 @@ application:
     # Used for authenticating with region-specific endpoints.
     region: "eu-central-1"
 
+  # @schema
+  # additionalProperties: true
+  # @schema
+  # -- Health check probe configuration.
+  # Application exposes health check on /health.
+  healthCheck:
+    # @schema
+    # type: string
+    # @schema
+    # -- Path for health check endpoint.
+    path: /health
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Startup probe configuration.
+    # Protects slow starting containers from being killed by liveness probe.
+    startup:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before startup probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 3
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 12
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Liveness probe configuration.
+    # Detects if the container needs to be restarted.
+    liveness:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before liveness probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 10
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 3
+
+    # @schema
+    # additionalProperties: true
+    # @schema
+    # -- Readiness probe configuration.
+    # Detects if the container is ready to serve traffic.
+    readiness:
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after the container has started before readiness probe is initiated.
+      initialDelaySeconds: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- How often (in seconds) to perform the probe.
+      periodSeconds: 5
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Number of seconds after which the probe times out.
+      timeoutSeconds: 3
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive successes for the probe to be considered successful.
+      successThreshold: 1
+
+      # @schema
+      # type: integer
+      # @schema
+      # -- Minimum consecutive failures for the probe to be considered failed.
+      failureThreshold: 3
+
 # @schema
 # additionalProperties: true
 # @schema
