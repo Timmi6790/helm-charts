@@ -25,6 +25,150 @@
           "title": "handler",
           "type": "object"
         },
+        "healthCheck": {
+          "additionalProperties": true,
+          "description": "Health check probe configuration.\nApplication exposes health check on /health.",
+          "properties": {
+            "liveness": {
+              "additionalProperties": true,
+              "description": "Liveness probe configuration.\nDetects if the container needs to be restarted.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 3,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before liveness probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 10,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 5,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "liveness"
+            },
+            "path": {
+              "default": "/health",
+              "description": "Path for health check endpoint.",
+              "required": [],
+              "title": "path",
+              "type": "string"
+            },
+            "readiness": {
+              "additionalProperties": true,
+              "description": "Readiness probe configuration.\nDetects if the container is ready to serve traffic.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 3,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before readiness probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 5,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 3,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "readiness"
+            },
+            "startup": {
+              "additionalProperties": true,
+              "description": "Startup probe configuration.\nProtects slow starting containers from being killed by liveness probe.",
+              "properties": {
+                "failureThreshold": {
+                  "default": 12,
+                  "description": "Minimum consecutive failures for the probe to be considered failed.",
+                  "required": [],
+                  "title": "failureThreshold",
+                  "type": "integer"
+                },
+                "initialDelaySeconds": {
+                  "default": 1,
+                  "description": "Number of seconds after the container has started before startup probe is initiated.",
+                  "required": [],
+                  "title": "initialDelaySeconds",
+                  "type": "integer"
+                },
+                "periodSeconds": {
+                  "default": 5,
+                  "description": "How often (in seconds) to perform the probe.",
+                  "required": [],
+                  "title": "periodSeconds",
+                  "type": "integer"
+                },
+                "successThreshold": {
+                  "default": 1,
+                  "description": "Minimum consecutive successes for the probe to be considered successful.",
+                  "required": [],
+                  "title": "successThreshold",
+                  "type": "integer"
+                },
+                "timeoutSeconds": {
+                  "default": 3,
+                  "description": "Number of seconds after which the probe times out.",
+                  "required": [],
+                  "title": "timeoutSeconds",
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "startup"
+            }
+          },
+          "required": [],
+          "title": "healthCheck"
+        },
         "logLevel": {
           "default": "info",
           "description": "Log level for application output.",
