@@ -209,14 +209,14 @@
           "title": "pullPolicy"
         },
         "repository": {
-          "default": "timmi6790/portfolio",
-          "description": "Container image repository where the Portfolio application image is stored.\nPoints to Docker Hub timmi6790/portfolio.",
+          "default": "timschoenle/portfolio",
+          "description": "Container image repository where the Portfolio application image is stored.\nPoints to Docker Hub timschoenle/portfolio.",
           "required": [],
           "title": "repository",
           "type": "string"
         },
         "tag": {
-          "default": "v1.4.0",
+          "default": "v1.5.0",
           "description": "Container image tag to deploy.",
           "required": [],
           "title": "tag",
