@@ -3,12 +3,12 @@ description: This chart deploys the Netcup Offer Bot, which monitors https://www
 version: 2.0.0
 appVersion: v1.3.1
 apiVersion: v2
-home: https://github.com/Timmi6790/charts
+home: https://github.com/TimSchoenle/charts
 sources:
-  - https://github.com/Timmi6790/netcup-offer-bot
+  - https://github.com/TimSchoenle/netcup-offer-bot
 maintainers:
-  - name: Timmi6790
-    email: contact@timmi6790.de
+  - name: Tim Schönle
+    email: contact@tim-schoenle.de
 dependencies:
   - name: common
     version: 0.1.0
