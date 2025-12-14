@@ -9,14 +9,14 @@ image:
   # type: string
   # @schema
   # -- Container image repository where the Portfolio application image is stored.
-  # Points to Docker Hub timmi6790/portfolio.
-  repository: timmi6790/portfolio
+  # Points to Docker Hub timschoenle/portfolio.
+  repository: timschoenle/portfolio
 
   # @schema
   # type: string
   # @schema
   # -- Container image tag to deploy.
-  tag: v1.4.0
+  tag: v1.5.0
 
   # @schema
   # enum: [Always, IfNotPresent, Never]
