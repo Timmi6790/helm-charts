@@ -7,7 +7,7 @@ home: https://github.com/timschoenle/charts
 sources:
   - https://github.com/timschoenle/s3-bucket-perma-link
 maintainers:
-  - name: Tim Schönle
+  - name: Tim Schoenle
     email: contact@tim-schoenle.de
 dependencies:
   - name: common

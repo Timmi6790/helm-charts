@@ -4,5 +4,5 @@ description: Common helper templates for all charts
 type: library
 version: 0.1.0
 maintainers:
-  - name: Tim Schönle
+  - name: Tim Schoenle
     url: https://github.com/TimSchoenle

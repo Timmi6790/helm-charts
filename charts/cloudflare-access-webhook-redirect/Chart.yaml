@@ -14,7 +14,7 @@ sources:
   - https://github.com/TimSchoenle/cloudflare-access-webhook-redirect
   - https://github.com/TimSchoenle/helm-charts
 maintainers:
-  - name: Tim Schönle
+  - name: Tim Schoenle
     url: https://github.com/TimSchoenle
 dependencies:
   - name: common
