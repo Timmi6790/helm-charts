@@ -125,24 +125,41 @@ application:
 # @schema
 # additionalProperties: true
 # @schema
+securityContext:
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Allow privilege escalation
+  allowPrivilegeEscalation: false
+
+  # @schema
+  # additionalProperties: true
+  # @schema
+  capabilities:
+    # @schema
+    # type: array
+    # @schema
+    # -- Linux capabilities to drop
+    drop:
+      - ALL
+
+  # @schema
+  # type: boolean
+  # @schema
+  # -- Mount root filesystem as read-only.
+  # Next.js ISR requires write access to update prerender cache.
+  # Set to true only if your app doesn't use ISR.
+  readOnlyRootFilesystem: true
+
+# @schema
+# additionalProperties: true
+# @schema
 podSecurityContext:
   # @schema
   # type: boolean
   # @schema
   # -- Run pod as non-root user
   runAsNonRoot: true
-
-  # @schema
-  # type: boolean
-  # @schema
-  # -- Mount root filesystem as read-only
-  readOnlyRootFilesystem: true
-
-  # @schema
-  # type: boolean
-  # @schema
-  # -- Allow privilege escalation
-  allowPrivilegeEscalation: false
 
   # @schema
   # type: integer
