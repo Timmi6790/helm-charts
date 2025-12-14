@@ -6,8 +6,8 @@ Common helper templates for all charts
 
 ## Maintainers
 
-| Name        | Email | Url |
-|-------------| ------ | --- |
+| Name | Email | Url |
+| ---- | ------ | --- |
 | Tim Schönle |  | <https://github.com/TimSchoenle> |
 
 ----------------------------------------------
