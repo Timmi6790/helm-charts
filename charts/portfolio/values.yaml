@@ -16,7 +16,7 @@ image:
   # type: string
   # @schema
   # -- Container image tag to deploy.
-  tag: v1.5.0
+  tag: v1.5.0@sha256:09d6724544dad8e47143a7fcda7c87e37c117d59192d8850a779cf1ca935555f
 
   # @schema
   # enum: [Always, IfNotPresent, Never]
