@@ -15,14 +15,14 @@
 ## Get Repository Info
 
 ```shell
-helm repo add timmi6790 https://timmi6790.github.io/helm-charts
+helm repo add timschoenle https://timschoenle.github.io/helm-charts
 helm repo update
 ```
 
 ## Install Chart
 
 ```shell
-helm install [RELEASE_NAME] timmi6790/{{ template "chart.name" . }} \
+helm install [RELEASE_NAME] timschoenle/{{ template "chart.name" . }} \
   --namespace [NAMESPACE] \
   --create-namespace \
   --set env.webHook="YOUR_DISCORD_WEBHOOK_URL"
@@ -31,7 +31,7 @@ helm install [RELEASE_NAME] timmi6790/{{ template "chart.name" . }} \
 ## Upgrade Chart
 
 ```shell
-helm upgrade [RELEASE_NAME] timmi6790/{{ template "chart.name" . }} \
+helm upgrade [RELEASE_NAME] timschoenle/{{ template "chart.name" . }} \
   --namespace [NAMESPACE]
 ```
 

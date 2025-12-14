@@ -9,13 +9,13 @@ keywords:
   - webhook
   - redirect
   - authentication
-home: https://github.com/Timmi6790/cloudflare-access-webhook-redirect
+home: https://github.com/TimSchoenle/cloudflare-access-webhook-redirect
 sources:
-  - https://github.com/Timmi6790/cloudflare-access-webhook-redirect
-  - https://github.com/Timmi6790/helm-charts
+  - https://github.com/TimSchoenle/cloudflare-access-webhook-redirect
+  - https://github.com/TimSchoenle/helm-charts
 maintainers:
-  - name: Timmi6790
-    url: https://github.com/Timmi6790
+  - name: Tim Schönle
+    url: https://github.com/TimSchoenle
 dependencies:
   - name: common
     version: 0.1.0

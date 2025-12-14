@@ -5,10 +5,10 @@ A collection of Helm charts for Kubernetes applications, focusing on utility ser
 ## TL;DR
 
 ```bash
-helm repo add timmi6790 https://timmi6790.github.io/helm-charts
+helm repo add timschoenle https://timschoenle.github.io/helm-charts
 helm repo update
-helm search repo timmi6790
-helm install my-release timmi6790/<chart-name>
+helm search repo timschoenle
+helm install my-release timschoenle/<chart-name>
 ```
 
 ## Prerequisites
@@ -26,12 +26,12 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 Once Helm is set up properly, add the repository as follows:
 
 ```bash
-helm repo add timmi6790 https://timmi6790.github.io/helm-charts
+helm repo add timschoenle https://timschoenle.github.io/helm-charts
 ```
 
 ### Update Repository
 
-You can then run `helm search repo timmi6790` to see the available charts.
+You can then run `helm search repo timschoenle` to see the available charts.
 
 ```bash
 helm repo update
@@ -42,13 +42,13 @@ helm repo update
 To install a chart from this repository:
 
 ```bash
-helm install my-release timmi6790/<chart-name>
+helm install my-release timschoenle/<chart-name>
 ```
 
 To install with custom values:
 
 ```bash
-helm install my-release timmi6790/<chart-name> -f values.yaml
+helm install my-release timschoenle/<chart-name> -f values.yaml
 ```
 
 ### Upgrade a Chart
@@ -56,7 +56,7 @@ helm install my-release timmi6790/<chart-name> -f values.yaml
 To upgrade an existing release:
 
 ```bash
-helm upgrade my-release timmi6790/<chart-name>
+helm upgrade my-release timschoenle/<chart-name>
 ```
 
 ### Uninstall a Chart
@@ -82,13 +82,13 @@ For detailed documentation on each chart, including configuration options and ex
 
 ```bash
 # View chart README
-helm show readme timmi6790/<chart-name>
+helm show readme timschoenle/<chart-name>
 
 # View all available values
-helm show values timmi6790/<chart-name>
+helm show values timschoenle/<chart-name>
 
 # View chart information
-helm show chart timmi6790/<chart-name>
+helm show chart timschoenle/<chart-name>
 ```
 
 You can also browse the documentation for each chart in the [charts directory](./charts/).
@@ -97,7 +97,7 @@ You can also browse the documentation for each chart in the [charts directory](.
 ### Reporting Issues
 
 If you encounter any issues or have feature requests:
-1. Check if the issue already exists in the [issue tracker](https://github.com/Timmi6790/helm-charts/issues)
+1. Check if the issue already exists in the [issue tracker](https://github.com/timschoenle/helm-charts/issues)
 2. If not, create a new issue with detailed information
 3. Include Kubernetes and Helm versions
 4. Provide relevant logs and configuration

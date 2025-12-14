@@ -3,13 +3,12 @@ description: Personal portfolio built with Next.js.
 version: 1.0.8
 appVersion: v1.4.0
 apiVersion: v2
-home: https://github.com/Timmi6790/helm-charts
+home: https://github.com/TimSchoenle/helm-charts
 sources:
-  - https://github.com/Timmi6790/Portfolio
-  - https://hub.docker.com/r/timmi6790/portfolio
+  - https://github.com/TimSchoenle/Portfolio
 maintainers:
-  - name: Timmi6790
-    email: contact@timmi6790.de
+  - name: Tim Schönle
+    email: contact@tim-schoenle.de
 dependencies:
   - name: common
     version: 0.1.0
