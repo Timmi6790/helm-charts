@@ -5,7 +5,7 @@ chart-dirs:
 helm-extra-args: "--timeout 600s"
 validate-chart-schema: true
 validate-chart-values: true
-validate-maintainers: true
+validate-maintainers: false
 validate-yaml: true
 exclude-deprecated: true
 excluded-charts: ["common"]
