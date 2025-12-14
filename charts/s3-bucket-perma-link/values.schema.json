@@ -192,26 +192,12 @@
     "podSecurityContext": {
       "additionalProperties": true,
       "properties": {
-        "allowPrivilegeEscalation": {
-          "default": false,
-          "description": "Allow privilege escalation",
-          "required": [],
-          "title": "allowPrivilegeEscalation",
-          "type": "boolean"
-        },
         "fsGroup": {
           "default": 1000,
           "description": "Group ID for file system access",
           "required": [],
           "title": "fsGroup",
           "type": "integer"
-        },
-        "readOnlyRootFilesystem": {
-          "default": true,
-          "description": "Mount root filesystem as read-only",
-          "required": [],
-          "title": "readOnlyRootFilesystem",
-          "type": "boolean"
         },
         "runAsNonRoot": {
           "default": true,
@@ -267,6 +253,49 @@
       },
       "required": [],
       "title": "resources"
+    },
+    "securityContext": {
+      "additionalProperties": true,
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "default": false,
+          "description": "Allow privilege escalation",
+          "required": [],
+          "title": "allowPrivilegeEscalation",
+          "type": "boolean"
+        },
+        "capabilities": {
+          "additionalProperties": true,
+          "properties": {
+            "drop": {
+              "description": "Linux capabilities to drop",
+              "items": {
+                "anyOf": [
+                  {
+                    "required": [],
+                    "type": "string"
+                  }
+                ],
+                "required": []
+              },
+              "required": [],
+              "title": "drop",
+              "type": "array"
+            }
+          },
+          "required": [],
+          "title": "capabilities"
+        },
+        "readOnlyRootFilesystem": {
+          "default": true,
+          "description": "Mount root filesystem as read-only.\nNext.js ISR requires write access to update prerender cache.\nSet to true only if your app doesn't use ISR.",
+          "required": [],
+          "title": "readOnlyRootFilesystem",
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "title": "securityContext"
     },
     "service": {
       "additionalProperties": true,
