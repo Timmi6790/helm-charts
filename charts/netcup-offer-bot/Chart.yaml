@@ -7,7 +7,7 @@ home: https://github.com/TimSchoenle/charts
 sources:
   - https://github.com/TimSchoenle/netcup-offer-bot
 maintainers:
-  - name: Tim Schoenle
+  - name: Tim Schönle
     email: contact@tim-schoenle.de
 dependencies:
   - name: common
