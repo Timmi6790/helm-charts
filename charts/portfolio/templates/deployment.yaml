@@ -49,88 +49,6 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      # Init container: seeds a writable volume for .next/server
-      # -------------------------------------------------------
-      # Why:
-      # - The main container runs with readOnlyRootFilesystem: true.
-      # - Next.js wants to update files under .next/server for ISR/prerender.
-      # - We copy the built .next/server (from the image) into an emptyDir volume.
-      # - The main container then mounts that volume at /app/.next/server.
-      initContainers:
-        - name: init-next-server
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          # Distroless has no shell; use node directly for copy + logging.
-          command:
-            - /nodejs/bin/node
-            - -e
-            - |
-              const fs = require('fs');
-              const path = require('path');
-
-              const SRC = '/app/.next/server';
-              const DEST = '/mnt/next-server';
-
-              function log(msg) {
-                const ts = new Date().toISOString();
-                console.log(`[init-next-server ${ts}] ${msg}`);
-              }
-
-              function copyDir(src, dest) {
-                if (!fs.existsSync(dest)) {
-                  fs.mkdirSync(dest, { recursive: true });
-                }
-
-                const entries = fs.readdirSync(src, { withFileTypes: true });
-                for (const entry of entries) {
-                  const srcPath = path.join(src, entry.name);
-                  const destPath = path.join(dest, entry.name);
-
-                  if (entry.isDirectory()) {
-                    log(`Entering directory: ${srcPath}`);
-                    copyDir(srcPath, destPath);
-                  } else if (entry.isFile()) {
-                    log(`Copying file: ${srcPath} -> ${destPath}`);
-                    fs.copyFileSync(srcPath, destPath);
-                  } else {
-                    log(`Skipping non-file, non-directory entry: ${srcPath}`);
-                  }
-                }
-              }
-
-              (function main() {
-                try {
-                  log(`Init container starting. SRC="${SRC}", DEST="${DEST}"`);
-
-                  if (!fs.existsSync(SRC)) {
-                    console.error(`[init-next-server] ERROR: Source directory does not exist: ${SRC}`);
-                    process.exit(1);
-                  }
-
-                  const srcStat = fs.statSync(SRC);
-                  if (!srcStat.isDirectory()) {
-                    console.error(`[init-next-server] ERROR: Source path is not a directory: ${SRC}`);
-                    process.exit(1);
-                  }
-
-                  log('Beginning recursive copy of .next/server...');
-                  copyDir(SRC, DEST);
-                  log('Finished copying .next/server.');
-                  log('Init container completed successfully.');
-                } catch (err) {
-                  console.error('[init-next-server] ERROR during copy:', err && err.stack ? err.stack : err);
-                  process.exit(1);
-                }
-              })();
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.podSecurityContext.runAsUser }}
-            runAsGroup: {{ .Values.podSecurityContext.runAsGroup }}
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop: [ "ALL" ]
-          volumeMounts:
-            - name: next-server
-              mountPath: /mnt/next-server
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -201,14 +119,6 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
-            - name: next-cache
-              mountPath: /app/.next/cache
-            - name: next-server
-              mountPath: /app/.next/server
       volumes:
         - name: tmp
-          emptyDir: {}
-        - name: next-cache
-          emptyDir: { }
-        - name: next-server
           emptyDir: {}

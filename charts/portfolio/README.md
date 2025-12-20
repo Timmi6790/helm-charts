@@ -1,6 +1,6 @@
 # portfolio
 
-![Version: 1.0.10](https://img.shields.io/badge/Version-1.0.10-informational?style=flat-square) ![AppVersion: v1.5.0](https://img.shields.io/badge/AppVersion-v1.5.0-informational?style=flat-square)
+![Version: 1.0.11](https://img.shields.io/badge/Version-1.0.11-informational?style=flat-square) ![AppVersion: v1.7.0](https://img.shields.io/badge/AppVersion-v1.7.0-informational?style=flat-square)
 
 Personal portfolio built with Next.js.
 
@@ -73,7 +73,7 @@ The following table lists the configurable parameters of the chart and their def
 | application.port | int | `3000` | Port number the Next.js application listens on. Next.js standalone server defaults to 3000. |
 | image.pullPolicy | string | `"IfNotPresent"` | Kubernetes image pull policy. Determines when the image should be pulled from the registry. |
 | image.repository | string | `"timschoenle/portfolio"` | Container image repository where the Portfolio application image is stored. Points to Docker Hub timschoenle/portfolio. |
-| image.tag | string | `"v1.5.0@sha256:09d6724544dad8e47143a7fcda7c87e37c117d59192d8850a779cf1ca935555f"` | Container image tag to deploy. |
+| image.tag | string | `"v1.7.0@sha256:08b33a6424f1e61f3866d0c3b8992e5c6cb359d5db718471b743b01a4953eb01"` | Container image tag to deploy. |
 | imagePullSecrets | list | `[]` | Optional image pull secrets for private registries |
 | ingress.annotations | object | `{}` | Custom annotations for the Ingress resource. Useful for configuring ingress controllers (e.g., cert-manager, rate limits). Example: ```yaml annotations:   cert-manager.io/cluster-issuer: "letsencrypt-prod"   nginx.ingress.kubernetes.io/ssl-redirect: "true" ``` |
 | ingress.enabled | bool | `false` | Enable or disable Kubernetes Ingress resource creation. Set to `true` to expose the service externally via Ingress. |
@@ -83,11 +83,11 @@ The following table lists the configurable parameters of the chart and their def
 | nodeSelector | object | `{}` | Node selector for pod assignment |
 | podAnnotations | object | `{}` | Additional annotations to add to the pod |
 | podLabels | object | `{}` | Additional labels to add to the pod |
-| podSecurityContext.fsGroup | int | `65532` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.fsGroup | int | `1000` | Group ID for file system access |
 | podSecurityContext.fsGroupChangePolicy | string | `"OnRootMismatch"` | Change the fsGroup of the pod for Security Context Constraints. |
-| podSecurityContext.runAsGroup | int | `65532` | Group ID for file system access We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.runAsGroup | int | `1000` | Group ID for file system access |
 | podSecurityContext.runAsNonRoot | bool | `true` | Run pod as non-root user |
-| podSecurityContext.runAsUser | int | `65532` | User ID to run as. We use the nonroot distroless user id here to allow cache updates |
+| podSecurityContext.runAsUser | int | `1000` | User ID to run as. |
 | priorityClassName | string | `""` | Optional Kubernetes PriorityClass name |
 | resources.limits | object | `{"cpu":"500m","memory":"256Mi"}` | Resource limits define the maximum resources the container can use. Next.js applications typically require more memory than simple web servers. |
 | resources.limits.cpu | string | `"500m"` | Maximum CPU allocation for the container. |
@@ -97,7 +97,7 @@ The following table lists the configurable parameters of the chart and their def
 | resources.requests.memory | string | `"128Mi"` | Minimum memory requested by the container. |
 | securityContext.allowPrivilegeEscalation | bool | `false` | Allow privilege escalation |
 | securityContext.capabilities.drop | list | `["ALL"]` | Linux capabilities to drop |
-| securityContext.readOnlyRootFilesystem | bool | `true` | Mount root filesystem as read-only. Next.js ISR requires write access to update prerender cache. Set to true only if your app doesn't use ISR. |
+| securityContext.readOnlyRootFilesystem | bool | `false` | Mount root filesystem as read-only. Next.js ISR requires write access to update prerender cache. Set to true only if your app doesn't use ISR. |
 | service.port | int | `80` | Port that the Kubernetes Service will expose. This port is mapped to the application container port (3000). |
 | service.type | string | `"ClusterIP"` | Kubernetes Service type that exposes the application. |
 | serviceAccount.annotations | object | `{}` | Additional annotations for the service account |

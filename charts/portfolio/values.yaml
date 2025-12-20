@@ -16,7 +16,7 @@ image:
   # type: string
   # @schema
   # -- Container image tag to deploy.
-  tag: v1.5.0@sha256:09d6724544dad8e47143a7fcda7c87e37c117d59192d8850a779cf1ca935555f
+  tag: v1.7.0@sha256:08b33a6424f1e61f3866d0c3b8992e5c6cb359d5db718471b743b01a4953eb01
 
   # @schema
   # enum: [Always, IfNotPresent, Never]
@@ -198,22 +198,19 @@ podSecurityContext:
   # type: integer
   # @schema
   # -- User ID to run as.
-  # We use the nonroot distroless user id here to allow cache updates
-  runAsUser: 65532
+  runAsUser: 1000
 
   # @schema
   # type: integer
   # @schema
   # -- Group ID for file system access
-  # We use the nonroot distroless user id here to allow cache updates
-  runAsGroup: 65532
+  runAsGroup: 1000
 
   # @schema
   # type: integer
   # @schema
   # -- Group ID for file system access
-  # We use the nonroot distroless user id here to allow cache updates
-  fsGroup: 65532
+  fsGroup: 1000
 
   # @schema
   # type: string
@@ -248,7 +245,7 @@ securityContext:
   # -- Mount root filesystem as read-only.
   # Next.js ISR requires write access to update prerender cache.
   # Set to true only if your app doesn't use ISR.
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
 
 # @schema
 # additionalProperties: true
