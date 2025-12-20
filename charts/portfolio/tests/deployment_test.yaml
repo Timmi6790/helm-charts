@@ -38,13 +38,13 @@ tests:
           value: true
       - equal:
           path: spec.template.spec.securityContext.runAsUser
-          value: 65532
+          value: 1000
       - equal:
           path: spec.template.spec.securityContext.runAsGroup
-          value: 65532
+          value: 1000
       - equal:
           path: spec.template.spec.securityContext.fsGroup
-          value: 65532
+          value: 1000
       - equal:
           path: spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation
           value: false
