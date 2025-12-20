@@ -248,7 +248,7 @@ securityContext:
   # -- Mount root filesystem as read-only.
   # Next.js ISR requires write access to update prerender cache.
   # Set to true only if your app doesn't use ISR.
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
 
 # @schema
 # additionalProperties: true

@@ -50,7 +50,7 @@ tests:
           value: false
       - equal:
           path: spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem
-          value: true
+          value: false
       - contains:
           path: spec.template.spec.containers[0].securityContext.capabilities.drop
           content: ALL

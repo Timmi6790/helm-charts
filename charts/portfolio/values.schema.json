@@ -435,7 +435,7 @@
           "title": "capabilities"
         },
         "readOnlyRootFilesystem": {
-          "default": true,
+          "default": false,
           "description": "Mount root filesystem as read-only.\nNext.js ISR requires write access to update prerender cache.\nSet to true only if your app doesn't use ISR.",
           "required": [],
           "title": "readOnlyRootFilesystem",
