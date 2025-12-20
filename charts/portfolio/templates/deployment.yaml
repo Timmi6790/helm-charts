@@ -61,7 +61,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           # Distroless has no shell; use node directly for copy + logging.
           command:
-            - /nodejs/bin/node
+            - node
             - -e
             - |
               const fs = require('fs');
