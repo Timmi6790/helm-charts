@@ -631,6 +631,25 @@ entries:
     version: 1.0.0
   portfolio:
   - apiVersion: v2
+    appVersion: v1.8.0
+    created: "2025-12-24T07:58:17.990858046Z"
+    dependencies:
+    - name: common
+      repository: file://../common
+      version: 0.1.1
+    description: Personal portfolio built with Next.js.
+    digest: 658451ea4285cbe41c219a35c325eb97466d8b15a112cdde0b08e17f00124e4a
+    home: https://github.com/TimSchoenle/helm-charts
+    maintainers:
+    - email: contact@tim-schoenle.de
+      name: Tim Schönle
+    name: portfolio
+    sources:
+    - https://github.com/TimSchoenle/Portfolio
+    urls:
+    - https://github.com/TimSchoenle/helm-charts/releases/download/portfolio-1.0.12/portfolio-1.0.12.tgz
+    version: 1.0.12
+  - apiVersion: v2
     appVersion: v1.7.0
     created: "2025-12-20T19:00:19.140775748Z"
     dependencies:
@@ -935,4 +954,4 @@ entries:
     urls:
     - https://github.com/Timmi6790/helm-charts/releases/download/s3-bucket-perma-link-1.0.0/s3-bucket-perma-link-1.0.0.tgz
     version: 1.0.0
-generated: "2025-12-20T19:00:19.140897022Z"
+generated: "2025-12-24T07:58:17.990968842Z"
