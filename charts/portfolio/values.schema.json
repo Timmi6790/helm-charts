@@ -216,7 +216,7 @@
           "type": "string"
         },
         "tag": {
-          "default": "v1.8.0@sha256:682d644404a295cb1790fa442a5c5f3cee61a1a918e47438f6fa20358fbceaaf",
+          "default": "v1.9.0@sha256:f4b92fd5313dc8c1d1ce4d927d7dc91d0e9cc80ffde3c0b5469cebaa60b72ad7",
           "description": "Container image tag to deploy.",
           "required": [],
           "title": "tag",
